@@ -26,8 +26,6 @@ hs_err_pid*
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
-workspace.xml
-APDescription.txt
 *.xml
 .idea/misc.xml
 .idea/**/workspace.xml
