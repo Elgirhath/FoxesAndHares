@@ -3,11 +3,13 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 
 import javax.vecmath.Vector2d;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SimulationManager extends Agent {
-    private List<AgentController> agents = new ArrayList<>();
+    private int foxNumber = 2;
+    private int currentFoxes;
+    private int hareNumber = 3;
+    private int currentHares;
+    private ContainerController container;
 
     @Override
     protected void setup() {
@@ -17,13 +19,27 @@ public class SimulationManager extends Agent {
 
     void start() {
         //Create all agents and manage the simulation;
-        Map.getInstance().size = new Vector2d(1000f, 1000f);
+        Scene.getInstance().size = new Vector2d(1000.0, 1000.0);
 
-        ContainerController container = getContainerController();
+        container = getContainerController();
+        createAnimals();
+
+        GUI.getInstance();
+    }
+
+    void createAnimals() {
+        for (currentFoxes = 0; currentFoxes < foxNumber; ++currentFoxes) {
+            createAnimal("Fox", "Fox_" + currentFoxes);
+        }
+        for (currentHares = 0; currentHares < hareNumber; ++currentHares) {
+            createAnimal("Hare", "Hare_" + currentHares);
+        }
+    }
+
+    void createAnimal(String className, String name) {
         try {
-            AgentController ac = container.createNewAgent("Fox1", "Fox", null);
+            AgentController ac = container.createNewAgent(name, className, null);
             ac.start();
-            agents.add(ac);
         } catch (Exception e) {}
     }
 }
