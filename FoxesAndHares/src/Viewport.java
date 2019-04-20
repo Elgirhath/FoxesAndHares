@@ -2,7 +2,7 @@ import javax.vecmath.Vector2d;
 import java.awt.*;
 
 public class Viewport {
-    public static Vector2d size = new Vector2d(1000.0, 1000.0);
+    public static Vector2d size = new Vector2d(1600.0, 900.0);
 
     public static Dimension worldToScreenPoint(Vector2d point) {
         SimulationPanel panel = SimulationPanel.getInstance();

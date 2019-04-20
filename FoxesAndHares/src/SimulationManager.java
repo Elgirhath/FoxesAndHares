@@ -18,7 +18,6 @@ public class SimulationManager extends Agent {
 
     void start() {
         //Create all agents and manage the simulation;
-        Scene.getInstance().size = new Vector2d(1000.0, 1000.0);
         createAnimals();
 
         GUI.getInstance();
