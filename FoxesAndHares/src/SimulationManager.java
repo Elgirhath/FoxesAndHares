@@ -24,6 +24,9 @@ public class SimulationManager extends Agent {
             AgentController ac = container.createNewAgent("Fox1", "Fox", null);
             ac.start();
             agents.add(ac);
+            AgentController hc = container.createNewAgent("Hare1", "Hare", null);
+            hc.start();
+            agents.add(hc);
         } catch (Exception e) {}
     }
 }
