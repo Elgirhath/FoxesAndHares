@@ -10,7 +10,7 @@ public class Fox extends Animal{
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.red);
+        g.setColor(Color.orange);
 
         Dimension screenPos = Viewport.worldToScreenPoint(position);
         g.fillOval(screenPos.width, screenPos.height, 10, 10);
