@@ -1,4 +1,3 @@
-import javax.vecmath.Vector2d;
 import java.awt.*;
 
 public class Fox extends Animal{

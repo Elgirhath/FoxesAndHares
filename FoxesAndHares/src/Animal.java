@@ -1,7 +1,6 @@
 import jade.core.Agent;
 
-import javax.swing.text.View;
-import javax.vecmath.Vector2d;
+import extensions.Vector2d;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;

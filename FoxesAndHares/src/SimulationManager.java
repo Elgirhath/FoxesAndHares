@@ -1,14 +1,9 @@
 import jade.core.Agent;
 import jade.wrapper.AgentController;
-import jade.wrapper.ContainerController;
-
-import javax.vecmath.Vector2d;
 
 public class SimulationManager extends Agent {
     private int foxNumber = 8;
-    private int currentFoxes;
     private int hareNumber = 20;
-    private int currentHares;
 
     @Override
     protected void setup() {
@@ -24,11 +19,11 @@ public class SimulationManager extends Agent {
     }
 
     void createAnimals() {
-        for (currentFoxes = 0; currentFoxes < foxNumber; currentFoxes++) {
-            createAnimal("Fox", "Fox_" + currentFoxes);
+        for (int i = 0; i < foxNumber; i++) {
+            createAnimal("Fox", "Fox_" + i);
         }
-        for (currentHares = 0; currentHares < hareNumber; currentHares++) {
-            createAnimal("Hare", "Hare_" + currentHares);
+        for (int i = 0; i < hareNumber; i++) {
+            createAnimal("Hare", "Hare_" + i);
         }
     }
 
