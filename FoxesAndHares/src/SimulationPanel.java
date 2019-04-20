@@ -3,7 +3,6 @@ import javax.vecmath.Vector2d;
 import java.awt.*;
 
 public class SimulationPanel extends JPanel {
-
     private static SimulationPanel instance = null;
 
     public static SimulationPanel getInstance() {

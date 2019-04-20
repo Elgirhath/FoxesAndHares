@@ -12,7 +12,7 @@ public class Fox extends Animal{
     public void paint(Graphics g) {
         g.setColor(Color.red);
 
-        Vector2d screenPos = Camera.worldToScreenPoint(position);
-        g.fillOval((int) screenPos.x, (int) screenPos.y, 10, 10);
+        Dimension screenPos = Viewport.worldToScreenPoint(position);
+        g.fillOval(screenPos.width, screenPos.height, 10, 10);
     }
 }

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.vecmath.Vector2d;
+import java.awt.*;
 
 public class GUI extends JFrame {
     private JPanel mainPanel = SimulationPanel.getInstance();
@@ -8,7 +9,7 @@ public class GUI extends JFrame {
         super("Title");
         buildGUI();
 
-        Vector2d camRes = Camera.getResolution();
+        Dimension camRes = SimulationPanel.getInstance().getSize();
         setSize(800, 600);
 
         setVisible(true);

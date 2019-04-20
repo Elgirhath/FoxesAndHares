@@ -1,5 +1,6 @@
 import jade.core.Agent;
 
+import javax.swing.text.View;
 import javax.vecmath.Vector2d;
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Animal extends Agent {
     }
 
     private void generatePosition() {
-        Vector2d mapSize = Scene.getInstance().size;
+        Vector2d mapSize = Viewport.size;
         double x = Math.random() * mapSize.x;
         double y = Math.random() * mapSize.y;
         position = new Vector2d(x, y);
@@ -27,7 +28,7 @@ public class Animal extends Agent {
     public void paint(Graphics g) {
         g.setColor(Color.black);
 
-        Vector2d screenPos = Camera.worldToScreenPoint(position);
-        g.fillOval((int) screenPos.x, (int) screenPos.y, 10, 10);
+        Dimension screenPos = Viewport.worldToScreenPoint(position);
+        g.fillOval(screenPos.width, screenPos.height, 10, 10);
     }
 }
