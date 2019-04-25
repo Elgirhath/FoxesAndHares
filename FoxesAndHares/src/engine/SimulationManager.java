@@ -11,12 +11,13 @@ public class SimulationManager extends Agent {
 
     @Override
     protected void setup() {
-        animalContainer = Runtime.instance().createAgentContainer(new ProfileImpl());
         System.out.println("Simulation Manager has been created!\n");
         start();
     }
 
     void start() {
+        if (animalContainer == null)
+            animalContainer = Runtime.instance().createAgentContainer(new ProfileImpl());
         GUI.getInstance();
 
         AnimationThread thread = AnimationThread.getInstance();
