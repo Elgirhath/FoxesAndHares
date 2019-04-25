@@ -1,3 +1,5 @@
+import engine.Viewport;
+
 import java.awt.*;
 
 public class Hare extends Animal {

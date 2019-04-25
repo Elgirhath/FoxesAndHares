@@ -1,3 +1,5 @@
+package engine;
+
 import jade.core.Agent;
 import jade.wrapper.AgentController;
 
@@ -14,8 +16,10 @@ public class SimulationManager extends Agent {
     void start() {
         //Create all agents and manage the simulation;
         createAnimals();
-
         GUI.getInstance();
+
+        AnimationThread thread = AnimationThread.getInstance();
+        thread.start();
     }
 
     void createAnimals() {

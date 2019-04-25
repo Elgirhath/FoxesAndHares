@@ -1,3 +1,5 @@
+package engine;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,8 +17,8 @@ public class SimulationPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (Animal animal : Animal.animals) {
-            animal.paint(g);
+        for (AnimationAgent agent : AnimationAgent.agents) {
+            agent.paint(g);
         }
     }
 }

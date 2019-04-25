@@ -1,18 +1,17 @@
-import jade.core.Agent;
+import engine.AnimationAgent;
+import engine.Viewport;
 
 import extensions.Vector2d;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Animal extends Agent {
-    public static List<Animal> animals = new ArrayList<>();
+public class Animal extends AnimationAgent {
     public Vector2d position;
 
     @Override
     protected void setup() {
+        super.setup();
+
         generatePosition();
-        animals.add(this);
 
         System.out.println("An animal has been created at position: " + position);
     }

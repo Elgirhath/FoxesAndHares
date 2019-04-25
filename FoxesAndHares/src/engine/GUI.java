@@ -1,5 +1,6 @@
+package engine;
+
 import javax.swing.*;
-import javax.vecmath.Vector2d;
 import java.awt.*;
 
 public class GUI extends JFrame {
