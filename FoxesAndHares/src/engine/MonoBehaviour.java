@@ -12,7 +12,7 @@ public abstract class MonoBehaviour extends Behaviour {
         all.add(this);
     }
 
-    public static MonoBehaviour[] getAll() {
+    static MonoBehaviour[] getAll() {
         MonoBehaviour arr[] = new MonoBehaviour[all.size()];
         all.toArray(arr);
         return arr;
