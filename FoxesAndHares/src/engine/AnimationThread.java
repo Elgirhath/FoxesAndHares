@@ -44,11 +44,6 @@ public class AnimationThread extends Thread {
 
             panel.setOpaque(false);
             panel.repaint();
-//            try {
-//                sleep(1);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
     }
 

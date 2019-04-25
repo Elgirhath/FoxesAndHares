@@ -39,4 +39,13 @@ public class Vector2d extends javax.vecmath.Vector2d {
     public Dimension toDimension() {
         return new Dimension((int) x, (int) y);
     }
+
+    public Vector2d normalized() {
+        double magnitude = this.length();
+        return new Vector2d(x / magnitude, y/magnitude);
+    }
+
+    public Vector2d scaled(double s) {
+        return new Vector2d(x * s, y * s);
+    }
 }

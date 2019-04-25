@@ -1,40 +1,27 @@
 package engine;
 
 import jade.core.Agent;
-import jade.wrapper.AgentController;
+import jade.core.ProfileImpl;
+import jade.core.Runtime;
+import jade.wrapper.ContainerController;
+import main.Main;
 
 public class SimulationManager extends Agent {
-    private int foxNumber = 8;
-    private int hareNumber = 20;
+    public static ContainerController animalContainer = null;
 
     @Override
     protected void setup() {
+        animalContainer = Runtime.instance().createAgentContainer(new ProfileImpl());
         System.out.println("Simulation Manager has been created!\n");
         start();
     }
 
     void start() {
-        //Create all agents and manage the simulation;
-        createAnimals();
         GUI.getInstance();
 
         AnimationThread thread = AnimationThread.getInstance();
         thread.start();
-    }
 
-    void createAnimals() {
-        for (int i = 0; i < foxNumber; i++) {
-            createAnimal("Fox", "Fox_" + i);
-        }
-        for (int i = 0; i < hareNumber; i++) {
-            createAnimal("Hare", "Hare_" + i);
-        }
-    }
-
-    void createAnimal(String className, String name) {
-        try {
-            AgentController ac = getContainerController().createNewAgent(name, className, null);
-            ac.start();
-        } catch (Exception e) {}
+        Main.main();
     }
 }

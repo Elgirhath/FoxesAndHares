@@ -1,17 +1,19 @@
+package main;
+
 import engine.Viewport;
 
 import java.awt.*;
 
-public class Hare extends Animal {
+public class Fox extends Animal{
     @Override
     protected void setup() {
         super.setup();
-        System.out.println("The hare has been created!");
+        System.out.println("The fox has been created!");
     }
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.green);
+        g.setColor(Color.orange);
 
         Dimension screenPos = Viewport.worldToScreenPoint(position);
         g.fillOval(screenPos.width, screenPos.height, 10, 10);

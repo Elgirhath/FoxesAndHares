@@ -17,4 +17,9 @@ public abstract class MonoBehaviour extends Behaviour {
         all.toArray(arr);
         return arr;
     }
+
+    @Override
+    public boolean done() {
+        return false;
+    }
 }

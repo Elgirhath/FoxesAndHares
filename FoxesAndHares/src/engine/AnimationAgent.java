@@ -1,6 +1,8 @@
 package engine;
 
 import jade.core.Agent;
+import jade.wrapper.AgentController;
+import jade.wrapper.ContainerController;
 
 import java.awt.*;
 import java.util.ArrayList;
