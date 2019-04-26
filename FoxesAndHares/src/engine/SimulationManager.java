@@ -1,10 +1,13 @@
 package engine;
 
+import extensions.Vector2d;
 import jade.core.Agent;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+
+import java.awt.*;
 
 public class SimulationManager extends Agent {
     public static ContainerController animalContainer = null;
@@ -20,6 +23,8 @@ public class SimulationManager extends Agent {
 
         AnimationThread thread = AnimationThread.getInstance();
         thread.start(); //start an animation after animals were created
+
+        addBehaviour(new SimulationController());
     }
 
     void start() { //user setup
@@ -41,6 +46,20 @@ public class SimulationManager extends Agent {
             ac.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private class SimulationController extends MonoBehaviour {
+        boolean enabled = true;
+
+        @Override
+        public void action() {
+            if (!enabled)
+                return;
+            Vector2d start = new Vector2d(10, 10);
+            Vector2d end = new Vector2d(200, 200);
+            Debug.drawLine(start, end, Color.black, 0.1);
+            enabled = false;
         }
     }
 }

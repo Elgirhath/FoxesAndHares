@@ -1,8 +1,9 @@
 package engine;
 
 public class Time {
-    private static long startTime = System.nanoTime();
+    private static long startTime = System.currentTimeMillis();
     private static double deltaTime = 0.0;
+    private static double lastFrameTime = 0.0;
 
     private Time() {}
 
@@ -10,11 +11,15 @@ public class Time {
         return deltaTime;
     }
 
-    protected static void setDeltaTime(double time) {
-        deltaTime = time;
+    public static double getTime() {
+        long milisDiff = System.currentTimeMillis() - startTime;
+        double time = milisDiff * 10e-3;
+        return time;
     }
 
-    public static double getTime() {
-        return (System.nanoTime() - startTime) * 10e-9;
+    static void update() {
+        double time = getTime();
+        deltaTime = time - lastFrameTime;
+        lastFrameTime = time;
     }
 }

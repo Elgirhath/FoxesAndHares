@@ -39,22 +39,21 @@ public class AnimationThread extends Thread {
                 } catch (InterruptedException e) {
                 }
             }
-            Update();
+            update();
 
             panel.setOpaque(false);
             panel.repaint();
+            panel.paintGraphicComponents();
         }
     }
 
-    private double frameTime;
-
-    void Update() {
-        for(MonoBehaviour mb : allMonoBehaviours) {
-            mb.action();
+    void update() {
+        synchronized (allMonoBehaviours) {
+            for (MonoBehaviour mb : allMonoBehaviours) {
+                mb.action();
+            }
         }
 
-        double newFrameTime = Time.getTime();
-        Time.setDeltaTime(newFrameTime - frameTime);
-        frameTime = newFrameTime;
+        Time.update();
     }
 }

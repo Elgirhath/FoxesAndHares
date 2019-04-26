@@ -29,7 +29,7 @@ public class Animal extends AnimationAgent {
     public void paint(Graphics g) {
         g.setColor(color);
 
-        Dimension screenPos = Viewport.worldToScreenPoint(position);
+        Dimension screenPos = Viewport.worldToScreenPoint(position).toDimension();
         g.fillOval(screenPos.width, screenPos.height, 10, 10);
     }
 
@@ -49,7 +49,11 @@ public class Animal extends AnimationAgent {
         private void Move() {
             double speed = isIdle ? moveSpeed : runSpeed;
             Vector2d dir = direction.normalized();
-            Animal.this.position.add(dir.scaled(Time.getDeltaTime()).scaled(speed));
+            Vector2d move = dir.scaled(Time.getDeltaTime()).scaled(speed);
+            position.add(move);
+            if (Utils.findAgentsOfType(Hare.class).get(0) == Animal.this) {
+                System.out.println(position);
+            }
         }
 
         protected void SetDirection() {
@@ -68,7 +72,7 @@ public class Animal extends AnimationAgent {
                     continue;
                 }
                 if (Vector2d.distance(position, hare.position) < maxDist) {
-                    hare.color = Color.red;
+                    Debug.drawLine(Viewport.worldToScreenPoint(position), Viewport.worldToScreenPoint(hare.position), Color.red, 0.1);
                 }
             }
         }

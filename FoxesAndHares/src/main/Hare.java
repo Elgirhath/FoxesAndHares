@@ -20,7 +20,7 @@ public class Hare extends Animal {
     public void paint(Graphics g) {
         g.setColor(color);
 
-        Dimension screenPos = Viewport.worldToScreenPoint(position);
+        Dimension screenPos = Viewport.worldToScreenPoint(position).toDimension();
         g.fillOval(screenPos.width, screenPos.height, 10, 10);
     }
 

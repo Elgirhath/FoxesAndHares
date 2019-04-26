@@ -4,10 +4,11 @@ import jade.core.Agent;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AnimationAgent extends Agent {
-    private static List<AnimationAgent> agents = new ArrayList<>();
+    private static List<AnimationAgent> agents = Collections.synchronizedList(new ArrayList<>());
 
     public static AnimationAgent[] getAgents() {
         AnimationAgent arr[] = new AnimationAgent[agents.size()];

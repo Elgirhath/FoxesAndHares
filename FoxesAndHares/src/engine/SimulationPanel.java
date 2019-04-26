@@ -21,4 +21,11 @@ public class SimulationPanel extends JPanel {
             agent.paint(g);
         }
     }
+
+    void paintGraphicComponents() {
+        for(GraphicComponent comp : GraphicComponent.getComponentList()) {
+            if (comp.enabled)
+                comp.paint(getGraphics());
+        }
+    }
 }

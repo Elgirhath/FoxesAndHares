@@ -3,19 +3,22 @@ package engine;
 import jade.core.behaviours.Behaviour;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class MonoBehaviour extends Behaviour {
-    private static List<MonoBehaviour> all = new ArrayList<>();
+    private static List<MonoBehaviour> all = Collections.synchronizedList(new ArrayList<>());
 
     public MonoBehaviour() {
         all.add(this);
     }
 
     static MonoBehaviour[] getAll() {
-        MonoBehaviour arr[] = new MonoBehaviour[all.size()];
-        all.toArray(arr);
-        return arr;
+        synchronized (all) {
+            MonoBehaviour arr[] = new MonoBehaviour[all.size()];
+            all.toArray(arr);
+            return arr;
+        }
     }
 
     @Override
