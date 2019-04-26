@@ -1,7 +1,5 @@
 package engine;
 
-import java.util.List;
-
 public class AnimationThread extends Thread {
     private static AnimationThread instance = new AnimationThread();
 

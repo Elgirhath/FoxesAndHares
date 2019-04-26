@@ -17,7 +17,7 @@ public class SimulationPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (AnimationAgent agent : AnimationAgent.agents) {
+        for (AnimationAgent agent : AnimationAgent.getAgents()) {
             agent.paint(g);
         }
     }

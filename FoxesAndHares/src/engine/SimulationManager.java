@@ -10,19 +10,19 @@ public class SimulationManager extends Agent {
     public static ContainerController animalContainer = null;
 
     @Override
-    protected void setup() {
-        System.out.println("Simulation Manager has been created!\n");
-        start();
-    }
-
-    void start() {
+    protected void setup() { //core setup
         if (animalContainer == null)
             animalContainer = Runtime.instance().createAgentContainer(new ProfileImpl());
         GUI.getInstance();
+        System.out.println("Simulation Manager has been created!\n");
+
+        start();
 
         AnimationThread thread = AnimationThread.getInstance();
-        thread.start();
+        thread.start(); //start an animation after animals were created
+    }
 
+    void start() { //user setup
         int foxNumber = 8;
         int hareNumber = 20;
 

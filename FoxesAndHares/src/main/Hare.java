@@ -13,8 +13,6 @@ public class Hare extends Animal {
         super.setup();
 
         chaser = null;
-
-        System.out.println("The hare has been created!");
     }
 
     @Override

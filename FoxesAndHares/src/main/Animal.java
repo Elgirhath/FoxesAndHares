@@ -6,7 +6,7 @@ import extensions.Vector2d;
 import java.awt.*;
 
 public class Animal extends AnimationAgent {
-    public Vector2d position;
+    public Vector2d position = new Vector2d(0.0, 0.0);
 
     @Override
     protected void setup() {
@@ -14,8 +14,6 @@ public class Animal extends AnimationAgent {
 
         generatePosition();
         addBehaviour(new AnimalMovementController());
-
-        System.out.println("An animal has been created at position: " + position);
     }
 
     private void generatePosition() {

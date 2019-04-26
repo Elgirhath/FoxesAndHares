@@ -8,7 +8,6 @@ public class Fox extends Animal{
     @Override
     protected void setup() {
         super.setup();
-        System.out.println("The fox has been created!");
     }
 
     @Override
