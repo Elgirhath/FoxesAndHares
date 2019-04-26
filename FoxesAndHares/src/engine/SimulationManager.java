@@ -5,7 +5,6 @@ import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
-import main.Main;
 
 public class SimulationManager extends Agent {
     public static ContainerController animalContainer = null;

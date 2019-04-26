@@ -7,15 +7,12 @@ import java.awt.*;
 
 public class Animal extends AnimationAgent {
     public Vector2d position;
-    protected Vector2d direction = new Vector2d(1.0, 1.0);
-    public boolean isIdle;
 
     @Override
     protected void setup() {
         super.setup();
 
         generatePosition();
-        isIdle = true;
         addBehaviour(new AnimalMovementController());
 
         System.out.println("An animal has been created at position: " + position);
@@ -39,6 +36,9 @@ public class Animal extends AnimationAgent {
         private double moveSpeed = 3.0;
         private double runSpeed = 6.0;
 
+        Vector2d direction = new Vector2d(1.0, 1.0);
+        boolean isIdle = true;
+
         @Override
         public void action() {
             SetDirection();
@@ -47,7 +47,7 @@ public class Animal extends AnimationAgent {
 
         private void Move() {
             double speed = isIdle ? moveSpeed : runSpeed;
-            Vector2d dir = Animal.this.direction.normalized();
+            Vector2d dir = direction.normalized();
             Animal.this.position.add(dir.scaled(Time.getDeltaTime()).scaled(speed));
         }
 

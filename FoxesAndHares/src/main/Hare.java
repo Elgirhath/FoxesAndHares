@@ -28,7 +28,7 @@ public class Hare extends Animal {
     class HareMovementController extends Animal.AnimalMovementController {
         @Override
         protected void SetDirection() {
-            if(Hare.this.isIdle) {
+            if(isIdle) {
                 // call a proper method
             }
             else {
@@ -37,8 +37,8 @@ public class Hare extends Animal {
         }
 
         private void Run() {
-            Hare.this.direction.setX(Hare.this.position.getX() - chaser.position.getX());
-            Hare.this.direction.setY(Hare.this.position.getY() - chaser.position.getY());
+            direction.setX(Hare.this.position.getX() - chaser.position.getX());
+            direction.setY(Hare.this.position.getY() - chaser.position.getY());
         }
     }
 }

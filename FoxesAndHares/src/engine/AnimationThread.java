@@ -40,8 +40,8 @@ public class AnimationThread extends Thread {
                     }
                 } catch (InterruptedException e) {
                 }
-                Update();
             }
+            Update();
 
             panel.setOpaque(false);
             panel.repaint();
