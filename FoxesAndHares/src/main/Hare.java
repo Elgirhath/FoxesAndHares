@@ -13,11 +13,12 @@ public class Hare extends Animal {
         super.setup();
 
         chaser = null;
+        color = Color.green;
     }
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.green);
+        g.setColor(color);
 
         Dimension screenPos = Viewport.worldToScreenPoint(position);
         g.fillOval(screenPos.width, screenPos.height, 10, 10);

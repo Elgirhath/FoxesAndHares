@@ -4,9 +4,11 @@ import engine.*;
 
 import extensions.Vector2d;
 import java.awt.*;
+import java.util.List;
 
 public class Animal extends AnimationAgent {
     public Vector2d position = new Vector2d(0.0, 0.0);
+    Color color = Color.black;
 
     @Override
     protected void setup() {
@@ -14,6 +16,7 @@ public class Animal extends AnimationAgent {
 
         generatePosition();
         addBehaviour(new AnimalMovementController());
+        addBehaviour(new VisionController());
     }
 
     private void generatePosition() {
@@ -24,7 +27,7 @@ public class Animal extends AnimationAgent {
     }
 
     public void paint(Graphics g) {
-        g.setColor(Color.black);
+        g.setColor(color);
 
         Dimension screenPos = Viewport.worldToScreenPoint(position);
         g.fillOval(screenPos.width, screenPos.height, 10, 10);
@@ -51,6 +54,23 @@ public class Animal extends AnimationAgent {
 
         protected void SetDirection() {
             //...
+        }
+    }
+
+    class VisionController extends MonoBehaviour {
+        double maxDist = 100;
+
+        @Override
+        public void action() {
+            List<Hare> hares = Utils.findAgentsOfType(Hare.class);
+            for(Hare hare : hares) {
+                if (hare == Animal.this) {
+                    continue;
+                }
+                if (Vector2d.distance(position, hare.position) < maxDist) {
+                    hare.color = Color.red;
+                }
+            }
         }
     }
 }

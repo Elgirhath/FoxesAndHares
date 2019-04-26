@@ -28,6 +28,18 @@ public class Vector2d extends javax.vecmath.Vector2d {
         super(v);
     }
 
+    public static double distance(Vector2d a, Vector2d b) {
+        return a.minus(b).length();
+    }
+
+    public Vector2d plus (Vector2d vec) { //doesn't change this like add() does
+        return new Vector2d(x + vec.x, y + vec.y);
+    }
+
+    public Vector2d minus (Vector2d vec) { //doesn't change this like sub() does
+        return new Vector2d(x - vec.x, y - vec.y);
+    }
+
     public Vector2d multiply(Vector2d vec) {
         return new Vector2d(x * vec.x, y * vec.y);
     }
