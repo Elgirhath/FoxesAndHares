@@ -47,12 +47,18 @@ public class Animal extends AnimationAgent {
         }
 
         private void Move() {
-            double speed = isIdle ? moveSpeed : runSpeed;
-            Vector2d dir = direction.normalized();
-            Vector2d move = dir.scaled(Time.getDeltaTime()).scaled(speed);
-            position.add(move);
-            if (Utils.findAgentsOfType(Hare.class).get(0) == Animal.this) {
-                System.out.println(position);
+            synchronized (this) {
+                double speed = isIdle ? moveSpeed : runSpeed;
+                Vector2d dir = direction.normalized();
+                double deltaTime = Time.getDeltaTime();
+                Vector2d move = dir.scaled(deltaTime).scaled(speed);
+                position.add(move);
+                List<Hare> hares = Utils.findAgentsOfType(Hare.class);
+                if (hares.size() > 0) {
+                    if (hares.get(0) == Animal.this) {
+                        System.out.println(position);
+                    }
+                }
             }
         }
 

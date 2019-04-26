@@ -1,24 +1,28 @@
 package engine;
 
 public class Time {
-    private static long startTime = System.currentTimeMillis();
+    private static long startTimeMillis = System.currentTimeMillis();
     private static double deltaTime = 0.0;
     private static double lastFrameTime = 0.0;
 
     private Time() {}
 
-    public static double getDeltaTime() {
+    public synchronized static double getDeltaTime() {
         return deltaTime;
     }
 
     public static double getTime() {
-        long milisDiff = System.currentTimeMillis() - startTime;
-        double time = milisDiff * 10e-3;
+        long milisDiff = System.currentTimeMillis() - startTimeMillis;
+        double time = milisDiff * 1e-3;
         return time;
     }
 
-    static void update() {
+    static synchronized void update() {
         double time = getTime();
+        if (lastFrameTime < 1e-6) {
+            lastFrameTime = time;
+        }
+        double tmp = lastFrameTime;
         deltaTime = time - lastFrameTime;
         lastFrameTime = time;
     }

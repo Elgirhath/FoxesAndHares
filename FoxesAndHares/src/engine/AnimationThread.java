@@ -54,6 +54,7 @@ public class AnimationThread extends Thread {
             }
         }
 
+        System.out.println("*********************"); //FIXME: Every Monobehaviour runs itself multiple times within one frame
         Time.update();
     }
 }
