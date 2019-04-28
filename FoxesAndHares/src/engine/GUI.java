@@ -10,6 +10,7 @@ public class GUI extends JFrame {
         super("Title");
         buildGUI();
 
+        setContentPane(mainPanel);
         Dimension camRes = SimulationPanel.getInstance().getSize();
         setSize(800, 600);
 

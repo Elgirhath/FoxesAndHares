@@ -2,6 +2,8 @@ package engine;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class SimulationPanel extends JPanel {
     private static SimulationPanel instance = null;
@@ -13,25 +15,41 @@ public class SimulationPanel extends JPanel {
         return instance;
     }
 
+    private List<GraphicComponent> componentList = new ArrayList<>();
+
+    public void addComponent(GraphicComponent component) {
+        synchronized (componentList) {
+            componentList.add(component);
+        }
+    }
+
+    public void removeComponent(GraphicComponent component) {
+        synchronized (componentList) {
+            componentList.remove(component);
+        }
+    }
+
+    public List<GraphicComponent> getComponentList() {
+        synchronized (componentList) {
+            return new ArrayList<GraphicComponent>(componentList);
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("LOL");
 
-//        for (AnimationAgent agent : AnimationAgent.getAgents()) {
-//            agent.paint(g);
-//        }
+        for (AnimationAgent agent : AnimationAgent.getAgents()) {
+            agent.paint(g);
+        }
 
-//        paintGraphicComponents(g);
+        paintGraphicComponents(g);
     }
 
     private void paintGraphicComponents(Graphics g) {
-        System.out.println("ABC");
-        GraphicComponent[] components = GraphicComponent.getComponentList();
-        System.out.println(components.length);
+        List<GraphicComponent> components = getComponentList();
         for(GraphicComponent comp : components) {
-            if (comp.enabled)
-                comp.paint(g);
+            comp.paintComponent(g);
         }
     }
 }

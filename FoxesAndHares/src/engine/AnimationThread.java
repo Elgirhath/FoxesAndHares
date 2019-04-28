@@ -39,15 +39,12 @@ public class AnimationThread extends Thread {
                 } catch (InterruptedException e) {
                 }
             }
-//            update();
+            update();
 
-            System.out.println("*******");
 
-//            panel.setOpaque(false);
+            panel.setOpaque(false);
             panel.revalidate();
             panel.repaint();
-
-            System.out.println("--------");
         }
     }
 

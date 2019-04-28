@@ -37,7 +37,7 @@ public class SimulationManager extends Agent {
         for (int i = 0; i < hareNumber; i++) {
             createAnimal("Hare_" + i, "main.Hare");
         }
-        Debug.drawLine(new Vector2d(10, 10), new Vector2d(300, 300), Color.red, 10);
+        Debug.drawLine(new Vector2d(10, 10), new Vector2d(300, 300), Color.black, 1.3);
     }
 
     public void createAnimal(String name, String className) {

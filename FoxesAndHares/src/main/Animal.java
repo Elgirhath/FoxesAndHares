@@ -57,7 +57,7 @@ public class Animal extends AnimationAgent {
                 List<Hare> hares = Utils.findAgentsOfType(Hare.class);
                 if (hares.size() > 0) {
                     if (hares.get(0) == Animal.this) {
-                        System.out.println(hares.get(0).getName() + " -- " + position);
+//                        System.out.println(hares.get(0).getName() + " -- " + position);
                     }
                 }
             }
@@ -79,7 +79,7 @@ public class Animal extends AnimationAgent {
                     continue;
                 }
                 if (Vector2d.distance(position, hare.position) < maxDist) {
-                    Debug.drawLine(Viewport.worldToScreenPoint(position), Viewport.worldToScreenPoint(hare.position), Color.red, 3.0);
+                    Debug.drawLine(Viewport.worldToScreenPoint(position), Viewport.worldToScreenPoint(hare.position), Color.red, 0.1);
                 }
             }
         }
