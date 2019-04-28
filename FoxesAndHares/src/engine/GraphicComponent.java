@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
-public abstract class GraphicComponent {
+public abstract class GraphicComponent extends Component{
     public boolean enabled = true;
     public abstract void paint(Graphics g);
 

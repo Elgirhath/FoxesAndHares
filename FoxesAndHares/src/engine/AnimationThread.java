@@ -39,11 +39,15 @@ public class AnimationThread extends Thread {
                 } catch (InterruptedException e) {
                 }
             }
-            update();
+//            update();
 
-            panel.setOpaque(false);
+            System.out.println("*******");
+
+//            panel.setOpaque(false);
+            panel.revalidate();
             panel.repaint();
-            panel.paintGraphicComponents();
+
+            System.out.println("--------");
         }
     }
 
@@ -54,7 +58,6 @@ public class AnimationThread extends Thread {
             }
         }
 
-        System.out.println("*********************"); //FIXME: Every Monobehaviour runs itself multiple times within one frame
         Time.update();
     }
 }

@@ -24,7 +24,7 @@ public class SimulationManager extends Agent {
         AnimationThread thread = AnimationThread.getInstance();
         thread.start(); //start an animation after animals were created
 
-        addBehaviour(new SimulationController());
+        new SimulationController();
     }
 
     void start() { //user setup
@@ -37,6 +37,7 @@ public class SimulationManager extends Agent {
         for (int i = 0; i < hareNumber; i++) {
             createAnimal("Hare_" + i, "main.Hare");
         }
+        Debug.drawLine(new Vector2d(10, 10), new Vector2d(300, 300), Color.red, 10);
     }
 
     public void createAnimal(String name, String className) {

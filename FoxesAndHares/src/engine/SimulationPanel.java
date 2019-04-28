@@ -16,16 +16,22 @@ public class SimulationPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        System.out.println("LOL");
 
-        for (AnimationAgent agent : AnimationAgent.getAgents()) {
-            agent.paint(g);
-        }
+//        for (AnimationAgent agent : AnimationAgent.getAgents()) {
+//            agent.paint(g);
+//        }
+
+//        paintGraphicComponents(g);
     }
 
-    void paintGraphicComponents() {
-        for(GraphicComponent comp : GraphicComponent.getComponentList()) {
+    private void paintGraphicComponents(Graphics g) {
+        System.out.println("ABC");
+        GraphicComponent[] components = GraphicComponent.getComponentList();
+        System.out.println(components.length);
+        for(GraphicComponent comp : components) {
             if (comp.enabled)
-                comp.paint(getGraphics());
+                comp.paint(g);
         }
     }
 }

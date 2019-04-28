@@ -15,8 +15,9 @@ public class Animal extends AnimationAgent {
         super.setup();
 
         generatePosition();
-        addBehaviour(new AnimalMovementController());
-        addBehaviour(new VisionController());
+        new AnimalMovementController();
+//        addBehaviour(new AnimalMovementController());
+        new VisionController();
     }
 
     private void generatePosition() {
@@ -34,8 +35,8 @@ public class Animal extends AnimationAgent {
     }
 
     class AnimalMovementController extends MonoBehaviour {
-        private double moveSpeed = 3.0;
-        private double runSpeed = 6.0;
+        private double moveSpeed = 50.0;
+        private double runSpeed = 100.0;
 
         Vector2d direction = new Vector2d(1.0, 1.0);
         boolean isIdle = true;
@@ -56,7 +57,7 @@ public class Animal extends AnimationAgent {
                 List<Hare> hares = Utils.findAgentsOfType(Hare.class);
                 if (hares.size() > 0) {
                     if (hares.get(0) == Animal.this) {
-                        System.out.println(position);
+                        System.out.println(hares.get(0).getName() + " -- " + position);
                     }
                 }
             }
@@ -78,7 +79,7 @@ public class Animal extends AnimationAgent {
                     continue;
                 }
                 if (Vector2d.distance(position, hare.position) < maxDist) {
-                    Debug.drawLine(Viewport.worldToScreenPoint(position), Viewport.worldToScreenPoint(hare.position), Color.red, 0.1);
+                    Debug.drawLine(Viewport.worldToScreenPoint(position), Viewport.worldToScreenPoint(hare.position), Color.red, 3.0);
                 }
             }
         }
