@@ -5,6 +5,7 @@ import engine.*;
 import extensions.Vector2d;
 import java.awt.*;
 import java.util.List;
+import java.util.Random;
 
 public class Animal extends AnimationAgent {
     public Vector2d position = new Vector2d(0.0, 0.0);
@@ -16,7 +17,6 @@ public class Animal extends AnimationAgent {
 
         generatePosition();
         new AnimalMovementController();
-//        addBehaviour(new AnimalMovementController());
         new VisionController();
     }
 
@@ -79,7 +79,7 @@ public class Animal extends AnimationAgent {
                     continue;
                 }
                 if (Vector2d.distance(position, hare.position) < maxDist) {
-                    Debug.drawLine(Viewport.worldToScreenPoint(position), Viewport.worldToScreenPoint(hare.position), Color.red, 0.1);
+                    Debug.drawLine(Viewport.worldToScreenPoint(position), Viewport.worldToScreenPoint(hare.position), Color.red, Time.getDeltaTime());
                 }
             }
         }

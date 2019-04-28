@@ -38,11 +38,13 @@ public class Debug {
         }
 
         private class Timer extends MonoBehaviour {
+            int i = 0;
             @Override
             public void action() {
                 Line.this.timeLeft -= Time.getDeltaTime();
                 if (timeLeft < 0) {
                     Debug.simPanel.removeComponent(Line.this);
+                    destroy(this);
                 }
             }
         }

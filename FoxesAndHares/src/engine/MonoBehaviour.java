@@ -21,6 +21,12 @@ public abstract class MonoBehaviour extends Behaviour {
         }
     }
 
+    static void destroy(MonoBehaviour mb) {
+        synchronized (all) {
+            all.remove(mb);
+        }
+    }
+
     @Override
     public boolean done() {
         return false;

@@ -11,8 +11,6 @@ public class AnimationThread extends Thread {
 
     AnimationThread() {
         super();
-
-        allMonoBehaviours = MonoBehaviour.getAll();
     }
 
     private SimulationPanel panel = SimulationPanel.getInstance();
@@ -49,6 +47,8 @@ public class AnimationThread extends Thread {
     }
 
     void update() {
+        allMonoBehaviours = MonoBehaviour.getAll();
+
         synchronized (allMonoBehaviours) {
             for (MonoBehaviour mb : allMonoBehaviours) {
                 mb.action();
