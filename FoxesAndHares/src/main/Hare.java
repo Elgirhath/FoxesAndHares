@@ -19,9 +19,10 @@ public class Hare extends Animal {
     @Override
     public void paint(Graphics g) {
         g.setColor(color);
+        int radius = 5;
 
         Dimension screenPos = Viewport.worldToScreenPoint(position).toDimension();
-        g.fillOval(screenPos.width, screenPos.height, 10, 10);
+        g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
     class HareMovementController extends Animal.AnimalMovementController {
