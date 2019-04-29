@@ -13,7 +13,7 @@ public class Fox extends Animal{
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
         g.setColor(color);
         int radius = 5;
 

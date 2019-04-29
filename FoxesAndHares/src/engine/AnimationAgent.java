@@ -1,5 +1,6 @@
 package engine;
 
+import extensions.Vector2d;
 import jade.core.Agent;
 
 import java.awt.*;
@@ -7,8 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AnimationAgent extends Agent {
+public abstract class AnimationAgent extends Agent implements GraphicComponent {
     private static List<AnimationAgent> agents = Collections.synchronizedList(new ArrayList<>());
+    public Vector2d position = new Vector2d(0.0, 0.0);
 
     public static AnimationAgent[] getAgents() {
         synchronized (agents) {
@@ -25,7 +27,19 @@ public abstract class AnimationAgent extends Agent {
         synchronized (agents) {
             agents.add(this);
         }
+
+        SimulationPanel.getInstance().addComponent(this);
     }
 
-    public abstract void paint(Graphics g);
+    private List<GraphicComponent> components = Collections.synchronizedList(new ArrayList<>());
+
+    public void addGraphicComponent(GraphicComponent component) {
+        components.add(component);
+    }
+
+    public void paintComponent(Graphics g) {
+        for (GraphicComponent component : components) {
+            component.paintComponent(g);
+        }
+    }
 }

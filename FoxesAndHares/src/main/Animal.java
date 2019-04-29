@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Animal extends AnimationAgent {
-    public Vector2d position = new Vector2d(0.0, 0.0);
     Color color = Color.black;
 
     @Override
@@ -27,7 +26,7 @@ public class Animal extends AnimationAgent {
         position = new Vector2d(x, y);
     }
 
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
         g.setColor(color);
         int radius = 5;
 
