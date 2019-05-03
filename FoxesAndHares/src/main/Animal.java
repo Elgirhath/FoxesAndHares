@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class Animal extends AnimationAgent {
     Color color = Color.black;
+    Vector2d direction = new Vector2d(1.0, 1.0);
 
     @Override
     protected void setup() {
@@ -37,8 +38,6 @@ public class Animal extends AnimationAgent {
     class AnimalMovementController extends MonoBehaviour {
         private double moveSpeed = 50.0;
         private double runSpeed = 100.0;
-
-        Vector2d direction = new Vector2d(1.0, 1.0);
         boolean isIdle = true;
 
         @Override
@@ -73,13 +72,14 @@ public class Animal extends AnimationAgent {
 
         @Override
         public void action() {
+            Debug.drawRay(position, direction.scaled(20), Color.blue, Time.getDeltaTime());
             List<Hare> hares = Utils.findAgentsOfType(Hare.class);
             for(Hare hare : hares) {
                 if (hare == Animal.this) {
                     continue;
                 }
                 if (Vector2d.distance(position, hare.position) < maxDist) {
-                    Debug.drawLine(Viewport.worldToScreenPoint(position), Viewport.worldToScreenPoint(hare.position), Color.red, Time.getDeltaTime());
+                    Debug.drawLine(position, hare.position, Color.red, Time.getDeltaTime());
                 }
             }
         }

@@ -12,4 +12,15 @@ public class Viewport {
         Vector2d vec = point.divide(size).multiply(panelSize);
         return vec;
     }
+
+    public static Vector2d screenToWorldPoint(Vector2d point) {
+        SimulationPanel panel = SimulationPanel.getInstance();
+        Vector2d panelSize = new Vector2d(panel.getSize());
+        Vector2d vec = point.multiply(size).divide(panelSize);
+        return vec;
+    }
+
+    public static Vector2d getWorldSpaceSize() {
+        return screenToWorldPoint(size);
+    }
 }

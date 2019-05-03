@@ -6,6 +6,8 @@ import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+import main.Fox;
+import main.Hare;
 
 import java.awt.*;
 
@@ -23,8 +25,6 @@ public class SimulationManager extends Agent {
 
         AnimationThread thread = AnimationThread.getInstance();
         thread.start(); //start an animation after animals were created
-
-        addBehaviour(new SimulationController());
     }
 
     void start() { //user setup
@@ -32,12 +32,13 @@ public class SimulationManager extends Agent {
         int hareNumber = 20;
 
         for (int i = 0; i < foxNumber; i++) {
-            createAnimal("Fox_" + i, "main.Fox");
+            createAnimal("Fox_" + i, Fox.class.getName());
         }
         for (int i = 0; i < hareNumber; i++) {
-            createAnimal("Hare_" + i, "main.Hare");
+            createAnimal("Hare_" + i, Hare.class.getName());
         }
         Debug.drawLine(new Vector2d(10, 10), new Vector2d(300, 300), Color.black, 1.3);
+        Debug.drawGrid(100.0, new Color(0,0,0,100));
     }
 
     public void createAnimal(String name, String className) {
@@ -47,20 +48,6 @@ public class SimulationManager extends Agent {
             ac.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    private class SimulationController extends MonoBehaviour {
-        boolean enabled = true;
-
-        @Override
-        public void action() {
-            if (!enabled)
-                return;
-            Vector2d start = new Vector2d(10, 10);
-            Vector2d end = new Vector2d(200, 200);
-            Debug.drawLine(start, end, Color.black, 0.1);
-            enabled = false;
         }
     }
 }
