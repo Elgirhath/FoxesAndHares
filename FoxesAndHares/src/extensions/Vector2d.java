@@ -60,4 +60,16 @@ public class Vector2d extends javax.vecmath.Vector2d {
     public Vector2d scaled(double s) {
         return new Vector2d(x * s, y * s);
     }
+
+    public static Vector2d up() {
+        return new Vector2d(0.0, 1.0);
+    }
+
+    public static Vector2d right() {
+        return new Vector2d(1.0, 0.0);
+    }
+
+    public double getAspectRatio() {
+        return x/y;
+    }
 }

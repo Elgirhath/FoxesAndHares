@@ -3,9 +3,10 @@ package main;
 import engine.*;
 
 import extensions.Vector2d;
+import graphics.VisionCone;
+
 import java.awt.*;
 import java.util.List;
-import java.util.Random;
 
 public class Animal extends AnimationAgent {
     Color color = Color.black;
@@ -21,7 +22,7 @@ public class Animal extends AnimationAgent {
     }
 
     private void generatePosition() {
-        Vector2d mapSize = Viewport.size;
+        Vector2d mapSize = Viewport.getSize();
         double x = Math.random() * mapSize.x;
         double y = Math.random() * mapSize.y;
         position = new Vector2d(x, y);
@@ -69,11 +70,17 @@ public class Animal extends AnimationAgent {
 
     class VisionController extends MonoBehaviour {
         double maxDist = 100;
+        VisionCone cone = new VisionCone(position, direction, maxDist, 90);
+
+        VisionController() {
+            SimulationPanel.getInstance().addComponent(cone);
+        }
 
         @Override
         public void action() {
-            Debug.drawRay(position, direction.scaled(20), Color.blue, Time.getDeltaTime());
             List<Hare> hares = Utils.findAgentsOfType(Hare.class);
+            cone.position = position;
+            cone.direction = direction;
             for(Hare hare : hares) {
                 if (hare == Animal.this) {
                     continue;

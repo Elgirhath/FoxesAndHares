@@ -1,12 +1,6 @@
 package engine;
 
 import extensions.Vector2d;
-import jade.core.ProfileImpl;
-import jade.core.Runtime;
-import jade.wrapper.AgentController;
-import jade.wrapper.ContainerController;
-
-import javax.swing.text.View;
 import java.awt.*;
 
 public class Debug {
@@ -62,34 +56,6 @@ public class Debug {
         Grid grid = new Grid(size, color);
         simPanel.addComponent(grid);
     }
-
-    private static class Grid implements GraphicComponent{
-        Color color;
-        double size;
-
-        Grid(double size, Color color) {
-            this.size = size;
-            this.color = color;
-        }
-
-        @Override
-        public void paintComponent(Graphics g) {
-            Color tmp = g.getColor();
-            g.setColor(color);
-            for (double i = 0.0; i < Viewport.getWorldSpaceSize().x; i += size) { //vertical
-                Dimension start = Viewport.worldToScreenPoint(new Vector2d(i, 0.0)).toDimension();
-                Dimension end = Viewport.worldToScreenPoint(new Vector2d(i, Viewport.getWorldSpaceSize().y)).toDimension();
-                g.drawLine(start.width, start.height, end.width, end.height);
-            }
-            for (double j = 0.0; j < Viewport.getWorldSpaceSize().y; j += size) {
-                Dimension start = Viewport.worldToScreenPoint(new Vector2d(0.0, j)).toDimension();
-                Dimension end = Viewport.worldToScreenPoint(new Vector2d(Viewport.getWorldSpaceSize().x, j)).toDimension();
-                g.drawLine(start.width, start.height, end.width, end.height);
-            }
-            g.setColor(tmp);
-        }
-    }
-
 
     private static class Grid implements GraphicComponent{
         Color color;
