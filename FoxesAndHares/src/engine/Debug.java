@@ -70,14 +70,14 @@ public class Debug {
         public void paintComponent(Graphics g) {
             Color tmp = g.getColor();
             g.setColor(color);
-            for (double i = 0.0; i < Viewport.getWorldSpaceSize().x; i += size) { //vertical
+            for (double i = 0.0; i < Viewport.getSize().x; i += size) { //vertical
                 Dimension start = Viewport.worldToScreenPoint(new Vector2d(i, 0.0)).toDimension();
-                Dimension end = Viewport.worldToScreenPoint(new Vector2d(i, Viewport.getWorldSpaceSize().y)).toDimension();
+                Dimension end = Viewport.worldToScreenPoint(new Vector2d(i, Viewport.getSize().y)).toDimension();
                 g.drawLine(start.width, start.height, end.width, end.height);
             }
-            for (double j = 0.0; j < Viewport.getWorldSpaceSize().y; j += size) {
+            for (double j = 0.0; j < Viewport.getSize().y; j += size) { //horizontal
                 Dimension start = Viewport.worldToScreenPoint(new Vector2d(0.0, j)).toDimension();
-                Dimension end = Viewport.worldToScreenPoint(new Vector2d(Viewport.getWorldSpaceSize().x, j)).toDimension();
+                Dimension end = Viewport.worldToScreenPoint(new Vector2d(Viewport.getSize().x, j)).toDimension();
                 g.drawLine(start.width, start.height, end.width, end.height);
             }
             g.setColor(tmp);

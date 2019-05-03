@@ -37,8 +37,8 @@ public class Animal extends AnimationAgent {
     }
 
     class AnimalMovementController extends MonoBehaviour {
-        private double moveSpeed = 50.0;
-        private double runSpeed = 100.0;
+        private double moveSpeed = 2.0;
+        private double runSpeed = 4.0;
         boolean isIdle = true;
 
         @Override
@@ -69,7 +69,7 @@ public class Animal extends AnimationAgent {
     }
 
     class VisionController extends MonoBehaviour {
-        double maxDist = 100;
+        double maxDist = 7;
         int fov = 90;
         VisionCone cone = new VisionCone(position, direction, maxDist, fov);
 
@@ -93,7 +93,7 @@ public class Animal extends AnimationAgent {
                 if (angle > fov/2)
                     continue;
 
-                Debug.drawLine(position, animal.position, Color.red, Time.getDeltaTime());
+                Debug.drawLine(position, animal.position, Color.red, Time.getDeltaTime()); //An animal is seen
             }
         }
     }

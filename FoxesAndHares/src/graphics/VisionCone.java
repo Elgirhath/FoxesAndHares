@@ -24,12 +24,12 @@ public class VisionCone implements GraphicComponent {
         double dirAngle = direction.angle(Vector2d.right());
         dirAngle = (int) Math.toDegrees(dirAngle);
 
-        Dimension screenSize = Viewport.worldToScreenPoint(new Vector2d(size, size)).toDimension();
-        Dimension screenPos = Viewport.worldToScreenPoint(position).minus(new Vector2d(screenSize.width/2, screenSize.height/2)).toDimension();
+        Vector2d screenSize = Viewport.worldToScreenPoint(new Vector2d(size, size));
+        Dimension screenPos = Viewport.worldToScreenPoint(position).minus(new Vector2d(screenSize.x/2, screenSize.y/2)).toDimension();
         Color tmp = g.getColor();
-        Color coneColor = new Color(0, 150, 255, 70);
+        Color coneColor = new Color(0, 150, 255, 40);
         g.setColor(coneColor);
-        g.fillArc(screenPos.width, screenPos.height, screenSize.width, screenSize.height, (int)-(dirAngle + fov/2), fov);
+        g.fillArc(screenPos.width, screenPos.height, (int)screenSize.x, (int)screenSize.y, (int)-(dirAngle + fov/2), fov);
         g.setColor(tmp);
     }
 }

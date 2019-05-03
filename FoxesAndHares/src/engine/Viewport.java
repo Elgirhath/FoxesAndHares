@@ -3,7 +3,7 @@ package engine;
 import extensions.Vector2d;
 
 public class Viewport {
-    public static double horizontalSize = 1500;
+    public static double horizontalSize = 100.0;
 
     public static Vector2d worldToScreenPoint(Vector2d point) {
         SimulationPanel panel = SimulationPanel.getInstance();
@@ -19,8 +19,8 @@ public class Viewport {
         return vec;
     }
 
-    public static Vector2d getWorldSpaceSize() {
-        return screenToWorldPoint(getSize());
+    public static Vector2d getScreenSpaceSize() {
+        return worldToScreenPoint(getSize());
     }
 
     public static double getVerticalSize() {
