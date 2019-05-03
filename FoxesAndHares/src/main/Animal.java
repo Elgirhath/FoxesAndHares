@@ -3,7 +3,6 @@ package main;
 import engine.*;
 
 import extensions.Vector2d;
-import graphics.VisionCone;
 
 import java.awt.*;
 import java.util.List;
@@ -71,7 +70,7 @@ public class Animal extends AnimationAgent {
     class VisionController extends MonoBehaviour {
         double maxDist = 7;
         int fov = 90;
-        VisionCone cone = new VisionCone(position, direction, maxDist, fov);
+        VisionCone cone = new VisionCone();
 
         VisionController() {
             SimulationPanel.getInstance().addComponent(cone);
@@ -80,8 +79,6 @@ public class Animal extends AnimationAgent {
         @Override
         public void action() {
             List<Animal> animals = Utils.findAgentsOfType(Animal.class);
-            cone.position = position;
-            cone.direction = direction;
             for(Animal animal : animals) {
                 if (animal == Animal.this) {
                     continue;
@@ -94,6 +91,23 @@ public class Animal extends AnimationAgent {
                     continue;
 
                 Debug.drawLine(position, animal.position, Color.red, Time.getDeltaTime()); //An animal is seen
+            }
+        }
+
+        public class VisionCone implements GraphicComponent {
+
+            @Override
+            public void paintComponent(Graphics g) {
+                double dirAngle = direction.angle(Vector2d.right());
+                dirAngle = (int) Math.toDegrees(dirAngle);
+
+                Vector2d screenSize = Viewport.worldToScreenPoint(new Vector2d(maxDist*2, maxDist*2));
+                Dimension screenPos = Viewport.worldToScreenPoint(position).minus(new Vector2d(screenSize.x/2, screenSize.y/2)).toDimension();
+                Color tmp = g.getColor();
+                Color coneColor = new Color(0, 150, 255, 40);
+                g.setColor(coneColor);
+                g.fillArc(screenPos.width, screenPos.height, (int)screenSize.x, (int)screenSize.y, (int)-(dirAngle + fov/2), fov);
+                g.setColor(tmp);
             }
         }
     }
