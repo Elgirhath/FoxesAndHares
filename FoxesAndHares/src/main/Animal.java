@@ -70,7 +70,8 @@ public class Animal extends AnimationAgent {
 
     class VisionController extends MonoBehaviour {
         double maxDist = 100;
-        VisionCone cone = new VisionCone(position, direction, maxDist, 90);
+        int fov = 90;
+        VisionCone cone = new VisionCone(position, direction, maxDist, fov);
 
         VisionController() {
             SimulationPanel.getInstance().addComponent(cone);
@@ -78,16 +79,21 @@ public class Animal extends AnimationAgent {
 
         @Override
         public void action() {
-            List<Hare> hares = Utils.findAgentsOfType(Hare.class);
+            List<Animal> animals = Utils.findAgentsOfType(Animal.class);
             cone.position = position;
             cone.direction = direction;
-            for(Hare hare : hares) {
-                if (hare == Animal.this) {
+            for(Animal animal : animals) {
+                if (animal == Animal.this) {
                     continue;
                 }
-                if (Vector2d.distance(position, hare.position) < maxDist) {
-                    Debug.drawLine(position, hare.position, Color.red, Time.getDeltaTime());
+                if (Vector2d.distance(position, animal.position) > maxDist) {
+                    continue;
                 }
+                double angle = Math.toDegrees(animal.position.minus(position).angle(direction));
+                if (angle > fov/2)
+                    continue;
+
+                Debug.drawLine(position, animal.position, Color.red, Time.getDeltaTime());
             }
         }
     }
