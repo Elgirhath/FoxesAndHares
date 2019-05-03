@@ -2,6 +2,7 @@ package engine;
 
 import extensions.Vector2d;
 import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,6 +18,26 @@ public abstract class AnimationAgent extends Agent implements GraphicComponent {
             AnimationAgent arr[] = new AnimationAgent[agents.size()];
             agents.toArray(arr);
             return arr;
+        }
+    }
+
+    private List<MonoBehaviour> monoBehaviours = Collections.synchronizedList(new ArrayList<>());
+
+    @Override
+    public void addBehaviour(Behaviour b) {
+        if (b instanceof MonoBehaviour) {
+            monoBehaviours.add((MonoBehaviour)b);
+        }
+        else {
+            super.addBehaviour(b);
+        }
+    }
+
+    void runMonoBehaviours() {
+        synchronized (monoBehaviours) {
+            for (MonoBehaviour mb : monoBehaviours) {
+                mb.action();
+            }
         }
     }
 

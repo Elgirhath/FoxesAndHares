@@ -55,6 +55,11 @@ public class AnimationThread extends Thread {
             }
         }
 
+        AnimationAgent[] allAgents = AnimationAgent.getAgents();
+        for (AnimationAgent agent : allAgents) {
+            agent.runMonoBehaviours();
+        }
+
         Time.update();
     }
 }

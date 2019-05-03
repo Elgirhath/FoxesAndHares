@@ -10,7 +10,7 @@ import jade.wrapper.ContainerController;
 import java.awt.*;
 
 public class SimulationManager extends Agent {
-    public static ContainerController animalContainer = null;
+    private static ContainerController animalContainer = null;
 
     @Override
     protected void setup() { //core setup
@@ -24,7 +24,7 @@ public class SimulationManager extends Agent {
         AnimationThread thread = AnimationThread.getInstance();
         thread.start(); //start an animation after animals were created
 
-        new SimulationController();
+        addBehaviour(new SimulationController());
     }
 
     void start() { //user setup

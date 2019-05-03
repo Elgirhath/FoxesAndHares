@@ -15,8 +15,8 @@ public class Animal extends AnimationAgent {
         super.setup();
 
         generatePosition();
-        new AnimalMovementController();
-        new VisionController();
+        addBehaviour(new AnimalMovementController());
+        addBehaviour(new VisionController());
     }
 
     private void generatePosition() {

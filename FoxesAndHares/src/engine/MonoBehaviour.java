@@ -9,8 +9,10 @@ import java.util.List;
 public abstract class MonoBehaviour extends Behaviour {
     private static List<MonoBehaviour> all = Collections.synchronizedList(new ArrayList<>());
 
-    public MonoBehaviour() {
-        all.add(this);
+    static void addMonoBehaviour(MonoBehaviour mb) {
+        synchronized (all) {
+            all.add(mb);
+        }
     }
 
     static MonoBehaviour[] getAll() {
@@ -23,7 +25,10 @@ public abstract class MonoBehaviour extends Behaviour {
 
     static void destroy(MonoBehaviour mb) {
         synchronized (all) {
-            all.remove(mb);
+            try {
+                all.remove(mb);
+            }
+            catch(Exception e) {}
         }
     }
 

@@ -1,6 +1,10 @@
 package engine;
 
 import extensions.Vector2d;
+import jade.core.ProfileImpl;
+import jade.core.Runtime;
+import jade.wrapper.AgentController;
+import jade.wrapper.ContainerController;
 
 import java.awt.*;
 
@@ -24,7 +28,7 @@ public class Debug {
             this.end = end;
             this.color = color;
 
-            new Timer();
+            MonoBehaviour.addMonoBehaviour(new Timer());
         }
 
         @Override
