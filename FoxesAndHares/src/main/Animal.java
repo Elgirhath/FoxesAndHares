@@ -88,10 +88,9 @@ public class Animal extends AnimationAgent {
     class VisionController extends MonoBehaviour {
         double maxDist = 7;
         int fov = 90;
-        VisionCone cone = new VisionCone();
 
         VisionController() {
-            SimulationPanel.getInstance().addComponent(cone);
+            SimulationPanel.getInstance().addComponent(new VisionCone());
         }
 
         @Override
@@ -126,6 +125,9 @@ public class Animal extends AnimationAgent {
             public void paintComponent(Graphics g) {
                 double dirAngle = direction.angle(Vector2d.right());
                 dirAngle = (int) Math.toDegrees(dirAngle);
+                if (direction.y < 0 ) {
+                    dirAngle = -dirAngle;
+                }
 
                 Vector2d screenSize = Viewport.worldToScreenPoint(new Vector2d(maxDist*2, maxDist*2));
                 Dimension screenPos = Viewport.worldToScreenPoint(position).minus(new Vector2d(screenSize.x/2, screenSize.y/2)).toDimension();
