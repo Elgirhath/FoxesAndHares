@@ -1,18 +1,20 @@
 package main;
 
+import engine.Time;
 import engine.Viewport;
 import extensions.Vector2d;
 
 import java.awt.*;
 
 public class Hare extends Animal {
-    private Fox chaser;
+    private Fox predator;
 
     @Override
     protected void setup() {
         super.setup();
+        addBehaviour(new AnimalMovementController());
 
-        chaser = null;
+        predator = null;
         color = Color.green;
     }
 
@@ -25,20 +27,22 @@ public class Hare extends Animal {
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
-    class HareMovementController extends Animal.AnimalMovementController {
+    class AnimalMovementController extends Animal.AnimalMovementController {
+
         @Override
-        protected void SetDirection() {
-            if(isIdle) {
-                // call a proper method
-            }
-            else {
-                Run();
-            }
+        protected void Rush() {
+            Run();
         }
 
         private void Run() {
-            direction.setX(Hare.this.position.getX() - chaser.position.getX());
-            direction.setY(Hare.this.position.getY() - chaser.position.getY());
+            direction.setX(Hare.this.position.x - predator.position.x);
+            direction.setY(Hare.this.position.y - predator.position.y);
+        }
+
+        @Override
+        protected void setIdle(boolean state, Animal target) {
+            super.setIdle(state, target);
+            predator = (Fox)target;
         }
     }
 }
