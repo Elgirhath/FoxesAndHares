@@ -6,11 +6,12 @@ import java.awt.*;
 
 public class Fox extends Animal{
     private Hare prey;
+    AnimalMovementController movementController = new AnimalMovementController();
 
     @Override
     protected void setup() {
         super.setup();
-        addBehaviour(new AnimalMovementController());
+        addBehaviour(movementController);
 
         prey = null;
         color = Color.orange;
@@ -28,7 +29,8 @@ public class Fox extends Animal{
     class AnimalMovementController extends Animal.AnimalMovementController {
         @Override
         protected void Rush() {
-            Chase();
+            if(prey != null)
+                Chase();
         }
 
         private void Chase() {
@@ -37,9 +39,22 @@ public class Fox extends Animal{
         }
 
         @Override
-        protected void setIdle(boolean state, Animal target) {
-            super.setIdle(state, target);
-            prey = (Hare)target;
+        protected void SetIdle() {
+            if(visionController.GetVisible().isEmpty())
+                isIdle = true;
+            else
+                SetPrey();
+        }
+
+        private void SetPrey() {
+            for(Animal animal : visionController.GetVisible()) {
+                if(animal instanceof Hare) {
+                    prey = (Hare)animal;
+                    isIdle = false;
+                    return;
+                }
+            }
+            isIdle = true;
         }
     }
 }
