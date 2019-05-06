@@ -29,7 +29,8 @@ public class Fox extends Animal{
     }
 
     private void Eat() {
-
+        prey.Die();
+        isIdle = true;
     }
 
     class AnimalMovementController extends Animal.AnimalMovementController {
@@ -40,8 +41,7 @@ public class Fox extends Animal{
             if(prey != null) {
                 Vector2d distance = new Vector2d(position.x - prey.position.x, position.y - prey.position.y);
                 if(distance.length() < eatTolerance) {
-                    prey.Die();
-                    isIdle = true;
+                    Eat();
                 }
             }
         }
