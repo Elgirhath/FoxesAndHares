@@ -43,6 +43,8 @@ public abstract class Animal extends AnimationAgent {
         agents.remove(this);
         System.out.println(this+" died.");
         SimulationPanel.getInstance().removeComponent(this);
+        // usuwanie VisionCones
+        // usuwanie Behaviourow?
         doDelete();
     }
 
