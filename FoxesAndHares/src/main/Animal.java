@@ -42,6 +42,7 @@ public abstract class Animal extends AnimationAgent {
     protected void Die() {
         agents.remove(this);
         System.out.println(this+" died.");
+        SimulationPanel.getInstance().removeComponent(this);
         doDelete();
     }
 
