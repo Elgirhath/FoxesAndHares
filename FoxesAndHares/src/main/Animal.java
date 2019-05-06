@@ -10,7 +10,7 @@ import java.util.List;
 
 public abstract class Animal extends AnimationAgent {
     Color color = Color.black;
-    Vector2d direction = new Vector2d(1.0, 1.0);
+    Vector2d direction = new Vector2d((Math.random() * ( 100 - (-100) )) - 100, (Math.random() * ( 100 - (-100) )) - 100);
     boolean isIdle = true;
     AnimalMovementController movementController;
     VisionController visionController = new VisionController();
@@ -39,10 +39,16 @@ public abstract class Animal extends AnimationAgent {
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
+    protected void Die() {
+        agents.remove(this);
+        System.out.println(this+" died.");
+        doDelete();
+    }
+
     abstract class AnimalMovementController extends MonoBehaviour {
         private double moveSpeed = 2.0;
         private double runSpeed = 4.0;
-        double lengthOfIdleMovement = 6.0;
+        double lengthOfIdleMovement = Math.random() * 6 + 6;
         double timeOfDirectionChange = 0.0;
 
         @Override

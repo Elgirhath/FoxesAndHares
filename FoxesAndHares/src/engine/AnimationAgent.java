@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class AnimationAgent extends Agent implements GraphicComponent {
-    private static List<AnimationAgent> agents = Collections.synchronizedList(new ArrayList<>());
+    protected static List<AnimationAgent> agents = Collections.synchronizedList(new ArrayList<>());
     public Vector2d position = new Vector2d(0.0, 0.0);
 
     public static AnimationAgent[] getAgents() {

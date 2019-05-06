@@ -1,10 +1,12 @@
 package main;
 
 import engine.Viewport;
+import extensions.Vector2d;
 
 import java.awt.*;
 
 public class Fox extends Animal{
+    private double eatTolerance = 0.1;
     private Hare prey;
     AnimalMovementController movementController = new AnimalMovementController();
 
@@ -26,7 +28,24 @@ public class Fox extends Animal{
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
+    private void Eat() {
+
+    }
+
     class AnimalMovementController extends Animal.AnimalMovementController {
+
+        @Override
+        public void action() {
+            super.action();
+            if(prey != null) {
+                Vector2d distance = new Vector2d(position.x - prey.position.x, position.y - prey.position.y);
+                if(distance.length() < eatTolerance) {
+                    prey.Die();
+                    isIdle = true;
+                }
+            }
+        }
+
         @Override
         protected void Rush() {
             if(prey != null)
