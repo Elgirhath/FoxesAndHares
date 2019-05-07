@@ -43,7 +43,7 @@ public abstract class Animal extends AnimationAgent {
         agents.remove(this);
         System.out.println(this+" died.");
         SimulationPanel.getInstance().removeComponent(this);
-        // usuwanie VisionCones
+        SimulationPanel.getInstance().removeComponent(visionController.visionCone);
         // usuwanie Behaviourow?
         doDelete();
     }
@@ -99,9 +99,11 @@ public abstract class Animal extends AnimationAgent {
         double maxDist = 7;
         int fov = 90;
         List<Animal> animalsInSight = new ArrayList<>();
+        VisionCone visionCone;
 
         VisionController() {
-            SimulationPanel.getInstance().addComponent(new VisionCone());
+            visionCone = new VisionCone();
+            SimulationPanel.getInstance().addComponent(visionCone);
         }
 
         @Override
