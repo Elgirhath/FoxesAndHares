@@ -56,7 +56,6 @@ public class Hare extends Animal {
                 timeOfShift = Time.getTime();
             }
             else if(Time.getTime() - timeOfShift > shiftFrequency) {
-                System.out.println("XD");
                 double rotationDegree = Math.random() * 65 + 45;
                 if(Math.random() > 0.5)
                     rotationDegree *= -1;
