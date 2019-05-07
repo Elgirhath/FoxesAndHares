@@ -48,6 +48,12 @@ public class Vector2d extends javax.vecmath.Vector2d {
         return new Vector2d(x / vec.x, y / vec.y);
     }
 
+    public Vector2d rotate(double n) {
+        double rx = (this.x * Math.cos(n)) - (this.y * Math.sin(n));
+        double ry = (this.x * Math.sin(n)) + (this.y * Math.cos(n));
+        return new Vector2d(rx, ry);
+    }
+
     public Dimension toDimension() {
         return new Dimension((int) x, (int) y);
     }

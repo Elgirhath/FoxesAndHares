@@ -39,8 +39,12 @@ public class Fox extends Animal{
         public void action() {
             super.action();
             if(prey != null) {
-                Vector2d distance = new Vector2d(position.x - prey.position.x, position.y - prey.position.y);
-                if(distance.length() < eatTolerance) {
+                Vector2d distanceVector = new Vector2d(position.x - prey.position.x, position.y - prey.position.y);
+                if(distanceVector.length() < prey.detectionDistance) {
+                    prey.isChased = true;
+                    prey.movementController.SetPredator(Fox.this);
+                }
+                if(distanceVector.length() < eatTolerance) {
                     Eat();
                 }
             }
