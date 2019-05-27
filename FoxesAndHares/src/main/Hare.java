@@ -1,10 +1,14 @@
 package main;
 
+import engine.AnimationAgent;
+import engine.Debug;
 import engine.Time;
 import engine.Viewport;
 import extensions.Vector2d;
 
 import java.awt.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Hare extends Animal {
     private Fox predator;
@@ -31,11 +35,6 @@ public class Hare extends Animal {
     }
 
     class AnimalMovementController extends Animal.AnimalMovementController {
-        private double shiftFrequency = Math.random() * 1.5 + 1.5;
-        private double timeOfShift = 0.0;
-        private boolean shifted = false;
-
-
         @Override
         protected void Rush() {
             if(predator != null)
@@ -43,25 +42,22 @@ public class Hare extends Animal {
         }
 
         private void Run() {
-            if (shifted) {
-                if(Time.getTime() - timeOfShift < shiftFrequency + 2.0)
-                    return;
-                shiftFrequency = Math.random() * 1.5 + 1.5;
-                timeOfShift = 0.0;
-                shifted = false;
+            direction = getOptimalRunDirection();
+            Debug.drawRay(position, direction, Color.MAGENTA, Time.getDeltaTime());
+        }
+
+        private Vector2d getOptimalRunDirection() {
+            List<Animal> animals = visionController.getVisible();
+            List<Animal> foxes = animals.stream()
+                    .filter(s -> s instanceof Fox)
+                    .collect(Collectors.toList());
+
+            Vector2d foxesMassCenter = Vector2d.zero();
+            for (Animal fox : foxes) {
+                foxesMassCenter.add(fox.position.scaled(1.0/foxes.size()));
             }
-            direction.setX(Hare.this.position.x - predator.position.x);
-            direction.setY(Hare.this.position.y - predator.position.y);
-            if(timeOfShift == 0.0) {
-                timeOfShift = Time.getTime();
-            }
-            else if(Time.getTime() - timeOfShift > shiftFrequency) {
-                double rotationDegree = Math.random() * 65 + 45;
-                if(Math.random() > 0.5)
-                    rotationDegree *= -1;
-                direction = direction.rotate(rotationDegree);
-                shifted = true;
-            }
+
+            return position.minus(foxesMassCenter).normalized();
         }
 
         @Override
@@ -70,14 +66,14 @@ public class Hare extends Animal {
                 isIdle = false;
                 return;
             }
-            if(visionController.GetVisible().isEmpty())
+            if(visionController.getVisible().isEmpty())
                 isIdle = true;
             else
                 SetPredator();
         }
 
         private void SetPredator() {
-            for(Animal animal : visionController.GetVisible()) {
+            for(Animal animal : visionController.getVisible()) {
                 if(animal instanceof Fox) {
                     predator = (Fox)animal;
                     isIdle = false;

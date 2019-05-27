@@ -6,7 +6,7 @@ import extensions.Vector2d;
 import java.awt.*;
 
 public class Fox extends Animal{
-    private double eatTolerance = 0.1;
+    private double maxEatDistance = 0.1;
     private Hare prey;
     AnimalMovementController movementController = new AnimalMovementController();
 
@@ -30,6 +30,7 @@ public class Fox extends Animal{
 
     private void Eat() {
         prey.Die();
+        prey = null;
         isIdle = true;
     }
 
@@ -44,7 +45,7 @@ public class Fox extends Animal{
                     prey.isChased = true;
                     prey.movementController.SetPredator(Fox.this);
                 }
-                if(distanceVector.length() < eatTolerance) {
+                if(distanceVector.length() < maxEatDistance) {
                     Eat();
                 }
             }
@@ -63,14 +64,14 @@ public class Fox extends Animal{
 
         @Override
         protected void SetIdle() {
-            if(visionController.GetVisible().isEmpty())
+            if(visionController.getVisible().isEmpty())
                 isIdle = true;
             else
                 SetPrey();
         }
 
         private void SetPrey() {
-            for(Animal animal : visionController.GetVisible()) {
+            for(Animal animal : visionController.getVisible()) {
                 if(animal instanceof Hare) {
                     prey = (Hare)animal;
                     isIdle = false;

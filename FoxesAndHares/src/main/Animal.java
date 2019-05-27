@@ -10,9 +10,9 @@ import java.util.List;
 
 public abstract class Animal extends AnimationAgent {
     Color color = Color.black;
-    Vector2d direction = new Vector2d((Math.random() * ( 100 - (-100) )) - 100, (Math.random() * ( 100 - (-100) )) - 100);
+    Vector2d direction = new Vector2d((Math.random() * (100 - (-100))) - 100, (Math.random() * (100 - (-100))) - 100);
     boolean isIdle = true;
-    AnimalMovementController movementController;
+    AnimalMovementController movementController = new AnimalMovementController();
     VisionController visionController = new VisionController();
 
     @Override
@@ -36,23 +36,25 @@ public abstract class Animal extends AnimationAgent {
         int radius = 5;
 
         Dimension screenPos = Viewport.worldToScreenPoint(position).toDimension();
-        g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
+        g.fillOval(screenPos.width - radius, screenPos.height - radius, 2 * radius, 2 * radius);
     }
 
     protected void Die() {
         agents.remove(this);
-        System.out.println(this+" died.");
+        System.out.println(this + " died.");
         SimulationPanel.getInstance().removeComponent(this);
         SimulationPanel.getInstance().removeComponent(visionController.visionCone);
         // usuwanie Behaviourow?
-        doDelete();
     }
 
-    abstract class AnimalMovementController extends MonoBehaviour {
+    public class AnimalMovementController extends MonoBehaviour {
         private double moveSpeed = 2.0;
         private double runSpeed = 4.0;
         double lengthOfIdleMovement = Math.random() * 6 + 6;
         double timeOfDirectionChange = 0.0;
+
+        private double idleSoundRadius = 3.0;
+        private double runSoundRadius = 4.0;
 
         @Override
         public void action() {
@@ -78,27 +80,30 @@ public abstract class Animal extends AnimationAgent {
         }
 
         protected void SetDirection() {
-            if(isIdle) {
-                if(Time.getTime() - timeOfDirectionChange > lengthOfIdleMovement) {
+            if (isIdle) {
+                if (Time.getTime() - timeOfDirectionChange > lengthOfIdleMovement) {
                     timeOfDirectionChange = Time.getTime();
                     lengthOfIdleMovement = Math.random() * 6 + 6;
-                    direction.setX((Math.random() * ( 100 - (-100) )) - 100);
-                    direction.setY((Math.random() * ( 100 - (-100) )) - 100);
+                    direction.setX((Math.random() * (100 - (-100))) - 100);
+                    direction.setY((Math.random() * (100 - (-100))) - 100);
                 }
-            }
-            else {
+            } else {
                 Rush();
             }
         }
 
-        protected abstract void Rush();
-        protected abstract void SetIdle();
+        public double getSoundRadius() {
+            return isIdle ? idleSoundRadius : runSoundRadius;
+        }
+
+        protected void Rush() {};
+
+        protected void SetIdle() {};
     }
 
     class VisionController extends MonoBehaviour {
         double maxDist = 7;
         int fov = 90;
-        List<Animal> animalsInSight = new ArrayList<>();
         VisionCone visionCone;
 
         VisionController() {
@@ -108,28 +113,39 @@ public abstract class Animal extends AnimationAgent {
 
         @Override
         public void action() {
-            animalsInSight.clear();
+        }
+
+        public List<Animal> getVisible() {
+            List<Animal> animalsInSight = new ArrayList<>();
+
             List<Animal> animals = Utils.findAgentsOfType(Animal.class);
-            for(Animal animal : animals) {
-                if (animal == Animal.this) {
+            for (Animal animal : animals) {
+                if (!isVisible(animal) || animal == Animal.this)
                     continue;
-                }
-                if (Vector2d.distance(position, animal.position) > maxDist) {
-                    continue;
-                }
-                double angle = Math.toDegrees(animal.position.minus(position).angle(direction));
-                if (angle > fov/2) {
-                    continue;
-                }
 
                 Debug.drawLine(position, animal.position, Color.red, Time.getDeltaTime()); //An animal is seen
 
                 animalsInSight.add(animal);
             }
+
+            return animalsInSight;
         }
 
-        public List<Animal> GetVisible() {
-            return animalsInSight;
+        private boolean isVisible(Animal animal) {
+            if (animal.movementController != null) {
+                if (Vector2d.distance(position, animal.position) < animal.movementController.getSoundRadius())
+                    return true;
+            }
+
+            if (Vector2d.distance(position, animal.position) > maxDist) {
+                return false;
+            }
+            double angle = Math.toDegrees(animal.position.minus(position).angle(direction));
+            if (angle > fov / 2) {
+                return false;
+            }
+
+            return true;
         }
 
         public class VisionCone implements GraphicComponent {
@@ -138,16 +154,24 @@ public abstract class Animal extends AnimationAgent {
             public void paintComponent(Graphics g) {
                 double dirAngle = direction.angle(Vector2d.right());
                 dirAngle = (int) Math.toDegrees(dirAngle);
-                if (direction.y < 0 ) {
+                if (direction.y < 0) {
                     dirAngle = -dirAngle;
                 }
 
-                Vector2d screenSize = Viewport.worldToScreenPoint(new Vector2d(maxDist*2, maxDist*2));
-                Dimension screenPos = Viewport.worldToScreenPoint(position).minus(new Vector2d(screenSize.x/2, screenSize.y/2)).toDimension();
+
+                Vector2d screenSize = Viewport.worldToScreenPoint(new Vector2d(maxDist * 2, maxDist * 2));
+                Dimension screenPos = Viewport.worldToScreenPoint(position).minus(new Vector2d(screenSize.x / 2, screenSize.y / 2)).toDimension();
                 Color tmp = g.getColor();
                 Color coneColor = new Color(0, 150, 255, 40);
                 g.setColor(coneColor);
-                g.fillArc(screenPos.width, screenPos.height, (int)screenSize.x, (int)screenSize.y, (int)-(dirAngle + fov/2), fov);
+                g.fillArc(screenPos.width, screenPos.height, (int) screenSize.x, (int) screenSize.y, (int) -(dirAngle + fov / 2), fov);
+
+                if (Animal.this.movementController != null) {
+                    int soundRadius = (int) Animal.this.movementController.getSoundRadius();
+                    Vector2d soundScreenSize = Viewport.worldToScreenPoint(new Vector2d(soundRadius * 2, soundRadius * 2));
+                    Dimension screenSoundPos = Viewport.worldToScreenPoint(position).minus(new Vector2d(soundScreenSize.x / 2, soundScreenSize.y / 2)).toDimension();
+                    g.fillOval(screenSoundPos.width, screenSoundPos.height, (int) soundScreenSize.x, (int) soundScreenSize.y);
+                }
                 g.setColor(tmp);
             }
         }
