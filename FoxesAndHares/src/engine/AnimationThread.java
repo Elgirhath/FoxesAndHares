@@ -2,6 +2,11 @@ package engine;
 
 public class AnimationThread extends Thread {
     private static AnimationThread instance = new AnimationThread();
+    protected boolean paused = false;
+
+    protected void Pause() {
+        paused = !paused;
+    }
 
     public static AnimationThread getInstance() {
         return instance;
@@ -13,7 +18,7 @@ public class AnimationThread extends Thread {
         super();
     }
 
-    private SimulationPanel panel = SimulationPanel.getInstance();
+    protected SimulationPanel panel = SimulationPanel.getInstance();
 
     boolean suspend = false;
     boolean stop = false;
@@ -40,14 +45,18 @@ public class AnimationThread extends Thread {
             update();
 
 
+
             panel.setOpaque(false);
             panel.revalidate();
             panel.repaint();
+
         }
     }
-
     void update() {
         allMonoBehaviours = MonoBehaviour.getAll();
+
+        if(paused)
+            return;
 
         synchronized (allMonoBehaviours) {
             for (MonoBehaviour mb : allMonoBehaviours) {

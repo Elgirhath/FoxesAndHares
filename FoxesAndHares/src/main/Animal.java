@@ -3,6 +3,7 @@ package main;
 import engine.*;
 
 import extensions.Vector2d;
+import jade.wrapper.StaleProxyException;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public abstract class Animal extends AnimationAgent {
         System.out.println(this + " died.");
         SimulationPanel.getInstance().removeComponent(this);
         SimulationPanel.getInstance().removeComponent(visionController.visionCone);
-        // usuwanie Behaviourow?
+        //getContainerController().kill(); - nie dziala to xD
     }
 
     public class AnimalMovementController extends MonoBehaviour {

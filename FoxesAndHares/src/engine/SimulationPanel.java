@@ -48,4 +48,10 @@ public class SimulationPanel extends JPanel {
             comp.paintComponent(g);
         }
     }
+
+    protected void prepare() {
+        setOpaque(false);
+        revalidate();
+        repaint();
+    }
 }
