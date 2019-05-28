@@ -20,7 +20,7 @@ public class SimulationManager extends Agent {
             animalContainer = Runtime.instance().createAgentContainer(new ProfileImpl());
         GUI.getInstance();
         System.out.println("Simulation Manager has been created!\n");
-
+        //blablabla
         start();
 
         AnimationThread thread = AnimationThread.getInstance();
