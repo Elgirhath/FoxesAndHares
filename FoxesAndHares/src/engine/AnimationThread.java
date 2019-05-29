@@ -49,7 +49,6 @@ public class AnimationThread extends Thread {
     }
     void update() {
         allMonoBehaviours = MonoBehaviour.getAll();
-
         synchronized (allMonoBehaviours) {
             for (MonoBehaviour mb : allMonoBehaviours) {
                 mb.action();
