@@ -21,13 +21,21 @@ public class ControlPanel extends JPanel {
 
     private ControlPanel() {
         startButton.addActionListener(e -> {
-            if(AnimationThread.getInstance().paused)
-                AnimationThread.getInstance().Pause();
-            else
+            if(!SimulationManager.getInstance().running) {
                 SimulationManager.getInstance().animate();
+                SimulationManager.getInstance().running = true;
+            }
+            else if(AnimationThread.getInstance().suspend) {
+                AnimationThread.getInstance().wakeup();
+            }
         });
-        pauseButton.addActionListener(e -> AnimationThread.getInstance().Pause());
-        
+        pauseButton.addActionListener(e -> {
+            if(AnimationThread.getInstance().suspend)
+                AnimationThread.getInstance().wakeup();
+            else
+                AnimationThread.getInstance().safeSuspend();
+        });
+
         add(startButton);
         add(pauseButton);
         add(stopButton);

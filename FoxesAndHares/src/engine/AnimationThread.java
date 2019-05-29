@@ -2,11 +2,6 @@ package engine;
 
 public class AnimationThread extends Thread {
     private static AnimationThread instance = new AnimationThread();
-    protected boolean paused = false;
-
-    protected void Pause() {
-        paused = !paused;
-    }
 
     public static AnimationThread getInstance() {
         return instance;
@@ -54,9 +49,6 @@ public class AnimationThread extends Thread {
     }
     void update() {
         allMonoBehaviours = MonoBehaviour.getAll();
-
-        if(paused)
-            return;
 
         synchronized (allMonoBehaviours) {
             for (MonoBehaviour mb : allMonoBehaviours) {
