@@ -23,6 +23,7 @@ public class SimulationManager extends Agent {
     private static ContainerController animalContainer = null;
 
     boolean running = false;
+    boolean paused = false;
 
     static int maxSimSpeed = 100;
     static int minSimSpeed = 1;

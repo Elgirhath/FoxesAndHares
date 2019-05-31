@@ -20,25 +20,30 @@ public class ControlPanel extends JPanel {
     private JSlider simulationSpeedSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minSimSpeed, SimulationManager.maxSimSpeed, SimulationManager.initialSimSpeed);
 
     private ControlPanel() {
+        SimulationManager simMng = SimulationManager.getInstance();
+
         startButton.addActionListener(e -> {
-            if(!SimulationManager.getInstance().running) {
-                SimulationManager.getInstance().animate();
-                SimulationManager.getInstance().running = true;
+            if(!simMng.running) {
+                simMng.animate();
+                simMng.running = true;
                 Time.timeScale = getTimeScaleFromSlider();
             }
-            else if(Time.timeScale == 0.0) {
-                Time.timeScale = getTimeScaleFromSlider();
+            else if(simMng.paused) {
+                resume();
             }
         });
         pauseButton.addActionListener(e -> {
-            if(Time.timeScale == 0.0)
-                Time.timeScale = getTimeScaleFromSlider();
+            if (!simMng.running)
+                return;
+
+            if(simMng.paused)
+                resume();
             else
-                Time.timeScale = 0.0;
+                pause();
         });
 
         simulationSpeedSlider.addChangeListener(e -> {
-            if (Time.timeScale != 0.0)
+            if (!simMng.paused)
                 Time.timeScale = getTimeScaleFromSlider();
         });
 
@@ -48,6 +53,16 @@ public class ControlPanel extends JPanel {
         add(Box.createRigidArea(new Dimension(60,1)));
         add(new JLabel("Simulation Speed"));
         add(simulationSpeedSlider);
+    }
+
+    private void resume() {
+        SimulationManager.getInstance().paused = false;
+        Time.timeScale = getTimeScaleFromSlider();
+    }
+
+    private void pause() {
+        SimulationManager.getInstance().paused = true;
+        Time.timeScale = 0.0;
     }
 
     private double getTimeScaleFromSlider() {
