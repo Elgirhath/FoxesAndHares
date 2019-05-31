@@ -1,7 +1,7 @@
 package main;
 
-import engine.AnimationAgent;
 import engine.Debug;
+import engine.MonoBehaviour;
 import engine.Time;
 import engine.Viewport;
 import extensions.Vector2d;
@@ -11,17 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Hare extends Animal {
-    private Fox predator;
-    protected boolean isChased = false;
-    protected double detectionDistance = 3.5; // Could be changed depending on hare's age or state
-    AnimalMovementController movementController = new AnimalMovementController();
+    HareMovement movementController = new HareMovement();
 
     @Override
     protected void setup() {
         super.setup();
         addBehaviour(movementController);
-
-        predator = null;
         color = Color.green;
     }
 
@@ -34,16 +29,35 @@ public class Hare extends Animal {
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
-    class AnimalMovementController extends Animal.AnimalMovementController {
+
+    public class HareMovement extends Animal.AnimalMovementController {
+        private Hare target = Hare.this;
+
+        private double moveSpeed = 2.0;
+        private double runSpeed = 4.0;
+
         @Override
-        protected void Rush() {
-            if(predator != null)
-                Run();
+        public void action() {
+            List<Animal> visible = getVisibleFoxes();
+            if (visible.size() == 0) {
+                isIdle = true;
+            } else {
+                direction = getOptimalRunDirection();
+                isIdle = false;
+            }
+            move();
         }
 
-        private void Run() {
-            direction = getOptimalRunDirection();
-            Debug.drawRay(position, direction, Color.MAGENTA, Time.getDeltaTime());
+        private void idle() {}
+
+        private void move() {
+            synchronized (this) {
+                double speed = target.isIdle ? moveSpeed : runSpeed;
+                Vector2d dir = direction.normalized();
+                double deltaTime = Time.getDeltaTime();
+                Vector2d move = dir.scaled(deltaTime).scaled(speed);
+                position.add(move);
+            }
         }
 
         private Vector2d getOptimalRunDirection() {
@@ -55,36 +69,19 @@ public class Hare extends Animal {
             Vector2d foxesMassCenter = Vector2d.zero();
             for (Animal fox : foxes) {
                 foxesMassCenter.add(fox.position.scaled(1.0/foxes.size()));
+                Debug.drawRay(fox.position, Vector2d.up().scaled(3), Color.MAGENTA, 3.0);
             }
 
-            return position.minus(foxesMassCenter).normalized();
+            return target.position.minus(foxesMassCenter).normalized();
         }
 
-        @Override
-        protected void SetIdle() {
-            if(isChased) {
-                isIdle = false;
-                return;
-            }
-            if(visionController.getVisible().isEmpty())
-                isIdle = true;
-            else
-                SetPredator();
-        }
-
-        private void SetPredator() {
-            for(Animal animal : visionController.getVisible()) {
-                if(animal instanceof Fox) {
-                    predator = (Fox)animal;
-                    isIdle = false;
-                    return;
-                }
-            }
-            isIdle = true;
-        }
-
-        protected void SetPredator(Fox predator) {
-            Hare.this.predator = predator;
+        private List<Animal> getVisibleFoxes() {
+            List<Animal> animals = visionController.getVisible();
+            List<Animal> foxes = animals.stream()
+                    .filter(s -> s instanceof Fox)
+                    .collect(Collectors.toList());
+            return foxes;
         }
     }
+
 }

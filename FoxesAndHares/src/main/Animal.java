@@ -49,62 +49,23 @@ public abstract class Animal extends AnimationAgent {
     }
 
     public class AnimalMovementController extends MonoBehaviour {
-        private double moveSpeed = 2.0;
-        private double runSpeed = 4.0;
-        double lengthOfIdleMovement = Math.random() * 6 + 6;
-        double timeOfDirectionChange = 0.0;
-
         private double idleSoundRadius = 3.0;
         private double runSoundRadius = 4.0;
-
-        @Override
-        public void action() {
-            SetIdle();
-            SetDirection();
-            Move();
-        }
-
-        private void Move() {
-            synchronized (this) {
-                double speed = isIdle ? moveSpeed : runSpeed;
-                Vector2d dir = direction.normalized();
-                double deltaTime = Time.getDeltaTime();
-                Vector2d move = dir.scaled(deltaTime).scaled(speed);
-                position.add(move);
-                List<Hare> hares = Utils.findAgentsOfType(Hare.class);
-                if (hares.size() > 0) {
-                    if (hares.get(0) == Animal.this) {
-//                        System.out.println(hares.get(0).getName() + " -- " + position);
-                    }
-                }
-            }
-        }
-
-        protected void SetDirection() {
-            if (isIdle) {
-                if (Time.getTime() - timeOfDirectionChange > lengthOfIdleMovement) {
-                    timeOfDirectionChange = Time.getTime();
-                    lengthOfIdleMovement = Math.random() * 6 + 6;
-                    direction.setX((Math.random() * (100 - (-100))) - 100);
-                    direction.setY((Math.random() * (100 - (-100))) - 100);
-                }
-            } else {
-                Rush();
-            }
-        }
 
         public double getSoundRadius() {
             return isIdle ? idleSoundRadius : runSoundRadius;
         }
 
-        protected void Rush() {};
+        @Override
+        public void action() {
 
-        protected void SetIdle() {};
+        }
     }
 
     class VisionController extends MonoBehaviour {
         double maxDist = 7;
         int fov = 90;
+
         VisionCone visionCone;
 
         VisionController() {
@@ -117,7 +78,7 @@ public abstract class Animal extends AnimationAgent {
         }
 
         public List<Animal> getVisible() {
-            List<Animal> animalsInSight = new ArrayList<>();
+            List<Animal> animalsVisible = new ArrayList<>();
 
             List<Animal> animals = Utils.findAgentsOfType(Animal.class);
             for (Animal animal : animals) {
@@ -126,10 +87,10 @@ public abstract class Animal extends AnimationAgent {
 
                 Debug.drawLine(position, animal.position, Color.red, Time.getDeltaTime()); //An animal is seen
 
-                animalsInSight.add(animal);
+                animalsVisible.add(animal);
             }
 
-            return animalsInSight;
+            return animalsVisible;
         }
 
         private boolean isVisible(Animal animal) {

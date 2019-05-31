@@ -63,6 +63,10 @@ public class Vector2d extends javax.vecmath.Vector2d {
         return new Vector2d(x / magnitude, y/magnitude);
     }
 
+    public double getAspectRatio() {
+        return x/y;
+    }
+
     public Vector2d scaled(double s) {
         return new Vector2d(x * s, y * s);
     }
@@ -79,7 +83,7 @@ public class Vector2d extends javax.vecmath.Vector2d {
         return new Vector2d(1.0, 0.0);
     }
 
-    public double getAspectRatio() {
-        return x/y;
+    public static Vector2d lerp(Vector2d a, Vector2d b, double t) {
+        return b.scaled(t).plus(a.scaled(1-t));
     }
 }

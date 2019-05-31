@@ -1,6 +1,7 @@
 package engine;
 
 import jade.core.behaviours.Behaviour;
+import main.Hare;
 
 import java.util.ArrayList;
 import java.util.Collections;

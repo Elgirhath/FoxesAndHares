@@ -41,44 +41,10 @@ public class Fox extends Animal{
             super.action();
             if(prey != null) {
                 Vector2d distanceVector = new Vector2d(position.x - prey.position.x, position.y - prey.position.y);
-                if(distanceVector.length() < prey.detectionDistance) {
-                    prey.isChased = true;
-                    prey.movementController.SetPredator(Fox.this);
-                }
                 if(distanceVector.length() < maxEatDistance) {
                     Eat();
                 }
             }
-        }
-
-        @Override
-        protected void Rush() {
-            if(prey != null)
-                Chase();
-        }
-
-        private void Chase() {
-            direction.setX(prey.position.x - Fox.this.position.x);
-            direction.setY(prey.position.y - Fox.this.position.y);
-        }
-
-        @Override
-        protected void SetIdle() {
-            if(visionController.getVisible().isEmpty())
-                isIdle = true;
-            else
-                SetPrey();
-        }
-
-        private void SetPrey() {
-            for(Animal animal : visionController.getVisible()) {
-                if(animal instanceof Hare) {
-                    prey = (Hare)animal;
-                    isIdle = false;
-                    return;
-                }
-            }
-            isIdle = true;
         }
     }
 }

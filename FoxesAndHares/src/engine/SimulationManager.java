@@ -22,11 +22,11 @@ public class SimulationManager extends Agent {
 
     private static ContainerController animalContainer = null;
 
-    protected boolean running = false;
+    boolean running = false;
 
-    protected static int maxSimSpeed = 100;
-    protected static int minSimSpeed = 1;
-    protected static int initialSimSpeed = 50;
+    static int maxSimSpeed = 100;
+    static int minSimSpeed = 1;
+    static int initialSimSpeed = 50;
 
     @Override
     protected void setup() { //core setup
@@ -39,7 +39,7 @@ public class SimulationManager extends Agent {
     }
 
     void start() { //user setup
-        int foxNumber = 80;
+        int foxNumber = 7;
         int hareNumber = 20;
 
         for (int i = 0; i < foxNumber; i++) {
