@@ -84,7 +84,18 @@ public abstract class Animal extends AnimationAgent {
 
             Vector2d destDir = idleDestination.minus(position);
             double angle = direction.angle(destDir);
-            direction = Vector2d.lerp(direction, destDir, turnSpeed * Time.getDeltaTime());
+
+            double factor;
+
+            if (angle < 0.001)
+                factor = 0;
+            else {
+                double moveSpeed = Time.getDeltaTime() * 2.0;
+                double radius = 20.0;
+                double beta = Math.acos(1 - Math.pow(moveSpeed / radius, 2) / 2);
+                factor = beta / angle;
+            }
+            direction = Vector2d.lerp(direction, destDir, factor);
         }
     }
 

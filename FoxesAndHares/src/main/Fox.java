@@ -59,18 +59,9 @@ public class Fox extends Animal{
     }
 
     class AnimalMovementController extends Animal.AnimalMovementController {
-        double moveSpeed = 2.0;
-        double runSpeed = 4.0;
 
-        private void move() {
-            synchronized (this) {
-                double speed = isIdle ? moveSpeed : runSpeed;
-                Vector2d dir = direction.normalized();
-                double deltaTime = Time.getDeltaTime();
-                Vector2d move = dir.scaled(deltaTime).scaled(speed);
-                position.add(move);
-            }
-        }
+        private double moveSpeed = 2.0;
+        private double runSpeed = 4.0;
 
         @Override
         public void action() {
@@ -80,6 +71,16 @@ public class Fox extends Animal{
 
             if (prey != null && Vector2d.distance(prey.position, position) < maxEatDistance) {
                 eatPrey();
+            }
+        }
+
+        protected void move() {
+            synchronized (this) {
+                double speed = isIdle ? moveSpeed : runSpeed;
+                Vector2d dir = direction.normalized();
+                double deltaTime = Time.getDeltaTime();
+                Vector2d move = dir.scaled(deltaTime).scaled(speed);
+                position.add(move);
             }
         }
 

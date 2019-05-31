@@ -50,9 +50,8 @@ public class Hare extends Animal {
             move();
         }
 
-        private void idle() {}
 
-        private void move() {
+        protected void move() {
             synchronized (this) {
                 double speed = isIdle ? moveSpeed : runSpeed;
                 Vector2d dir = direction.normalized();
@@ -61,6 +60,8 @@ public class Hare extends Animal {
                 position.add(move);
             }
         }
+
+        private void idle() {}
 
         private void setDirection() {
             if (visibleFoxes.size() == 0) {
