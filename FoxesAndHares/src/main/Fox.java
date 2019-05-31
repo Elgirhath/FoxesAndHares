@@ -58,7 +58,10 @@ public class Fox extends Animal{
         double moveSpeed = 2.0;
         double runSpeed = 4.0;
 
+        double turnSpeed = 0.1;
+
         Vector2d idleDestination = null;
+        double idleDestReachThreshold = 5.0;
 
         private void move() {
             synchronized (this) {
@@ -92,18 +95,19 @@ public class Fox extends Animal{
         }
 
         private void setIdleDirection() {
-            if (idleDestination == null || Vector2d.distance(position, idleDestination) < 2.0)
+            if (idleDestination == null || Vector2d.distance(position, idleDestination) < idleDestReachThreshold)
                 setIdleDestination();
 
             Vector2d destDir = idleDestination.minus(position);
             double angle = direction.angle(destDir);
-            direction = Vector2d.lerp(direction, destDir, 0.00001);
+            direction = Vector2d.lerp(direction, destDir, turnSpeed * Time.getDeltaTime());
         }
 
         private void setIdleDestination() {
+            double mapScale = 0.7;
             Vector2d mapSize = Viewport.getSize();
-            double x = new Random().nextDouble() * mapSize.x;
-            double y = new Random().nextDouble() * mapSize.y;
+            double x = new Random().nextDouble() * (mapSize.x * mapScale) + mapSize.x * (1 - mapScale) / 2;
+            double y = new Random().nextDouble() * (mapSize.y * mapScale) + mapSize.y * (1 - mapScale) / 2;
             idleDestination = new Vector2d(x, y);
         }
 
