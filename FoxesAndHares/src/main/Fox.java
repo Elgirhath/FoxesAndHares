@@ -65,9 +65,8 @@ public class Fox extends Animal{
                     mother = fox;
                 else
                     mother = this;
-                if(currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
+                if(!this.isFertile || !fox.isFertile || currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
                     continue;
-                mother.isFertile = false;
                 mother.lastBirthTime = Time.getTime();
                 SimulationManager.getInstance().createAnimal("Fox_" + Fox.foxes, Fox.class.getName(), mother.position);
                 break;

@@ -15,7 +15,7 @@ public abstract class Animal extends AnimationAgent {
     Color color = Color.black;
     Vector2d direction = new Vector2d((Math.random() * (100 - (-100))) - 100, (Math.random() * (100 - (-100))) - 100);
     boolean isIdle = true;
-    boolean isFertile = true;
+    boolean isFertile;
     double lastBirthTime = 0.0;
     AnimalMovementController movementController = new AnimalMovementController();
     VisionController visionController = new VisionController();
@@ -29,10 +29,13 @@ public abstract class Animal extends AnimationAgent {
         Object[] args = getArguments();
         if(args != null && args.length > 0) {
             position = new Vector2d((Vector2d) args[0]);
+            isFertile = false;
             System.out.println("An animal has been born!");
         }
-        else
+        else {
             generatePosition();
+            isFertile = true;
+        }
         //addBehaviour(new AnimalMovementController());
         addBehaviour(visionController);
     }

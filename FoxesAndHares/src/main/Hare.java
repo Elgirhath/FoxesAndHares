@@ -62,9 +62,8 @@ public class Hare extends Animal {
                     mother = hare;
                 else
                     mother = this;
-                if(currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
+                if(!this.isFertile || !hare.isFertile || currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
                     continue;
-                mother.isFertile = false;
                 mother.lastBirthTime = Time.getTime();
                 SimulationManager.getInstance().createAnimal("Hare_" + Hare.hares, Hare.class.getName(), mother.position);
                 break;
