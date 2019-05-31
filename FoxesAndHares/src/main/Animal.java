@@ -92,9 +92,15 @@ public abstract class Animal extends AnimationAgent {
             else {
                 double moveSpeed = Time.getDeltaTime() * 2.0;
                 double radius = 20.0;
-                double beta = Math.acos(1 - Math.pow(moveSpeed / radius, 2) / 2);
+                double division = Math.pow(moveSpeed / radius, 2.0) / 2.0;
+                double beta = Math.acos(1 - division);
                 factor = beta / angle;
             }
+
+            if (factor > 1.0)
+                factor = 1.0;
+
+
             direction = Vector2d.lerp(direction, destDir, factor);
         }
     }

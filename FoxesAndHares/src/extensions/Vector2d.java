@@ -84,6 +84,6 @@ public class Vector2d extends javax.vecmath.Vector2d {
     }
 
     public static Vector2d lerp(Vector2d a, Vector2d b, double t) {
-        return b.scaled(t).plus(a.scaled(1-t));
+        return b.scaled(t).plus(a.scaled(1.0-t));
     }
 }
