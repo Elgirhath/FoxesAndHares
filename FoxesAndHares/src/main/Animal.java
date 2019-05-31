@@ -16,6 +16,7 @@ public abstract class Animal extends AnimationAgent {
     boolean isIdle = true;
     AnimalMovementController movementController = new AnimalMovementController();
     VisionController visionController = new VisionController();
+    boolean male;
 
     @Override
     protected void setup() {
@@ -25,6 +26,8 @@ public abstract class Animal extends AnimationAgent {
         //addBehaviour(new AnimalMovementController());
         addBehaviour(visionController);
     }
+
+    protected abstract boolean setGender();
 
     private void generatePosition() {
         Vector2d mapSize = Viewport.getSize();

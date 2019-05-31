@@ -7,6 +7,7 @@ import extensions.Vector2d;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.lang.Math;
 
@@ -29,6 +30,10 @@ public class Hare extends Animal {
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
+    protected boolean setGender() {
+        boolean tmp = new Random().nextBoolean();
+        return true;
+    }
 
     public class HareMovement extends Animal.AnimalMovementController {
         private double pathFindThreshold = 4.0;
