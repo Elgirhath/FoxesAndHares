@@ -32,6 +32,10 @@ public class Fox extends Animal{
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
+    protected boolean setGender() {
+        return true;
+    }
+
     private void eatPrey() {
         prey.Die();
         prey = null;
