@@ -31,7 +31,6 @@ public class Hare extends Animal {
 
 
     public class HareMovement extends Animal.AnimalMovementController {
-        private Hare target = Hare.this;
         private double pathFindThreshold = 4.0;
 
         List<Animal> visibleFoxes = new ArrayList<>();
@@ -50,7 +49,7 @@ public class Hare extends Animal {
 
         private void move() {
             synchronized (this) {
-                double speed = target.isIdle ? moveSpeed : runSpeed;
+                double speed = isIdle ? moveSpeed : runSpeed;
                 Vector2d dir = direction.normalized();
                 double deltaTime = Time.getDeltaTime();
                 Vector2d move = dir.scaled(deltaTime).scaled(speed);
