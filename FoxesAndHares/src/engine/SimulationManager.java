@@ -47,8 +47,8 @@ public class SimulationManager extends Agent {
     }
 
     void start() { //user setup
-        int foxNumber = 9;
-        int hareNumber = 7;
+        int foxNumber = 3;
+        int hareNumber = 10;
 
         for (int i = 0; i < foxNumber; i++) {
             createAnimal("Fox_" + i, Fox.class.getName());
