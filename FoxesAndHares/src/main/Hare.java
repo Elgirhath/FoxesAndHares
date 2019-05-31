@@ -74,7 +74,6 @@ public class Hare extends Animal {
 
     public class HareMovement extends Animal.AnimalMovementController {
         private double pathFindThreshold = 4.0;
-        private Vector2d idleDestination = Vector2d.zero();
 
         List<Animal> visibleFoxes = new ArrayList<>();
 
@@ -91,9 +90,8 @@ public class Hare extends Animal {
             }
         }
 
-        private void idle() {}
 
-        private void move() {
+        protected void move() {
             synchronized (this) {
                 double speed = isIdle ? moveSpeed : runSpeed;
                 Vector2d dir = direction.normalized();
@@ -103,18 +101,16 @@ public class Hare extends Animal {
             }
         }
 
+        private void idle() {}
+
         private void setDirection() {
             if (visibleFoxes.size() == 0) {
-                direction = getIdleDirection();
+                setIdleDirection();
                 isIdle = true;
             } else {
                 direction = getOptimalRunDirection();
                 isIdle = false;
             }
-        }
-
-        private Vector2d getIdleDirection() {
-            return getOptimalRunDirection();
         }
 
         private Vector2d getOptimalRunDirection() {

@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Random;
 
 public abstract class Animal extends AnimationAgent {
     Color color = Color.black;
@@ -81,6 +82,11 @@ public abstract class Animal extends AnimationAgent {
         private double idleSoundRadius = 3.0;
         private double runSoundRadius = 4.0;
 
+        double turnSpeed = 0.1;
+
+        Vector2d idleDestination = null;
+        double idleDestReachThreshold = 5.0;
+
         public double getSoundRadius() {
             return isIdle ? idleSoundRadius : runSoundRadius;
         }
@@ -88,6 +94,34 @@ public abstract class Animal extends AnimationAgent {
         @Override
         public void action() {
 
+        }
+
+        private void setIdleDestination() {
+            double mapScale = 0.7;
+            Vector2d mapSize = Viewport.getSize();
+            double x = new Random().nextDouble() * (mapSize.x * mapScale) + mapSize.x * (1 - mapScale) / 2;
+            double y = new Random().nextDouble() * (mapSize.y * mapScale) + mapSize.y * (1 - mapScale) / 2;
+            idleDestination = new Vector2d(x, y);
+        }
+
+        protected void setIdleDirection() {
+            if (idleDestination == null || Vector2d.distance(position, idleDestination) < idleDestReachThreshold)
+                setIdleDestination();
+
+            Vector2d destDir = idleDestination.minus(position);
+            double angle = direction.angle(destDir);
+
+            double factor;
+
+            if (angle < 0.001)
+                factor = 0;
+            else {
+                double moveSpeed = Time.getDeltaTime() * 2.0;
+                double radius = 20.0;
+                double beta = Math.acos(1 - Math.pow(moveSpeed / radius, 2) / 2);
+                factor = beta / angle;
+            }
+            direction = Vector2d.lerp(direction, destDir, factor);
         }
     }
 
