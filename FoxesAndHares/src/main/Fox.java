@@ -6,6 +6,7 @@ import extensions.Vector2d;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Fox extends Animal{
@@ -61,6 +62,8 @@ public class Fox extends Animal{
         double moveSpeed = 2.0;
         double runSpeed = 4.0;
 
+        Vector2d idleDestination = null;
+
         private void move() {
             synchronized (this) {
                 double speed = isIdle ? moveSpeed : runSpeed;
@@ -87,6 +90,25 @@ public class Fox extends Animal{
                 Vector2d distanceVector = prey.position.minus(position);
                 direction = distanceVector;
             }
+            else {
+                setIdleDirection();
+            }
+        }
+
+        private void setIdleDirection() {
+            if (idleDestination == null || Vector2d.distance(position, idleDestination) < 2.0)
+                setIdleDestination();
+
+            Vector2d destDir = idleDestination.minus(position);
+            double angle = direction.angle(destDir);
+            direction = Vector2d.lerp(direction, destDir, 0.00001);
+        }
+
+        private void setIdleDestination() {
+            Vector2d mapSize = Viewport.getSize();
+            double x = new Random().nextDouble() * mapSize.x;
+            double y = new Random().nextDouble() * mapSize.y;
+            idleDestination = new Vector2d(x, y);
         }
 
         private void findPrey() {
