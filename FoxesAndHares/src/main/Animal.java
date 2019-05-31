@@ -114,23 +114,17 @@ public abstract class Animal extends AnimationAgent {
             Vector2d destDir = idleDestination.minus(position);
             double angle = direction.angle(destDir);
 
-            double factor;
+            double moveSpeed = Time.getDeltaTime() * 2.0;
+            double radius = 10.0;
+            double division = Math.pow(moveSpeed / radius, 2.0) / 2.0;
+            double beta = Math.acos(1 - division);
+            beta = beta > angle ? angle : beta;
 
-            if (angle < 0.001)
-                factor = 0;
-            else {
-                double moveSpeed = Time.getDeltaTime() * 2.0;
-                double radius = 5.0;
-                double division = Math.pow(moveSpeed / radius, 2.0) / 2.0;
-                double beta = Math.acos(1 - division);
-                factor = beta / angle;
-            }
+            Vector2d perpendicular = direction.rotate(Math.toRadians(90));
+            if (destDir.dot(perpendicular) < 0)
+                beta = -beta;
 
-            if (factor > 1.0)
-                factor = 1.0;
-
-
-            direction = Vector2d.lerp(direction, destDir, factor);
+            direction = direction.rotate(beta);
         }
     }
 
