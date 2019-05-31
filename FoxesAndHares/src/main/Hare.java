@@ -1,5 +1,6 @@
 package main;
 
+import engine.SimulationManager;
 import engine.Time;
 import engine.Viewport;
 import extensions.Vector2d;
@@ -14,9 +15,14 @@ import java.lang.Math;
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
 
+    private static int maleHares = 0;
+    private static int hares = 0;
+
     @Override
     protected void setup() {
         super.setup();
+        this.gender = setGender();
+        ++Hare.hares;
         addBehaviour(movementController);
         color = Color.green;
     }
@@ -31,8 +37,38 @@ public class Hare extends Animal {
     }
 
     protected boolean setGender() {
-        boolean tmp = new Random().nextBoolean();
-        return true;
+        int tmp;
+        boolean gender = new Random().nextBoolean();
+        if(gender)
+            tmp = Hare.maleHares;
+        else
+            tmp = Hare.hares - Hare.maleHares;
+        if((tmp + 1)/(Hare.hares + 1) > SimulationManager.genderMaxPercentage)
+            gender = !gender;
+        if(gender)
+            ++Hare.maleHares;
+        return gender;
+    }
+
+    protected void breed() {
+        List<Animal> nearHares = getVisibleHares();
+        for(Animal hare : nearHares) {
+            if(this.gender == hare.gender)
+                continue;
+            if(Math.random() <= (float)SimulationManager.hareBirthRate/100) {
+                double currentTime = Time.getTime();
+                Animal mother;
+                if(this.gender)
+                    mother = hare;
+                else
+                    mother = this;
+                if(!this.isFertile || !hare.isFertile || currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
+                    continue;
+                mother.lastBirthTime = Time.getTime();
+                SimulationManager.getInstance().createAnimal("Hare_" + Hare.hares, Hare.class.getName(), mother.position);
+                break;
+            }
+        }
     }
 
     public class HareMovement extends Animal.AnimalMovementController {
@@ -48,6 +84,9 @@ public class Hare extends Animal {
             visibleFoxes = getVisibleFoxes();
             setDirection();
             move();
+            if(isIdle) {
+                breed();
+            }
         }
 
 
