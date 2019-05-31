@@ -1,5 +1,6 @@
 package main;
 
+import engine.SimulationManager;
 import engine.Time;
 import engine.Viewport;
 import extensions.Vector2d;
@@ -14,9 +15,13 @@ public class Fox extends Animal{
     private Hare prey;
     AnimalMovementController movementController = new AnimalMovementController();
 
+    private static int foxes = 0;
+    private static int maleFoxes = 0;
+
     @Override
     protected void setup() {
         super.setup();
+        this.gender = setGender();
         addBehaviour(movementController);
 
         prey = null;
@@ -34,7 +39,40 @@ public class Fox extends Animal{
     }
 
     protected boolean setGender() {
-        return true;
+        int tmp;
+        boolean gender = new Random().nextBoolean();
+        if(gender)
+            tmp = Fox.maleFoxes;
+        else
+            tmp = Fox.foxes - Fox.maleFoxes;
+        if((tmp + 1)/(Fox.foxes + 1) > SimulationManager.genderMaxPercentage)
+            gender = !gender;
+        if(gender)
+            ++Fox.maleFoxes;
+        ++Fox.foxes;
+        return gender;
+    }
+
+    protected void breed() {
+        List<Animal> nearFoxes = getVisibleFoxes();
+        for(Animal fox : nearFoxes) {
+            if(this.gender == fox.gender)
+                continue;
+            if(Math.random() <= (float)SimulationManager.foxBirthRate/100) {
+                double currentTime = Time.getTime();
+                Animal mother;
+                if(this.gender)
+                    mother = fox;
+                else
+                    mother = this;
+                if(currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
+                    continue;
+                mother.isFertile = false;
+                mother.lastBirthTime = Time.getTime();
+                SimulationManager.getInstance().createAnimal("Fox_" + Fox.foxes, Fox.class.getName(), mother.position);
+                break;
+            }
+        }
     }
 
     private void eatPrey() {
@@ -48,14 +86,6 @@ public class Fox extends Animal{
         if (prey != null) {
             isIdle = false;
         }
-    }
-
-    private List<Animal> getVisibleHares() {
-        List<Animal> animals = visionController.getVisible();
-        List<Animal> hares = animals.stream()
-                .filter(s -> s instanceof Hare)
-                .collect(Collectors.toList());
-        return hares;
     }
 
     class AnimalMovementController extends Animal.AnimalMovementController {
@@ -82,6 +112,9 @@ public class Fox extends Animal{
 
             if (prey != null && Vector2d.distance(prey.position, position) < maxEatDistance) {
                 eatPrey();
+            }
+            else if(isIdle)  { //dodalem warunek w ten sposob, zeby nie rozmnazaly sie gdy kogos gonia albo jedza
+                breed();
             }
         }
 

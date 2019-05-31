@@ -8,25 +8,36 @@ import jade.wrapper.StaleProxyException;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class Animal extends AnimationAgent {
     Color color = Color.black;
     Vector2d direction = new Vector2d((Math.random() * (100 - (-100))) - 100, (Math.random() * (100 - (-100))) - 100);
     boolean isIdle = true;
+    boolean isFertile = true;
+    double lastBirthTime = 0.0;
     AnimalMovementController movementController = new AnimalMovementController();
     VisionController visionController = new VisionController();
-    boolean male;
+    boolean gender; //Male as TRUE, female as FALSE
+
+    static double fertilenessFrequency = 8.0;
 
     @Override
     protected void setup() {
         super.setup();
-
-        generatePosition();
+        Object[] args = getArguments();
+        if(args != null && args.length > 0) {
+            position = new Vector2d((Vector2d) args[0]);
+            System.out.println("An animal has been born!");
+        }
+        else
+            generatePosition();
         //addBehaviour(new AnimalMovementController());
         addBehaviour(visionController);
     }
 
     protected abstract boolean setGender();
+    protected abstract void breed();
 
     private void generatePosition() {
         Vector2d mapSize = Viewport.getSize();
@@ -48,7 +59,22 @@ public abstract class Animal extends AnimationAgent {
         System.out.println(this + " died.");
         SimulationPanel.getInstance().removeComponent(this);
         SimulationPanel.getInstance().removeComponent(visionController.visionCone);
-        //getContainerController().kill(); - nie dziala to xD
+    }
+
+    protected List<Animal> getVisibleHares() {
+        List<Animal> animals = visionController.getVisible();
+        List<Animal> hares = animals.stream()
+                .filter(s -> s instanceof Hare)
+                .collect(Collectors.toList());
+        return hares;
+    }
+
+    protected List<Animal> getVisibleFoxes() {
+        List<Animal> animals = visionController.getVisible();
+        List<Animal> foxes = animals.stream()
+                .filter(s -> s instanceof Hare)
+                .collect(Collectors.toList());
+        return foxes;
     }
 
     public class AnimalMovementController extends MonoBehaviour {

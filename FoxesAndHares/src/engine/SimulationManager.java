@@ -28,6 +28,13 @@ public class SimulationManager extends Agent {
     static int maxSimSpeed = 100;
     static int minSimSpeed = 1;
     static int initialSimSpeed = 10;
+    public static float genderMaxPercentage = 0.65f;
+    static int maxFoxBirthRate = 100;
+    static int minFoxBirthRate = 1;
+    public static int foxBirthRate = 50;
+    static int maxHareBirthRate = 100;
+    static int minHareBirthRate = 1;
+    public static int hareBirthRate = 70;
 
     @Override
     protected void setup() { //core setup
@@ -40,8 +47,8 @@ public class SimulationManager extends Agent {
     }
 
     void start() { //user setup
-        int foxNumber = 7;
-        int hareNumber = 0;
+        int foxNumber = 9;
+        int hareNumber = 7;
 
         for (int i = 0; i < foxNumber; i++) {
             createAnimal("Fox_" + i, Fox.class.getName());
@@ -62,6 +69,16 @@ public class SimulationManager extends Agent {
         try {
             ContainerController container = animalContainer;
             AgentController ac = container.createNewAgent(name, className, null);
+            ac.start();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void createAnimal(String name, String className, Vector2d position) {
+        try {
+            ContainerController container = animalContainer;
+            AgentController ac = container.createNewAgent(name, className, new Vector2d[] {position});
             ac.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());
