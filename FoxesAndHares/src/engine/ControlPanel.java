@@ -24,16 +24,22 @@ public class ControlPanel extends JPanel {
             if(!SimulationManager.getInstance().running) {
                 SimulationManager.getInstance().animate();
                 SimulationManager.getInstance().running = true;
+                Time.timeScale = getTimeScaleFromSlider();
             }
-            else if(AnimationThread.getInstance().suspend) {
-                AnimationThread.getInstance().wakeup();
+            else if(Time.timeScale == 0.0) {
+                Time.timeScale = getTimeScaleFromSlider();
             }
         });
         pauseButton.addActionListener(e -> {
-            if(AnimationThread.getInstance().suspend)
-                AnimationThread.getInstance().wakeup();
+            if(Time.timeScale == 0.0)
+                Time.timeScale = getTimeScaleFromSlider();
             else
-                AnimationThread.getInstance().safeSuspend();
+                Time.timeScale = 0.0;
+        });
+
+        simulationSpeedSlider.addChangeListener(e -> {
+            if (Time.timeScale != 0.0)
+                Time.timeScale = getTimeScaleFromSlider();
         });
 
         add(startButton);
@@ -42,5 +48,11 @@ public class ControlPanel extends JPanel {
         add(Box.createRigidArea(new Dimension(60,1)));
         add(new JLabel("Simulation Speed"));
         add(simulationSpeedSlider);
+    }
+
+    private double getTimeScaleFromSlider() {
+        int val = simulationSpeedSlider.getValue();
+        double ts = val / (double) SimulationManager.initialSimSpeed;
+        return ts;
     }
 }

@@ -30,6 +30,28 @@ public class Viewport {
         return horizontalSize / aspectRatio;
     }
 
+    public static boolean isInView(Vector2d point) {
+        double threshold = 10;
+
+        Vector2d pointSS = worldToScreenPoint(point);
+        SimulationPanel panel = SimulationPanel.getInstance();
+        Vector2d panelSize = new Vector2d(panel.getSize());
+        if (pointSS.y > panelSize.y - threshold) {
+            return false;
+        }
+        if (pointSS.x > panelSize.x - threshold) {
+            return false;
+        }
+        if (pointSS.y < threshold) {
+            return false;
+        }
+        if (pointSS.x < threshold) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static Vector2d getSize() {
         return new Vector2d(horizontalSize, getVerticalSize());
     }

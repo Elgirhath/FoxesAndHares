@@ -1,14 +1,14 @@
 package main;
 
-import engine.Debug;
-import engine.MonoBehaviour;
 import engine.Time;
 import engine.Viewport;
 import extensions.Vector2d;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.lang.Math;
 
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
@@ -32,19 +32,17 @@ public class Hare extends Animal {
 
     public class HareMovement extends Animal.AnimalMovementController {
         private Hare target = Hare.this;
+        private double pathFindThreshold = 4.0;
+
+        List<Animal> visibleFoxes = new ArrayList<>();
 
         private double moveSpeed = 2.0;
         private double runSpeed = 4.0;
 
         @Override
         public void action() {
-            List<Animal> visible = getVisibleFoxes();
-            if (visible.size() == 0) {
-                isIdle = true;
-            } else {
-                direction = getOptimalRunDirection();
-                isIdle = false;
-            }
+            visibleFoxes = getVisibleFoxes();
+            setDirection();
             move();
         }
 
@@ -60,19 +58,53 @@ public class Hare extends Animal {
             }
         }
 
-        private Vector2d getOptimalRunDirection() {
-            List<Animal> animals = visionController.getVisible();
-            List<Animal> foxes = animals.stream()
-                    .filter(s -> s instanceof Fox)
-                    .collect(Collectors.toList());
+        private void setDirection() {
+            if (visibleFoxes.size() == 0) {
+                direction = getIdleDirection();
+                isIdle = true;
+            } else {
+                direction = getOptimalRunDirection();
+                isIdle = false;
+            }
+        }
 
-            Vector2d foxesMassCenter = Vector2d.zero();
-            for (Animal fox : foxes) {
-                foxesMassCenter.add(fox.position.scaled(1.0/foxes.size()));
-                Debug.drawRay(fox.position, Vector2d.up().scaled(3), Color.MAGENTA, 3.0);
+        private Vector2d getIdleDirection() {
+            return getOptimalRunDirection();
+        }
+
+        private Vector2d getOptimalRunDirection() {
+            double epsilon = 1.0; //degrees
+            double bestNorm = 0.0;
+            Vector2d bestDir = null;
+
+            double startAngle = 360 - (Math.toDegrees(Math.atan2(direction.y, direction.x)) - 90);
+
+            for (double phi = 0.0; phi < 360.0; phi += epsilon) {
+                double phiRad = Math.toRadians(phi + startAngle % 360.0);
+                Vector2d dir = new Vector2d(Math.sin(phiRad), Math.cos(phiRad));
+                Vector2d move = dir.scaled(pathFindThreshold);
+                Vector2d pos = position.plus(move);
+
+                if (!Viewport.isInView(pos)) {
+                    continue;
+                }
+
+                double norm = getDistanceNorm(pos);
+                if (bestDir == null || norm > bestNorm) {
+                    bestNorm = norm;
+                    bestDir = dir;
+                }
             }
 
-            return target.position.minus(foxesMassCenter).normalized();
+            return bestDir;
+        }
+
+        private double getDistanceNorm(Vector2d pos) {
+            double sum = 0;
+            for (Animal fox : visibleFoxes) {
+                sum += Vector2d.distance(fox.position, pos);
+            }
+            return sum;
         }
 
         private List<Animal> getVisibleFoxes() {

@@ -26,7 +26,7 @@ public class SimulationManager extends Agent {
 
     static int maxSimSpeed = 100;
     static int minSimSpeed = 1;
-    static int initialSimSpeed = 50;
+    static int initialSimSpeed = 10;
 
     @Override
     protected void setup() { //core setup
