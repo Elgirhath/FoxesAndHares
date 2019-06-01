@@ -1,6 +1,5 @@
 package main;
 
-import engine.SimulationManager;
 import engine.Time;
 import engine.Timer;
 import engine.Viewport;
@@ -14,11 +13,11 @@ import java.lang.Math;
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
 
-    private static int maleHares = 0;
+    public static int maleHares = 0;
 
-    private final static double birthRate = 0.7;
-    private final static int lifespan = 13; //years
-    private final static int minBreedAge = 2; //years
+    private final static double birthRate = 0.4;
+    private final static double lifespan = 13.0; //years
+    private final static double minBreedAge = 2.0; //years
 
     @Override
     protected void setup() {
@@ -50,12 +49,12 @@ public class Hare extends Animal {
     }
 
     @Override
-    protected int getLifeSpan() {
+    protected double getLifeSpan() {
         return lifespan;
     }
 
     @Override
-    protected int getMinBreedAge() {
+    protected double getMinBreedAge() {
         return minBreedAge;
     }
 
@@ -88,8 +87,6 @@ public class Hare extends Animal {
             visibleFoxes = getVisibleFoxes();
             setDirection();
             move();
-
-            System.out.println(getAgeInYears());
 
             if(isIdle) {
                 breed();

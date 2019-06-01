@@ -15,6 +15,7 @@ public class Timer {
     void update() {
         value -= Time.getDeltaTime();
         if (value <= 0.0) {
+            System.out.println("sadawd");
             func.run();
             delete();
         }

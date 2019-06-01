@@ -1,5 +1,7 @@
 package engine;
 
+import main.Hare;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

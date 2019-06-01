@@ -14,33 +14,29 @@ public abstract class Animal extends AnimationAgent {
     Color color = Color.black;
     Vector2d direction = new Vector2d((Math.random() * (100 - (-100))) - 100, (Math.random() * (100 - (-100))) - 100);
     boolean isIdle = true;
-    boolean isFertile;
-    double lastBirthTime = 0.0;
     AnimalMovementController movementController = new AnimalMovementController();
     VisionController visionController = new VisionController();
-    Gender gender;
+    Gender gender = null;
 
     public enum Gender {
         MALE, FEMALE;
     }
 
-    static double fertilenessFrequency = 8.0;
-    double age = 160.0;
-    double lastBirthday;
+    boolean isFertile = true;
+    private static double fertilenessFrequency = 20.0;
+    private double age = 160.0;
 
     @Override
     protected void setup() {
         super.setup();
-        lastBirthday = Time.getTime();
         Object[] args = getArguments();
         if(args != null && args.length > 0) {
             position = new Vector2d((Vector2d) args[0]);
-            isFertile = false;
+            age = 0.0;
             System.out.println("An animal has been born!");
         }
         else {
             generatePosition();
-            isFertile = true;
         }
         addBehaviour(visionController);
     }
@@ -48,38 +44,53 @@ public abstract class Animal extends AnimationAgent {
     protected abstract double getBirthRate();
     protected abstract int getMaleCount();
     protected abstract void registerGender();
-    protected abstract int getLifeSpan();
-    protected abstract int getMinBreedAge();
+    protected abstract double getLifeSpan();
+    protected abstract double getMinBreedAge();
 
     protected void getOlder() {
         age += Time.getDeltaTime();
         if (getAgeInYears() >= getLifeSpan())
             Die();
-        if (getAgeInYears() >= getMinBreedAge())
-            isFertile = true;
     }
 
-    private int getCount() {
+    protected boolean isAdult() {
+        return getAgeInYears() >= getMinBreedAge();
+    }
+
+    protected boolean canBreed() {
+        if (!isIdle)
+            return false;
+        if (!isAdult())
+            return false;
+        if (!isFertile)
+            return false;
+        return true;
+    }
+
+    protected int getCount() {
         return Utils.findAgentsOfType(getClass()).size();
     }
 
-    protected int getAgeInYears() {
-        return (int) (age / SimulationManager.yearDuration);
+    protected double getAgeInYears() {
+        return age / SimulationManager.yearDuration;
     }
 
     protected void breed() {
         List<Animal> nearAnimalsOfType = getVisibleOfType(this.getClass());
-        for(Animal animal : nearAnimalsOfType) {
-            if(this.gender == animal.gender)
+        for (Animal animal : nearAnimalsOfType) {
+            if (this.gender == animal.gender)
                 continue;
-            if(!animal.isIdle)
+            if (!canBreed() || !animal.canBreed())
                 continue;
-            if(Math.random() <= getBirthRate()) {
+            if (Math.random() <= getBirthRate()) {
                 Animal mother = gender == Gender.FEMALE ? this : animal;
-                if(!this.isFertile || !animal.isFertile)
-                    continue;
-                mother.isFertile = false;
-                new Timer(fertilenessFrequency, () -> mother.isFertile = true);
+                isFertile = false;
+                animal.isFertile = false;
+                new Timer(fertilenessFrequency, () -> {
+                    isFertile = true;
+                    animal.isFertile = true;
+                });
+                System.out.println(isFertile);
                 SimulationManager.getInstance().createAnimal(this.getClass() + "_" + getCount(), this.getClass().getName(), mother.position);
                 return;
             }
@@ -89,15 +100,27 @@ public abstract class Animal extends AnimationAgent {
     protected void setGender() {
         int tmp;
         boolean isMale = new Random().nextBoolean();
+        int totalCount = 0;
+        var allAnimals = Utils.findAgentsOfType(getClass());
+
+        for (Animal animal : allAnimals) {
+            if (animal.gender != null)
+                ++totalCount;
+        }
+
+        int males = getMaleCount();
+
         if(isMale)
             tmp = getMaleCount();
         else
-            tmp = getCount() - getMaleCount();
-        if((tmp + 1)/(getCount() + 1) > SimulationManager.genderMaxPercentage)
+            tmp = totalCount - males;
+
+        double newRatio = (double) (tmp + 1) / (double) (totalCount + 1);
+        if(newRatio > SimulationManager.genderMaxPercentage)
             isMale = !isMale;
 
-        registerGender();
         this.gender = Gender.values()[isMale ? 0 : 1];
+        registerGender();
     }
 
     private void generatePosition() {

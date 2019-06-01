@@ -1,6 +1,5 @@
 package main;
 
-import engine.SimulationManager;
 import engine.Time;
 import engine.Viewport;
 import extensions.Vector2d;
@@ -56,12 +55,12 @@ public class Fox extends Animal{
     }
 
     @Override
-    protected int getLifeSpan() {
+    protected double getLifeSpan() {
         return lifespan;
     }
 
     @Override
-    protected int getMinBreedAge() {
+    protected double getMinBreedAge() {
         return minBreedAge;
     }
 
