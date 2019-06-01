@@ -23,7 +23,7 @@ public class Hare extends Animal {
     @Override
     protected void setup() {
         super.setup();
-        this.gender = setGender();
+        setGender();
         ++Hare.hares;
         addBehaviour(movementController);
         color = Color.green;
@@ -38,18 +38,35 @@ public class Hare extends Animal {
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
-    protected boolean setGender() {
+    @Override
+    protected void register() {
+        if (gender == Gender.MALE)
+            ++maleHares;
+        ++hares;
+    }
+
+    @Override
+    protected int getCount() {
+        return hares;
+    }
+
+    @Override
+    protected int getMaleCount() {
+        return maleHares;
+    }
+
+    protected void setGender() {
         int tmp;
-        boolean gender = new Random().nextBoolean();
-        if(gender)
+        boolean isMale = new Random().nextBoolean();
+        if(isMale)
             tmp = Hare.maleHares;
         else
             tmp = Hare.hares - Hare.maleHares;
         if((tmp + 1)/(Hare.hares + 1) > SimulationManager.genderMaxPercentage)
-            gender = !gender;
-        if(gender)
+            isMale = !isMale;
+        if(isMale)
             ++Hare.maleHares;
-        return gender;
+        this.gender = Gender.values()[isMale ? 0 : 1];
     }
 
     protected void breed() {
@@ -62,7 +79,7 @@ public class Hare extends Animal {
             if(Math.random() <= (float)SimulationManager.hareBirthRate/100) {
                 double currentTime = Time.getTime();
                 Animal mother;
-                if(this.gender)
+                if(gender == Gender.MALE)
                     mother = hare;
                 else
                     mother = this;

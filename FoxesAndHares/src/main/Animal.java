@@ -19,7 +19,7 @@ public abstract class Animal extends AnimationAgent {
     double lastBirthTime = 0.0;
     AnimalMovementController movementController = new AnimalMovementController();
     VisionController visionController = new VisionController();
-    boolean gender; //Male as TRUE, female as FALSE
+    Gender gender;
 
     static double fertilenessFrequency = 8.0;
     int age = 0;
@@ -39,13 +39,29 @@ public abstract class Animal extends AnimationAgent {
             generatePosition();
             isFertile = true;
         }
-        //addBehaviour(new AnimalMovementController());
         addBehaviour(visionController);
     }
 
-    protected abstract boolean setGender();
+    protected abstract int getMaleCount();
+    protected abstract int getCount();
+    protected abstract void register();
+
     protected abstract void breed();
     protected abstract void getOlder();
+
+    protected void setGender() {
+        int tmp;
+        boolean isMale = new Random().nextBoolean();
+        if(isMale)
+            tmp = getMaleCount();
+        else
+            tmp = getCount() - getMaleCount();
+        if((tmp + 1)/(getCount() + 1) > SimulationManager.genderMaxPercentage)
+            isMale = !isMale;
+
+        register();
+        this.gender = Gender.values()[isMale ? 0 : 1];
+    }
 
     private void generatePosition() {
         Vector2d mapSize = Viewport.getSize();
@@ -83,6 +99,10 @@ public abstract class Animal extends AnimationAgent {
                 .filter(s -> s instanceof Hare)
                 .collect(Collectors.toList());
         return foxes;
+    }
+
+    public enum Gender {
+        MALE, FEMALE;
     }
 
     public class AnimalMovementController extends MonoBehaviour {

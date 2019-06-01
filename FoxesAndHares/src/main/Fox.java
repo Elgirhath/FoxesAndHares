@@ -23,7 +23,7 @@ public class Fox extends Animal{
     @Override
     protected void setup() {
         super.setup();
-        this.gender = setGender();
+        setGender();
         addBehaviour(movementController);
 
         prey = null;
@@ -40,19 +40,21 @@ public class Fox extends Animal{
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
-    protected boolean setGender() {
-        int tmp;
-        boolean gender = new Random().nextBoolean();
-        if(gender)
-            tmp = Fox.maleFoxes;
-        else
-            tmp = Fox.foxes - Fox.maleFoxes;
-        if((tmp + 1)/(Fox.foxes + 1) > SimulationManager.genderMaxPercentage)
-            gender = !gender;
-        if(gender)
-            ++Fox.maleFoxes;
-        ++Fox.foxes;
-        return gender;
+    @Override
+    protected int getCount() {
+        return foxes;
+    }
+
+    @Override
+    protected int getMaleCount() {
+        return maleFoxes;
+    }
+
+    @Override
+    protected void register() {
+        if (gender == Gender.MALE)
+            ++maleFoxes;
+        ++foxes;
     }
 
     protected void breed() {
@@ -65,7 +67,7 @@ public class Fox extends Animal{
             if(Math.random() <= (float)SimulationManager.foxBirthRate/100) {
                 double currentTime = Time.getTime();
                 Animal mother;
-                if(this.gender)
+                if(gender == Gender.MALE)
                     mother = fox;
                 else
                     mother = this;
