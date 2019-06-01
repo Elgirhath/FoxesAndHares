@@ -15,6 +15,7 @@ public class Fox extends Animal{
     private Hare prey;
     AnimalMovementController movementController = new AnimalMovementController();
 
+    private static int birthRate = 50;
     private static int foxes = 0;
     private static int maleFoxes = 0;
     private final static int lifespan = 14;
@@ -28,6 +29,11 @@ public class Fox extends Animal{
 
         prey = null;
         color = Color.orange;
+    }
+
+    @Override
+    protected int getBirthRate() {
+        return birthRate;
     }
 
 
@@ -55,29 +61,6 @@ public class Fox extends Animal{
         if (gender == Gender.MALE)
             ++maleFoxes;
         ++foxes;
-    }
-
-    protected void breed() {
-        List<Animal> nearFoxes = getVisibleFoxes();
-        for(Animal fox : nearFoxes) {
-            if(this.gender == fox.gender)
-                continue;
-            if(!fox.isIdle)
-                continue;
-            if(Math.random() <= (float)SimulationManager.foxBirthRate/100) {
-                double currentTime = Time.getTime();
-                Animal mother;
-                if(gender == Gender.MALE)
-                    mother = fox;
-                else
-                    mother = this;
-                if(!this.isFertile || !fox.isFertile || currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
-                    continue;
-                mother.lastBirthTime = Time.getTime();
-                SimulationManager.getInstance().createAnimal("Fox_" + Fox.foxes, Fox.class.getName(), mother.position);
-                break;
-            }
-        }
     }
 
     protected void getOlder() {

@@ -21,6 +21,10 @@ public abstract class Animal extends AnimationAgent {
     VisionController visionController = new VisionController();
     Gender gender;
 
+    public enum Gender {
+        MALE, FEMALE;
+    }
+
     static double fertilenessFrequency = 8.0;
     int age = 0;
     double lastBirthday;
@@ -42,12 +46,32 @@ public abstract class Animal extends AnimationAgent {
         addBehaviour(visionController);
     }
 
+    protected abstract int getBirthRate();
     protected abstract int getMaleCount();
     protected abstract int getCount();
     protected abstract void register();
 
-    protected abstract void breed();
     protected abstract void getOlder();
+
+    protected void breed() {
+        List<Animal> nearAnimalsOfType = getVisibleOfType(this.getClass());
+        for(Animal animal : nearAnimalsOfType) {
+            if(this.gender == animal.gender)
+                continue;
+            if(!animal.isIdle)
+                continue;
+            if(Math.random() <= (float)getBirthRate()/100) {
+                double currentTime = Time.getTime();
+                Animal mother;
+                mother = gender == Gender.MALE ? animal : this;
+                if(!this.isFertile || !animal.isFertile || currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
+                    continue;
+                mother.lastBirthTime = Time.getTime();
+                SimulationManager.getInstance().createAnimal(this.getClass() + "_" + getCount(), this.getClass().getName(), mother.position);
+                return;
+            }
+        }
+    }
 
     protected void setGender() {
         int tmp;
@@ -101,8 +125,12 @@ public abstract class Animal extends AnimationAgent {
         return foxes;
     }
 
-    public enum Gender {
-        MALE, FEMALE;
+    protected List<Animal> getVisibleOfType(Class type) {
+        List<Animal> animals = visionController.getVisible();
+        List<Animal> typeList = animals.stream()
+                .filter(s -> s.getClass() == type)
+                .collect(Collectors.toList());
+        return typeList;
     }
 
     public class AnimalMovementController extends MonoBehaviour {

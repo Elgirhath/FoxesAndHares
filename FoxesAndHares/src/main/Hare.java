@@ -8,13 +8,12 @@ import extensions.Vector2d;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 import java.lang.Math;
 
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
 
+    private static int birthRate = 70;
     private static int maleHares = 0;
     private static int hares = 0;
     private final static int lifespan = 13;
@@ -38,6 +37,12 @@ public class Hare extends Animal {
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
 
+
+    @Override
+    protected int getBirthRate() {
+        return birthRate;
+    }
+
     @Override
     protected void register() {
         if (gender == Gender.MALE)
@@ -53,43 +58,6 @@ public class Hare extends Animal {
     @Override
     protected int getMaleCount() {
         return maleHares;
-    }
-
-    protected void setGender() {
-        int tmp;
-        boolean isMale = new Random().nextBoolean();
-        if(isMale)
-            tmp = Hare.maleHares;
-        else
-            tmp = Hare.hares - Hare.maleHares;
-        if((tmp + 1)/(Hare.hares + 1) > SimulationManager.genderMaxPercentage)
-            isMale = !isMale;
-        if(isMale)
-            ++Hare.maleHares;
-        this.gender = Gender.values()[isMale ? 0 : 1];
-    }
-
-    protected void breed() {
-        List<Animal> nearHares = getVisibleHares();
-        for(Animal hare : nearHares) {
-            if(this.gender == hare.gender)
-                continue;
-            if(!hare.isIdle)
-                continue;
-            if(Math.random() <= (float)SimulationManager.hareBirthRate/100) {
-                double currentTime = Time.getTime();
-                Animal mother;
-                if(gender == Gender.MALE)
-                    mother = hare;
-                else
-                    mother = this;
-                if(!this.isFertile || !hare.isFertile || currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
-                    continue;
-                mother.lastBirthTime = Time.getTime();
-                SimulationManager.getInstance().createAnimal("Hare_" + Hare.hares, Hare.class.getName(), mother.position);
-                break;
-            }
-        }
     }
 
     protected void getOlder() {
@@ -133,7 +101,6 @@ public class Hare extends Animal {
                 breed();
             }
         }
-
 
         protected void move() {
             synchronized (this) {
@@ -189,14 +156,6 @@ public class Hare extends Animal {
                 sum += Vector2d.distance(fox.position, pos);
             }
             return sum;
-        }
-
-        private List<Animal> getVisibleFoxes() {
-            List<Animal> animals = visionController.getVisible();
-            List<Animal> foxes = animals.stream()
-                    .filter(s -> s instanceof Fox)
-                    .collect(Collectors.toList());
-            return foxes;
         }
     }
 
