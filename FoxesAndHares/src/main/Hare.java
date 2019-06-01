@@ -57,6 +57,8 @@ public class Hare extends Animal {
         for(Animal hare : nearHares) {
             if(this.gender == hare.gender)
                 continue;
+            if(!hare.isIdle)
+                continue;
             if(Math.random() <= (float)SimulationManager.hareBirthRate/100) {
                 double currentTime = Time.getTime();
                 Animal mother;

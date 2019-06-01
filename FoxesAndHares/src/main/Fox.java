@@ -60,6 +60,8 @@ public class Fox extends Animal{
         for(Animal fox : nearFoxes) {
             if(this.gender == fox.gender)
                 continue;
+            if(!fox.isIdle)
+                continue;
             if(Math.random() <= (float)SimulationManager.foxBirthRate/100) {
                 double currentTime = Time.getTime();
                 Animal mother;
@@ -80,6 +82,7 @@ public class Fox extends Animal{
         double time = Time.getTime();
         if(time - lastBirthday >= SimulationManager.yearDuration) {
             ++age;
+            System.out.println("Fox age: " + age);
             switch(age) {
                 case Fox.minBreedAge:
                     isFertile = true;

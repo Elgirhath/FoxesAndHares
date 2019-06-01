@@ -35,7 +35,7 @@ public class SimulationManager extends Agent {
     static int maxHareBirthRate = 100;
     static int minHareBirthRate = 1;
     public static int hareBirthRate = 70;
-    public static int yearDuration = 90;
+    public static int yearDuration = 60;
 
     @Override
     protected void setup() { //core setup
