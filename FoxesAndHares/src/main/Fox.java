@@ -17,6 +17,8 @@ public class Fox extends Animal{
 
     private static int foxes = 0;
     private static int maleFoxes = 0;
+    private final static int lifespan = 14;
+    private final static int minBreedAge = 2;
 
     @Override
     protected void setup() {
@@ -58,6 +60,8 @@ public class Fox extends Animal{
         for(Animal fox : nearFoxes) {
             if(this.gender == fox.gender)
                 continue;
+            if(!fox.isIdle)
+                continue;
             if(Math.random() <= (float)SimulationManager.foxBirthRate/100) {
                 double currentTime = Time.getTime();
                 Animal mother;
@@ -71,6 +75,23 @@ public class Fox extends Animal{
                 SimulationManager.getInstance().createAnimal("Fox_" + Fox.foxes, Fox.class.getName(), mother.position);
                 break;
             }
+        }
+    }
+
+    protected void getOlder() {
+        double time = Time.getTime();
+        if(time - lastBirthday >= SimulationManager.yearDuration) {
+            ++age;
+            System.out.println("Fox age: " + age);
+            switch(age) {
+                case Fox.minBreedAge:
+                    isFertile = true;
+                    break;
+                case Fox.lifespan:
+                    Die();
+                    break;
+            }
+            lastBirthday = time;
         }
     }
 
@@ -98,6 +119,7 @@ public class Fox extends Animal{
 
         @Override
         public void action() {
+            getOlder();
             findPrey();
             setDirection();
             move();
