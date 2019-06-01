@@ -164,6 +164,10 @@ public abstract class Animal extends AnimationAgent {
             idleDestination = new Vector2d(x, y);
         }
 
+        protected void setIdleDestination(Vector2d v) {
+            idleDestination = v;
+        }
+
         protected void setIdleDirection() {
             if (idleDestination == null || Vector2d.distance(position, idleDestination) < idleDestReachThreshold)
                 setIdleDestination();

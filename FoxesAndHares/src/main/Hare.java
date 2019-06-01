@@ -110,9 +110,9 @@ public class Hare extends Animal {
         private void setDirection() {
             if (visibleFoxes.size() == 0) {
                 if (!isSafe) {
-                    new Timer(1.0, () -> isIdle = true);
+                    new Timer(2.0, () -> isIdle = true);
                     isSafe = true;
-                    setIdleDestination();
+                    setIdleDestination(position.plus(direction.normalized().scaled(20.0)));
                 }
                 setIdleDirection();
             } else {
