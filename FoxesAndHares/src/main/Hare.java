@@ -79,6 +79,13 @@ public class Hare extends Animal {
         private double moveSpeed = 2.0;
         private double runSpeed = 4.0;
 
+        double turnRadius = 0.5;
+
+        @Override
+        public double getTurnRadius() {
+            return turnRadius;
+        }
+
         @Override
         public void action() {
             visibleFoxes = getVisibleFoxes();
@@ -100,14 +107,13 @@ public class Hare extends Animal {
             }
         }
 
-        private void idle() {}
-
         private void setDirection() {
             if (visibleFoxes.size() == 0) {
                 setIdleDirection();
                 isIdle = true;
             } else {
-                direction = getOptimalRunDirection();
+                Vector2d destDir = getOptimalRunDirection();
+                turn(destDir);
                 isIdle = false;
             }
         }

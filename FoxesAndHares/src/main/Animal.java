@@ -85,10 +85,14 @@ public abstract class Animal extends AnimationAgent {
         private double idleSoundRadius = 3.0;
         private double runSoundRadius = 4.0;
 
-        double turnSpeed = 0.1;
+        protected double turnRadius = 5.0;
 
         Vector2d idleDestination = null;
         double idleDestReachThreshold = 5.0;
+
+        protected double getTurnRadius() {
+            return turnRadius;
+        }
 
         public double getSoundRadius() {
             return isIdle ? idleSoundRadius : runSoundRadius;
@@ -112,16 +116,20 @@ public abstract class Animal extends AnimationAgent {
                 setIdleDestination();
 
             Vector2d destDir = idleDestination.minus(position);
-            double angle = direction.angle(destDir);
+
+            turn(destDir);
+        }
+
+        protected void turn(Vector2d dest) {
+            double angle = direction.angle(dest);
 
             double moveSpeed = Time.getDeltaTime() * 2.0;
-            double radius = 10.0;
-            double division = Math.pow(moveSpeed / radius, 2.0) / 2.0;
+            double division = Math.pow(moveSpeed / getTurnRadius(), 2.0) / 2.0;
             double beta = Math.acos(1 - division);
             beta = beta > angle ? angle : beta;
 
             Vector2d perpendicular = direction.rotate(Math.toRadians(90));
-            if (destDir.dot(perpendicular) < 0)
+            if (dest.dot(perpendicular) < 0)
                 beta = -beta;
 
             direction = direction.rotate(beta);

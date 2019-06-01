@@ -82,15 +82,19 @@ public class Fox extends Animal{
 
     private void setPrey(Hare hare) {
         prey = hare;
-        if (prey != null) {
-            isIdle = false;
-        }
+        isIdle = prey == null;
     }
 
     class AnimalMovementController extends Animal.AnimalMovementController {
 
         private double moveSpeed = 2.0;
-        private double runSpeed = 4.0;
+        private double runSpeed = 5.0;
+        double turnRadius = 3.0;
+
+        @Override
+        public double getTurnRadius() {
+            return turnRadius;
+        }
 
         @Override
         public void action() {
@@ -118,8 +122,8 @@ public class Fox extends Animal{
 
         private void setDirection() {
             if(prey != null) {
-                Vector2d distanceVector = prey.position.minus(position);
-                direction = distanceVector;
+                Vector2d destDir = prey.position.minus(position);
+                turn(destDir);
             }
             else {
                 setIdleDirection();
