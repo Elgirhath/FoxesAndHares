@@ -57,10 +57,9 @@ public class Fox extends Animal{
     }
 
     @Override
-    protected void register() {
+    protected void registerGender() {
         if (gender == Gender.MALE)
             ++maleFoxes;
-        ++foxes;
     }
 
     protected void getOlder() {

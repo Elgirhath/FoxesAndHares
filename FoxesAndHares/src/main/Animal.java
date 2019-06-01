@@ -3,7 +3,6 @@ package main;
 import engine.*;
 
 import extensions.Vector2d;
-import jade.wrapper.StaleProxyException;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public abstract class Animal extends AnimationAgent {
     protected abstract int getBirthRate();
     protected abstract int getMaleCount();
     protected abstract int getCount();
-    protected abstract void register();
+    protected abstract void registerGender();
 
     protected abstract void getOlder();
 
@@ -83,7 +82,7 @@ public abstract class Animal extends AnimationAgent {
         if((tmp + 1)/(getCount() + 1) > SimulationManager.genderMaxPercentage)
             isMale = !isMale;
 
-        register();
+        registerGender();
         this.gender = Gender.values()[isMale ? 0 : 1];
     }
 
@@ -120,7 +119,7 @@ public abstract class Animal extends AnimationAgent {
     protected List<Animal> getVisibleFoxes() {
         List<Animal> animals = visionController.getVisible();
         List<Animal> foxes = animals.stream()
-                .filter(s -> s instanceof Hare)
+                .filter(s -> s instanceof Fox)
                 .collect(Collectors.toList());
         return foxes;
     }

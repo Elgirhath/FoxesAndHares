@@ -44,10 +44,9 @@ public class Hare extends Animal {
     }
 
     @Override
-    protected void register() {
+    protected void registerGender() {
         if (gender == Gender.MALE)
             ++maleHares;
-        ++hares;
     }
 
     @Override
