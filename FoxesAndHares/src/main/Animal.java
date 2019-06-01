@@ -97,7 +97,7 @@ public abstract class Animal extends AnimationAgent {
         }
     }
 
-    protected void setGender() {
+    protected void setGender() { //TODO: zmienić z powrotem na manualne liczenie osobników, bo tu wątki się jebią
         int tmp;
         boolean isMale = new Random().nextBoolean();
         int totalCount = 0;
