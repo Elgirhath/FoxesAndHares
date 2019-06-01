@@ -7,16 +7,15 @@ import extensions.Vector2d;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 public class Fox extends Animal{
     private double maxEatDistance = 0.1;
     private Hare prey;
     AnimalMovementController movementController = new AnimalMovementController();
 
-    private static int birthRate = 50;
     private static int maleFoxes = 0;
+
+    private final static double breedRate = 0.5;
     private final static int lifespan = 14;
     private final static int minBreedAge = 2;
 
@@ -31,8 +30,8 @@ public class Fox extends Animal{
     }
 
     @Override
-    protected int getBirthRate() {
-        return birthRate;
+    protected double getBirthRate() {
+        return breedRate;
     }
 
 
@@ -56,21 +55,14 @@ public class Fox extends Animal{
             ++maleFoxes;
     }
 
-    protected void getOlder() {
-        double time = Time.getTime();
-        if(time - lastBirthday >= SimulationManager.yearDuration) {
-            ++age;
-            System.out.println("Fox age: " + age);
-            switch(age) {
-                case Fox.minBreedAge:
-                    isFertile = true;
-                    break;
-                case Fox.lifespan:
-                    Die();
-                    break;
-            }
-            lastBirthday = time;
-        }
+    @Override
+    protected int getLifeSpan() {
+        return lifespan;
+    }
+
+    @Override
+    protected int getMinBreedAge() {
+        return minBreedAge;
     }
 
     private void eatPrey() {

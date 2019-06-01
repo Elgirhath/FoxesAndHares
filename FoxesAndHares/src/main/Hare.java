@@ -14,10 +14,11 @@ import java.lang.Math;
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
 
-    private static int birthRate = 70;
     private static int maleHares = 0;
-    private final static int lifespan = 13;
-    private final static int minBreedAge = 2;
+
+    private final static double birthRate = 0.7;
+    private final static int lifespan = 13; //years
+    private final static int minBreedAge = 2; //years
 
     @Override
     protected void setup() {
@@ -38,7 +39,7 @@ public class Hare extends Animal {
 
 
     @Override
-    protected int getBirthRate() {
+    protected double getBirthRate() {
         return birthRate;
     }
 
@@ -49,25 +50,20 @@ public class Hare extends Animal {
     }
 
     @Override
+    protected int getLifeSpan() {
+        return lifespan;
+    }
+
+    @Override
+    protected int getMinBreedAge() {
+        return minBreedAge;
+    }
+
+    @Override
     protected int getMaleCount() {
         return maleHares;
     }
 
-    protected void getOlder() {
-        double time = Time.getTime();
-        if(time - lastBirthday >= SimulationManager.yearDuration) {
-            ++age;
-            switch(age) {
-                case Hare.minBreedAge:
-                    isFertile = true;
-                    break;
-                case Hare.lifespan:
-                    Die();
-                    break;
-            }
-            lastBirthday = time;
-        }
-    }
 
     public class HareMovement extends Animal.AnimalMovementController {
         private double pathFindThreshold = 4.0;
@@ -92,6 +88,9 @@ public class Hare extends Animal {
             visibleFoxes = getVisibleFoxes();
             setDirection();
             move();
+
+            System.out.println(getAgeInYears());
+
             if(isIdle) {
                 breed();
             }

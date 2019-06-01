@@ -25,7 +25,7 @@ public abstract class Animal extends AnimationAgent {
     }
 
     static double fertilenessFrequency = 8.0;
-    int age = 0;
+    double age = 160.0;
     double lastBirthday;
 
     @Override
@@ -45,14 +45,26 @@ public abstract class Animal extends AnimationAgent {
         addBehaviour(visionController);
     }
 
-    protected abstract int getBirthRate();
+    protected abstract double getBirthRate();
     protected abstract int getMaleCount();
     protected abstract void registerGender();
+    protected abstract int getLifeSpan();
+    protected abstract int getMinBreedAge();
 
-    protected abstract void getOlder();
+    protected void getOlder() {
+        age += Time.getDeltaTime();
+        if (getAgeInYears() >= getLifeSpan())
+            Die();
+        if (getAgeInYears() >= getMinBreedAge())
+            isFertile = true;
+    }
 
     private int getCount() {
         return Utils.findAgentsOfType(getClass()).size();
+    }
+
+    protected int getAgeInYears() {
+        return (int) (age / SimulationManager.yearDuration);
     }
 
     protected void breed() {
@@ -62,13 +74,12 @@ public abstract class Animal extends AnimationAgent {
                 continue;
             if(!animal.isIdle)
                 continue;
-            if(Math.random() <= (float)getBirthRate()/100) {
-                double currentTime = Time.getTime();
-                Animal mother;
-                mother = gender == Gender.MALE ? animal : this;
-                if(!this.isFertile || !animal.isFertile || currentTime - mother.lastBirthTime < Animal.fertilenessFrequency)
+            if(Math.random() <= getBirthRate()) {
+                Animal mother = gender == Gender.FEMALE ? this : animal;
+                if(!this.isFertile || !animal.isFertile)
                     continue;
-                mother.lastBirthTime = Time.getTime();
+                mother.isFertile = false;
+                new Timer(fertilenessFrequency, () -> mother.isFertile = true);
                 SimulationManager.getInstance().createAnimal(this.getClass() + "_" + getCount(), this.getClass().getName(), mother.position);
                 return;
             }
