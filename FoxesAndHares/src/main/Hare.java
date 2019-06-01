@@ -17,6 +17,8 @@ public class Hare extends Animal {
 
     private static int maleHares = 0;
     private static int hares = 0;
+    private final static int lifespan = 13;
+    private final static int minBreedAge = 2;
 
     @Override
     protected void setup() {
@@ -71,6 +73,22 @@ public class Hare extends Animal {
         }
     }
 
+    protected void getOlder() {
+        double time = Time.getTime();
+        if(time - lastBirthday >= SimulationManager.yearDuration) {
+            ++age;
+            switch(age) {
+                case Hare.minBreedAge:
+                    isFertile = true;
+                    break;
+                case Hare.lifespan:
+                    Die();
+                    break;
+            }
+            lastBirthday = time;
+        }
+    }
+
     public class HareMovement extends Animal.AnimalMovementController {
         private double pathFindThreshold = 4.0;
 
@@ -81,6 +99,7 @@ public class Hare extends Animal {
 
         @Override
         public void action() {
+            getOlder();
             visibleFoxes = getVisibleFoxes();
             setDirection();
             move();

@@ -22,10 +22,13 @@ public abstract class Animal extends AnimationAgent {
     boolean gender; //Male as TRUE, female as FALSE
 
     static double fertilenessFrequency = 8.0;
+    int age = 0;
+    double lastBirthday;
 
     @Override
     protected void setup() {
         super.setup();
+        lastBirthday = Time.getTime();
         Object[] args = getArguments();
         if(args != null && args.length > 0) {
             position = new Vector2d((Vector2d) args[0]);
@@ -42,6 +45,7 @@ public abstract class Animal extends AnimationAgent {
 
     protected abstract boolean setGender();
     protected abstract void breed();
+    protected abstract void getOlder();
 
     private void generatePosition() {
         Vector2d mapSize = Viewport.getSize();
@@ -96,7 +100,6 @@ public abstract class Animal extends AnimationAgent {
 
         @Override
         public void action() {
-
         }
 
         private void setIdleDestination() {

@@ -17,6 +17,8 @@ public class Fox extends Animal{
 
     private static int foxes = 0;
     private static int maleFoxes = 0;
+    private final static int lifespan = 14;
+    private final static int minBreedAge = 2;
 
     @Override
     protected void setup() {
@@ -74,6 +76,22 @@ public class Fox extends Animal{
         }
     }
 
+    protected void getOlder() {
+        double time = Time.getTime();
+        if(time - lastBirthday >= SimulationManager.yearDuration) {
+            ++age;
+            switch(age) {
+                case Fox.minBreedAge:
+                    isFertile = true;
+                    break;
+                case Fox.lifespan:
+                    Die();
+                    break;
+            }
+            lastBirthday = time;
+        }
+    }
+
     private void eatPrey() {
         prey.Die();
         prey = null;
@@ -94,6 +112,7 @@ public class Fox extends Animal{
 
         @Override
         public void action() {
+            getOlder();
             findPrey();
             setDirection();
             move();
