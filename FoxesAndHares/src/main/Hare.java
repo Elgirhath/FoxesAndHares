@@ -2,6 +2,7 @@ package main;
 
 import engine.SimulationManager;
 import engine.Time;
+import engine.Timer;
 import engine.Viewport;
 import extensions.Vector2d;
 
@@ -15,7 +16,6 @@ public class Hare extends Animal {
 
     private static int birthRate = 70;
     private static int maleHares = 0;
-    private static int hares = 0;
     private final static int lifespan = 13;
     private final static int minBreedAge = 2;
 
@@ -23,7 +23,6 @@ public class Hare extends Animal {
     protected void setup() {
         super.setup();
         setGender();
-        ++Hare.hares;
         addBehaviour(movementController);
         color = Color.green;
     }
@@ -47,11 +46,6 @@ public class Hare extends Animal {
     protected void registerGender() {
         if (gender == Gender.MALE)
             ++maleHares;
-    }
-
-    @Override
-    protected int getCount() {
-        return hares;
     }
 
     @Override
@@ -83,6 +77,8 @@ public class Hare extends Animal {
         private double moveSpeed = 2.0;
         private double runSpeed = 4.0;
 
+        boolean isSafe = true;
+
         double turnRadius = 0.5;
 
         @Override
@@ -113,12 +109,17 @@ public class Hare extends Animal {
 
         private void setDirection() {
             if (visibleFoxes.size() == 0) {
+                if (!isSafe) {
+                    new Timer(1.0, () -> isIdle = true);
+                    isSafe = true;
+                    setIdleDestination();
+                }
                 setIdleDirection();
-                isIdle = true;
             } else {
                 Vector2d destDir = getOptimalRunDirection();
                 turn(destDir);
                 isIdle = false;
+                isSafe = false;
             }
         }
 

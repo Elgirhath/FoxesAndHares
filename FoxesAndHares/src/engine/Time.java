@@ -1,10 +1,22 @@
 package engine;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Time {
     private static long startTimeMillis = System.currentTimeMillis();
     private static double deltaTime = 0.0;
     private static double lastFrameTime = 0.0;
     public static double timeScale = 1.0;
+
+    static List<Timer> timers = Collections.synchronizedList(new ArrayList<>());
+
+    static Timer[] getTimers() {
+        Timer[] timersArr = new Timer[timers.size()];
+        timers.toArray(timersArr);
+        return timersArr;
+    }
 
     private Time() {}
 
@@ -26,5 +38,9 @@ public class Time {
         deltaTime = time - lastFrameTime;
         deltaTime *= timeScale;
         lastFrameTime = time;
+
+        for (Timer timer : getTimers()) {
+            timer.update();
+        }
     }
 }

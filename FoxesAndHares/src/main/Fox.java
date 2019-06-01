@@ -16,7 +16,6 @@ public class Fox extends Animal{
     AnimalMovementController movementController = new AnimalMovementController();
 
     private static int birthRate = 50;
-    private static int foxes = 0;
     private static int maleFoxes = 0;
     private final static int lifespan = 14;
     private final static int minBreedAge = 2;
@@ -44,11 +43,6 @@ public class Fox extends Animal{
 
         Dimension screenPos = Viewport.worldToScreenPoint(position).toDimension();
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
-    }
-
-    @Override
-    protected int getCount() {
-        return foxes;
     }
 
     @Override
@@ -127,7 +121,7 @@ public class Fox extends Animal{
         }
 
         private void setDirection() {
-            if(prey != null) {
+            if(!isIdle) {
                 Vector2d destDir = prey.position.minus(position);
                 turn(destDir);
             }

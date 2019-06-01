@@ -47,10 +47,13 @@ public abstract class Animal extends AnimationAgent {
 
     protected abstract int getBirthRate();
     protected abstract int getMaleCount();
-    protected abstract int getCount();
     protected abstract void registerGender();
 
     protected abstract void getOlder();
+
+    private int getCount() {
+        return Utils.findAgentsOfType(getClass()).size();
+    }
 
     protected void breed() {
         List<Animal> nearAnimalsOfType = getVisibleOfType(this.getClass());
@@ -153,7 +156,7 @@ public abstract class Animal extends AnimationAgent {
         public void action() {
         }
 
-        private void setIdleDestination() {
+        protected void setIdleDestination() {
             double mapScale = 0.7;
             Vector2d mapSize = Viewport.getSize();
             double x = new Random().nextDouble() * (mapSize.x * mapScale) + mapSize.x * (1 - mapScale) / 2;
