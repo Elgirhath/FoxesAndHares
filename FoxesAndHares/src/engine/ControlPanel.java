@@ -21,8 +21,8 @@ public class ControlPanel extends JPanel {
     private JButton pauseButton = new JButton(new ImageIcon("assets/icons/pause.png"));
     private JButton stopButton = new JButton(new ImageIcon("assets/icons/stop.png"));
     private JSlider simulationSpeedSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minSimSpeed, SimulationManager.maxSimSpeed, SimulationManager.initialSimSpeed);
-    public JSlider foxBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minBirthRate, SimulationManager.maxBirthRate, (int)(Fox.birthRate*100));
-    public JSlider hareBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minBirthRate, SimulationManager.maxBirthRate, (int)(Hare.birthRate*100));
+    private JSlider foxBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minBirthRate, SimulationManager.maxBirthRate, (int)(Fox.birthRate*100));
+    private JSlider hareBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minBirthRate, SimulationManager.maxBirthRate, (int)(Hare.birthRate*100));
 
     private ControlPanel() {
         SimulationManager simMng = SimulationManager.getInstance();

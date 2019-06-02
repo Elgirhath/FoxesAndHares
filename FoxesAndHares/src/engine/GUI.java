@@ -7,6 +7,7 @@ import java.awt.*;
 public class GUI extends JFrame {
     private JPanel mainPanel = SimulationPanel.getInstance();
     private JPanel controlPanel = ControlPanel.getInstance();
+    private JPanel plotPanel = PlotPanel.getInstance();
 
     private GUI() {
         super("Title");
@@ -30,5 +31,6 @@ public class GUI extends JFrame {
     private void buildGUI() {
         add(mainPanel, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.PAGE_START);
+        add(plotPanel, BorderLayout.PAGE_END);
     }
 }
