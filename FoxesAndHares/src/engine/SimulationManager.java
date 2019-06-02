@@ -62,7 +62,7 @@ public class SimulationManager extends Agent {
         thread.start(); //start an animation after animals were created
     }
 
-    public void createAnimal(String name, String className) {
+    public static synchronized void createAnimal(String name, String className) {
         try {
             ContainerController container = animalContainer;
             AgentController ac = container.createNewAgent(name, className, null);
@@ -72,15 +72,13 @@ public class SimulationManager extends Agent {
         }
     }
 
-    public void createAnimal(String name, String className, Vector2d position) {
-        synchronized (animalContainer) {
-            try {
-                ContainerController container = animalContainer;
-                AgentController ac = container.createNewAgent(name, className, new Vector2d[]{position});
-                ac.start();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+    public static synchronized void createAnimal(String name, String className, Vector2d position) {
+        try {
+            ContainerController container = animalContainer;
+            AgentController ac = container.createNewAgent(name, className, new Vector2d[]{position});
+            ac.start();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }

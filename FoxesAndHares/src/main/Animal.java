@@ -121,8 +121,10 @@ public abstract class Animal extends AnimationAgent {
 
     protected void giveBirth(Vector2d position) {
         synchronized (birthLock) {
+            System.out.println("A");
             int count = getCount();
-            SimulationManager.getInstance().createAnimal(getClass() + "_" + count, getClass().getName(), position);
+            SimulationManager.createAnimal(getClass() + "_" + count, getClass().getName(), position);
+            System.out.println("B");
         }
     }
 
