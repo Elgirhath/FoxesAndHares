@@ -93,7 +93,10 @@ public abstract class Animal extends AnimationAgent {
                 continue;
             if (!canBreed() || !animal.canBreed())
                 continue;
-            if (Math.random() <= getBirthRate()) {
+            double rand = Math.random();
+            System.out.println(rand);
+            if (rand <= getBirthRate()) {
+                System.out.println(getBirthRate());
                 Animal mother = gender == Gender.FEMALE ? this : animal;
                 isFertile = false;
                 animal.isFertile = false;
