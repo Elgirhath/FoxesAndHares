@@ -7,6 +7,7 @@ import jade.core.Runtime;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import main.Animal;
+import main.DataBase;
 import main.Fox;
 import main.Hare;
 
@@ -50,7 +51,7 @@ public class SimulationManager extends Agent {
 
     void start() { //user setup
         int foxNumber = 0;
-        int hareNumber = 10;
+        int hareNumber = 2;
 
         for (int i = 0; i < foxNumber; i++) {
             createAnimal("Fox_" + i, Fox.class);
@@ -72,7 +73,7 @@ public class SimulationManager extends Agent {
             ContainerController container = animalContainer;
             AgentController ac = container.createNewAgent(name, cls.getName(), null);
             ac.start();
-            ++T.getStats().initializedCount;
+            ++DataBase.getData(cls).initializedCount;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -83,7 +84,7 @@ public class SimulationManager extends Agent {
             ContainerController container = animalContainer;
             AgentController ac = container.createNewAgent(name, cls.getName(), new Vector2d[]{position});
             ac.start();
-            ++T.getStats().initializedCount;
+            ++DataBase.getData(cls).initializedCount;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

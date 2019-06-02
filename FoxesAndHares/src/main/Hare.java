@@ -19,10 +19,7 @@ public class Hare extends Animal {
     private final static double lifespan = 13.0; //years
     private final static double minBreedAge = 2.0; //years
 
-    private static Stats stats = new Stats();
-    public static Stats getStats() {
-        return stats;
-    }
+    public static DataBase.Data data = DataBase.createData(Hare.class);
 
     @Override
     protected void setup() {

@@ -16,10 +16,7 @@ public class Fox extends Animal{
     private final static int lifespan = 14;
     private final static int minBreedAge = 2;
 
-    private static Stats stats = new Stats();
-    public static Stats getStats() {
-        return stats;
-    }
+    public static DataBase.Data data = DataBase.createData(Fox.class);
 
     @Override
     protected void setup() {

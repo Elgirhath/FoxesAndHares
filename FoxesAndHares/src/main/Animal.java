@@ -31,17 +31,6 @@ public abstract class Animal extends AnimationAgent {
     private static double tryBreedFrequency = 3.0;
     private double age = 160.0;
 
-    public static class Stats {
-        public int count;
-        public int maleCount;
-        public int initializedCount;
-    }
-
-    private static Stats stats = new Stats();
-    public static Stats getStats() {
-        return stats;
-    }
-
     @Override
     protected void setup() {
         super.setup();
@@ -58,7 +47,7 @@ public abstract class Animal extends AnimationAgent {
         }
         addBehaviour(visionController);
 
-        ++getStats().count;
+        ++DataBase.getData(getClass()).count;
     }
 
 
@@ -122,24 +111,26 @@ public abstract class Animal extends AnimationAgent {
 
     protected void giveBirth() {
         synchronized (birthLock) {
-            SimulationManager.createAnimal(getClass() + "_" + getStats().initializedCount++, getClass(), position);
+            int number = DataBase.getData(getClass()).initializedCount++;
+            SimulationManager.createAnimal(getClass() + "_" + number, getClass(), position);
         }
     }
 
 
     protected Gender drawInitGender() {
-        synchronized (stats) {
+        DataBase.Data data = DataBase.getData(getClass());
+        synchronized (data) {
             int tmp;
             boolean isMale = new Random().nextBoolean();
 
-            int males = getStats().maleCount;
+            int males = data.maleCount;
 
             if (isMale)
                 tmp = males;
             else
-                tmp = getStats().count - males;
+                tmp = data.count - males;
 
-            double newRatio = (double) (tmp + 1) / (double) (getStats().count + 1);
+            double newRatio = (double) (tmp + 1) / (double) (data.count + 1);
             if (newRatio > SimulationManager.genderMaxPercentage)
                 isMale = !isMale;
 
@@ -155,7 +146,7 @@ public abstract class Animal extends AnimationAgent {
     protected void setGender(Gender gender) {
         this.gender = gender;
         if (gender == Gender.MALE)
-            ++getStats().maleCount;
+            ++DataBase.getData(getClass()).maleCount;
     }
 
     private void generatePosition() {
