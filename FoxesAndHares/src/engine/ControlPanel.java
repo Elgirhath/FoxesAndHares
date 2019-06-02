@@ -57,7 +57,7 @@ public class ControlPanel extends JPanel {
         });
 
         hareBirthRateSlider.addChangeListener(e -> {
-            Fox.birthRate = (double)(hareBirthRateSlider.getValue())/100;
+            Hare.birthRate = (double)(hareBirthRateSlider.getValue())/100;
         });
 
         setLayout(new GridLayout(0, 1));
