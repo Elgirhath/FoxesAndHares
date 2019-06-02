@@ -35,10 +35,6 @@ public class SimulationManager extends Agent {
     public static double genderMaxPercentage = 0.65;
     public static double yearDuration = 60.0;
 
-    public static ContainerController getAnimalContainer() {
-        return animalContainer;
-    }
-
     @Override
     protected void setup() { //core setup
         if (animalContainer == null)

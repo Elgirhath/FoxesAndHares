@@ -3,8 +3,6 @@ package main;
 import engine.*;
 
 import extensions.Vector2d;
-import jade.wrapper.AgentController;
-import jade.wrapper.ContainerController;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -31,23 +29,26 @@ public abstract class Animal extends AnimationAgent {
     private static double tryBreedFrequency = 3.0;
     private double age = 160.0;
 
+    private final static Object setupLock = new Object();
+
     @Override
     protected void setup() {
         super.setup();
-        Object[] args = getArguments();
-        if(args != null && args.length > 0) {
-            position = new Vector2d((Vector2d) args[0]);
-            setGender(drawGender());
-            age = 0.0;
-            System.out.println("An animal has been born!");
-        }
-        else {
-            setGender(drawInitGender());
-            generatePosition();
-        }
-        addBehaviour(visionController);
+        synchronized (setupLock) {
+            Object[] args = getArguments();
+            if (args != null && args.length > 0) {
+                position = new Vector2d((Vector2d) args[0]);
+                setGender(drawGender());
+                age = 0.0;
+                System.out.println("An animal has been born!");
+            } else {
+                setGender(drawInitGender());
+                position = drawPosition();
+            }
+            addBehaviour(visionController);
 
-        ++DataBase.getData(getClass()).count;
+            ++DataBase.getData(getClass()).count;
+        }
     }
 
 
@@ -149,11 +150,12 @@ public abstract class Animal extends AnimationAgent {
             ++DataBase.getData(getClass()).maleCount;
     }
 
-    private void generatePosition() {
+    private Vector2d drawPosition() {
+        double mapScale = 0.7;
         Vector2d mapSize = Viewport.getSize();
-        double x = Math.random() * mapSize.x;
-        double y = Math.random() * mapSize.y;
-        position = new Vector2d(x, y);
+        double x = new Random().nextDouble() * (mapSize.x * mapScale) + mapSize.x * (1 - mapScale) / 2;
+        double y = new Random().nextDouble() * (mapSize.y * mapScale) + mapSize.y * (1 - mapScale) / 2;
+        return new Vector2d(x, y);
     }
 
     public void paintComponent(Graphics g) {
@@ -217,11 +219,7 @@ public abstract class Animal extends AnimationAgent {
         }
 
         protected void setIdleDestination() {
-            double mapScale = 0.7;
-            Vector2d mapSize = Viewport.getSize();
-            double x = new Random().nextDouble() * (mapSize.x * mapScale) + mapSize.x * (1 - mapScale) / 2;
-            double y = new Random().nextDouble() * (mapSize.y * mapScale) + mapSize.y * (1 - mapScale) / 2;
-            idleDestination = new Vector2d(x, y);
+            idleDestination = drawPosition();
         }
 
         protected void setIdleDestination(Vector2d v) {
