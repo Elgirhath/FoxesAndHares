@@ -46,7 +46,7 @@ public class SimulationManager extends Agent {
     }
 
     void start() { //user setup
-        int foxNumber = 2;
+        int foxNumber = 3;
         int hareNumber = 10;
 
         for (int i = 0; i < foxNumber; i++) {

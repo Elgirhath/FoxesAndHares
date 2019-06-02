@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.Random;
 
 public abstract class Animal extends AnimationAgent {
-    Color color = Color.black;
 //    Vector2d direction = new Vector2d((Math.random() * (100 - (-100))) - 100, (Math.random() * (100 - (-100))) - 100); XD
     Vector2d direction = new Vector2d(Math.random(), Math.random()).normalized();
     boolean isIdle = true;
@@ -30,7 +29,7 @@ public abstract class Animal extends AnimationAgent {
     private static double tryBreedFrequency = 3.0;
     protected double age = 160.0;
 
-    protected int babyRadius = 2;
+    protected int babyRadius = 3;
     protected int adultRadius = 5;
 
     private final static Object setupLock = new Object();
@@ -62,6 +61,7 @@ public abstract class Animal extends AnimationAgent {
 
     protected void getOlder() {
         age += Time.getDeltaTime();
+        graphic.radius = getCurrentRadius();
         if (getAgeInYears() >= getLifeSpan())
             die();
     }
@@ -166,14 +166,6 @@ public abstract class Animal extends AnimationAgent {
         double rad = age / SimulationManager.yearDuration * getMinBreedAge() * (double) (adultRadius - babyRadius) + babyRadius;
         int result = rad > 5.0 ? 5 : (int) rad;
         return result;
-    }
-
-    public void paintComponent(Graphics g) {
-        g.setColor(color);
-        int radius = 5;
-
-        Dimension screenPos = Viewport.worldToScreenPoint(position).toDimension();
-        g.fillOval(screenPos.width - radius, screenPos.height - radius, 2 * radius, 2 * radius);
     }
 
     protected void die() {
