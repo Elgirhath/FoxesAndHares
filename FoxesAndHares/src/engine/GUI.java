@@ -14,7 +14,7 @@ public class GUI extends JFrame {
         buildGUI();
         //setContentPane(mainPanel);
         Dimension camRes = SimulationPanel.getInstance().getSize();
-        setSize(800, 600);
+        setSize(1200, 600);
 
         setVisible(true);
     }
@@ -31,6 +31,6 @@ public class GUI extends JFrame {
     private void buildGUI() {
         add(mainPanel, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.PAGE_START);
-        add(plotPanel, BorderLayout.PAGE_END);
+        add(plotPanel, BorderLayout.EAST);
     }
 }
