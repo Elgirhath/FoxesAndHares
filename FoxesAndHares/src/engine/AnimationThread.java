@@ -1,10 +1,5 @@
 package engine;
 
-import main.Animal;
-import main.DataBase;
-import main.Fox;
-import main.Hare;
-
 public class AnimationThread extends Thread {
     private static AnimationThread instance = new AnimationThread();
 
@@ -18,7 +13,8 @@ public class AnimationThread extends Thread {
         super();
     }
 
-    protected SimulationPanel panel = SimulationPanel.getInstance();
+    protected SimulationPanel simPanel = SimulationPanel.getInstance();
+    protected PlotPanel plotPanel = PlotPanel.getInstance();
 
     boolean suspend = false;
     boolean stop = false;
@@ -46,9 +42,12 @@ public class AnimationThread extends Thread {
 
 
 
-            panel.setOpaque(false);
-            panel.revalidate();
-            panel.repaint();
+            simPanel.setOpaque(false);
+            simPanel.revalidate();
+            simPanel.repaint();
+            plotPanel.setOpaque(false);
+            plotPanel.revalidate();
+            plotPanel.repaint();
 
         }
     }
@@ -67,7 +66,6 @@ public class AnimationThread extends Thread {
         for (AnimationAgent agent : allAgents) {
             agent.runMonoBehaviours();
         }
-
         Time.update();
     }
 }
