@@ -12,16 +12,18 @@ public class Fox extends Animal{
     private Hare prey;
     AnimalMovementController movementController = new AnimalMovementController();
 
-    private static int maleFoxes = 0;
-
     private final static double breedRate = 0.5;
     private final static int lifespan = 14;
     private final static int minBreedAge = 2;
 
+    private static Stats stats = new Stats();
+    public static Stats getStats() {
+        return stats;
+    }
+
     @Override
     protected void setup() {
         super.setup();
-        setGender();
         addBehaviour(movementController);
 
         prey = null;
@@ -44,17 +46,6 @@ public class Fox extends Animal{
     }
 
     @Override
-    protected int getMaleCount() {
-        return maleFoxes;
-    }
-
-    @Override
-    protected void registerGender() {
-        if (gender == Gender.MALE)
-            ++maleFoxes;
-    }
-
-    @Override
     protected double getLifeSpan() {
         return lifespan;
     }
@@ -65,7 +56,7 @@ public class Fox extends Animal{
     }
 
     private void eatPrey() {
-        prey.Die();
+        prey.die();
         prey = null;
         isIdle = true;
     }

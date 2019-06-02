@@ -26,31 +26,42 @@ public abstract class Animal extends AnimationAgent {
     private static double fertilenessFrequency = 20.0;
     private double age = 160.0;
 
+    public static class Stats {
+        public static int count;
+        public static int maleCount;
+    }
+
+    private static Stats stats = new Stats();
+    public static Stats getStats() {
+        return stats;
+    }
+
     @Override
     protected void setup() {
         super.setup();
         Object[] args = getArguments();
         if(args != null && args.length > 0) {
             position = new Vector2d((Vector2d) args[0]);
+            setGender(drawGender());
             age = 0.0;
             System.out.println("An animal has been born!");
         }
         else {
+            setGender(drawInitGender());
             generatePosition();
         }
         addBehaviour(visionController);
     }
 
+
     protected abstract double getBirthRate();
-    protected abstract int getMaleCount();
-    protected abstract void registerGender();
     protected abstract double getLifeSpan();
     protected abstract double getMinBreedAge();
 
     protected void getOlder() {
         age += Time.getDeltaTime();
         if (getAgeInYears() >= getLifeSpan())
-            Die();
+            die();
     }
 
     protected boolean isAdult() {
@@ -97,30 +108,38 @@ public abstract class Animal extends AnimationAgent {
         }
     }
 
-    protected void setGender() { //TODO: zmienić z powrotem na manualne liczenie osobników, bo tu wątki się jebią
-        int tmp;
-        boolean isMale = new Random().nextBoolean();
-        int totalCount = 0;
-        var allAnimals = Utils.findAgentsOfType(getClass());
 
-        for (Animal animal : allAnimals) {
-            if (animal.gender != null)
-                ++totalCount;
+    protected Gender drawInitGender() {
+        synchronized (stats) {
+            int tmp;
+            boolean isMale = new Random().nextBoolean();
+
+            int males = getStats().maleCount;
+
+            if (isMale)
+                tmp = males;
+            else
+                tmp = getStats().count - males;
+
+            double newRatio = (double) (tmp + 1) / (double) (getStats().count + 1);
+            if (newRatio > SimulationManager.genderMaxPercentage)
+                isMale = !isMale;
+
+            return Gender.values()[isMale ? 0 : 1];
         }
+    }
 
-        int males = getMaleCount();
+    protected Gender drawGender() {
+        boolean isMale = new Random().nextBoolean();
+        return Gender.values()[isMale ? 0 : 1];
+    }
 
-        if(isMale)
-            tmp = getMaleCount();
-        else
-            tmp = totalCount - males;
+    protected void setGender(Gender gender) { //TODO: zmienić z powrotem na manualne liczenie osobników, bo tu wątki się jebią
+        this.gender = gender;
+        if (gender == Gender.MALE)
+            ++getStats().maleCount;
 
-        double newRatio = (double) (tmp + 1) / (double) (totalCount + 1);
-        if(newRatio > SimulationManager.genderMaxPercentage)
-            isMale = !isMale;
-
-        this.gender = Gender.values()[isMale ? 0 : 1];
-        registerGender();
+        ++getStats().count;
     }
 
     private void generatePosition() {
@@ -138,7 +157,7 @@ public abstract class Animal extends AnimationAgent {
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2 * radius, 2 * radius);
     }
 
-    protected void Die() {
+    protected void die() {
         agents.remove(this);
         System.out.println(this + " died.");
         SimulationPanel.getInstance().removeComponent(this);

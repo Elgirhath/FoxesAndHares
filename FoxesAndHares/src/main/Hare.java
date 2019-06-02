@@ -13,16 +13,18 @@ import java.lang.Math;
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
 
-    public static int maleHares = 0;
-
     private final static double birthRate = 0.4;
     private final static double lifespan = 13.0; //years
     private final static double minBreedAge = 2.0; //years
 
+    private static Stats stats = new Stats();
+    public static Stats getStats() {
+        return stats;
+    }
+
     @Override
     protected void setup() {
         super.setup();
-        setGender();
         addBehaviour(movementController);
         color = Color.green;
     }
@@ -43,12 +45,6 @@ public class Hare extends Animal {
     }
 
     @Override
-    protected void registerGender() {
-        if (gender == Gender.MALE)
-            ++maleHares;
-    }
-
-    @Override
     protected double getLifeSpan() {
         return lifespan;
     }
@@ -56,11 +52,6 @@ public class Hare extends Animal {
     @Override
     protected double getMinBreedAge() {
         return minBreedAge;
-    }
-
-    @Override
-    protected int getMaleCount() {
-        return maleHares;
     }
 
 
