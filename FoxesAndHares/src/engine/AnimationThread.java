@@ -51,6 +51,7 @@ public class AnimationThread extends Thread {
     }
     void update() {
         allMonoBehaviours = MonoBehaviour.getAll();
+        ControlPanel.getInstance().updateBirthRates(); // NIE WIEM GDZIE TO DAC, MAM ZASTOJ MOZGU XD
         synchronized (allMonoBehaviours) {
             for (MonoBehaviour mb : allMonoBehaviours) {
                 mb.action();

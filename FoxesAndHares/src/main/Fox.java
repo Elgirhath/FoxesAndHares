@@ -14,7 +14,7 @@ public class Fox extends Animal{
 
     private static int maleFoxes = 0;
 
-    private final static double breedRate = 0.5;
+    public static double birthRate = 0.5;
     private final static int lifespan = 14;
     private final static int minBreedAge = 2;
 
@@ -30,7 +30,7 @@ public class Fox extends Animal{
 
     @Override
     protected double getBirthRate() {
-        return breedRate;
+        return birthRate;
     }
 
 
