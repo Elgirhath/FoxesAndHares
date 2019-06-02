@@ -52,6 +52,14 @@ public class ControlPanel extends JPanel {
                 Time.timeScale = getTimeScaleFromSlider();
         });
 
+        foxBirthRateSlider.addChangeListener(e -> {
+            Fox.birthRate = (double)(foxBirthRateSlider.getValue())/100;
+        });
+
+        hareBirthRateSlider.addChangeListener(e -> {
+            Fox.birthRate = (double)(hareBirthRateSlider.getValue())/100;
+        });
+
         setLayout(new GridLayout(0, 1));
         JLabel title = new JLabel("Foxes and Hares", SwingConstants.CENTER);
         title.setFont(new Font("Serif", Font.BOLD, 18));
@@ -95,10 +103,5 @@ public class ControlPanel extends JPanel {
         int val = simulationSpeedSlider.getValue();
         double ts = val / (double) SimulationManager.initialSimSpeed;
         return ts;
-    }
-
-    public void updateBirthRates() {
-        Hare.birthRate = (double)(ControlPanel.getInstance().hareBirthRateSlider.getValue())/100;
-        Fox.birthRate = (double)(ControlPanel.getInstance().foxBirthRateSlider.getValue())/100;
     }
 }

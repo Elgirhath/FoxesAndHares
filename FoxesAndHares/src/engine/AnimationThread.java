@@ -1,5 +1,6 @@
 package engine;
 
+import main.Fox;
 import main.Hare;
 
 public class AnimationThread extends Thread {
@@ -51,13 +52,13 @@ public class AnimationThread extends Thread {
     }
     void update() {
         allMonoBehaviours = MonoBehaviour.getAll();
-        ControlPanel.getInstance().updateBirthRates(); // NIE WIEM GDZIE TO DAC, MAM ZASTOJ MOZGU XD
         synchronized (allMonoBehaviours) {
             for (MonoBehaviour mb : allMonoBehaviours) {
                 mb.action();
             }
         }
-        System.out.println(Hare.maleHares + " --- " + Utils.findAgentsOfType(Hare.class).size());
+        //System.out.println(Hare.maleHares + " --- " + Utils.findAgentsOfType(Hare.class).size());
+        System.out.println(Fox.birthRate);
 
         AnimationAgent[] allAgents = AnimationAgent.getAgents();
         for (AnimationAgent agent : allAgents) {
