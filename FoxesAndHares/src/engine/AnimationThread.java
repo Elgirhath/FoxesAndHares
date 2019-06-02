@@ -59,7 +59,6 @@ public class AnimationThread extends Thread {
                 mb.action();
             }
         }
-        System.out.println(Hare.getStats().maleCount + "---" + Hare.getStats().count);
 
         AnimationAgent[] allAgents = AnimationAgent.getAgents();
         for (AnimationAgent agent : allAgents) {
