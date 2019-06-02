@@ -32,7 +32,7 @@ public class Hare extends Animal {
     public void paintComponent(Graphics g) {
         g.setColor(color);
         int radius = getCurrentRadius();
-        System.out.println("ABC = " + radius);
+        //System.out.println("ABC = " + radius);
 
         Dimension screenPos = Viewport.worldToScreenPoint(position).toDimension();
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
