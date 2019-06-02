@@ -13,7 +13,7 @@ import java.awt.*;
 
 public class SimulationManager extends Agent {
     private static SimulationManager instance = null;
-    public static SimulationManager getInstance() {
+    public static synchronized SimulationManager getInstance() {
         if (instance == null)
             instance = new SimulationManager();
 
@@ -44,8 +44,8 @@ public class SimulationManager extends Agent {
     }
 
     void start() { //user setup
-        int foxNumber = 20;
-        int hareNumber = 20;
+        int foxNumber = 0;
+        int hareNumber = 10;
 
         for (int i = 0; i < foxNumber; i++) {
             createAnimal("Fox_" + i, Fox.class.getName());
@@ -62,7 +62,7 @@ public class SimulationManager extends Agent {
         thread.start(); //start an animation after animals were created
     }
 
-    public void createAnimal(String name, String className) {
+    public static synchronized void createAnimal(String name, String className) {
         try {
             ContainerController container = animalContainer;
             AgentController ac = container.createNewAgent(name, className, null);
@@ -72,10 +72,10 @@ public class SimulationManager extends Agent {
         }
     }
 
-    public void createAnimal(String name, String className, Vector2d position) {
+    public static synchronized void createAnimal(String name, String className, Vector2d position) {
         try {
             ContainerController container = animalContainer;
-            AgentController ac = container.createNewAgent(name, className, new Vector2d[] {position});
+            AgentController ac = container.createNewAgent(name, className, new Vector2d[]{position});
             ac.start();
         } catch (Exception e) {
             System.out.println(e.getMessage());

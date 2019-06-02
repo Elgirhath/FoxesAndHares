@@ -1,5 +1,6 @@
 package engine;
 
+import main.Fox;
 import main.Hare;
 
 public class AnimationThread extends Thread {
