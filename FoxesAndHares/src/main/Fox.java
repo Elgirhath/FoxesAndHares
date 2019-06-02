@@ -36,7 +36,7 @@ public class Fox extends Animal{
     @Override
     public void paintComponent(Graphics g) {
         g.setColor(color);
-        int radius = 5;
+        int radius = getCurrentRadius();
 
         Dimension screenPos = Viewport.worldToScreenPoint(position).toDimension();
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);

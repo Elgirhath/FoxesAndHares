@@ -46,8 +46,8 @@ public class SimulationManager extends Agent {
     }
 
     void start() { //user setup
-        int foxNumber = 0;
-        int hareNumber = 2;
+        int foxNumber = 2;
+        int hareNumber = 10;
 
         for (int i = 0; i < foxNumber; i++) {
             createAnimal("Fox_" + i, Fox.class);
@@ -64,7 +64,7 @@ public class SimulationManager extends Agent {
         thread.start(); //start an animation after animals were created
     }
 
-    public static synchronized <T extends Animal> void createAnimal(String name, Class cls) {
+    public static synchronized void createAnimal(String name, Class cls) {
         try {
             ContainerController container = animalContainer;
             AgentController ac = container.createNewAgent(name, cls.getName(), null);
@@ -75,7 +75,7 @@ public class SimulationManager extends Agent {
         }
     }
 
-    public static synchronized <T extends Animal> void createAnimal(String name, Class cls, Vector2d position) {
+    public static synchronized void createAnimal(String name, Class cls, Vector2d position) {
         try {
             ContainerController container = animalContainer;
             AgentController ac = container.createNewAgent(name, cls.getName(), new Vector2d[]{position});

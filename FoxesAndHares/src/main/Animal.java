@@ -12,7 +12,8 @@ import java.util.Random;
 
 public abstract class Animal extends AnimationAgent {
     Color color = Color.black;
-    Vector2d direction = new Vector2d((Math.random() * (100 - (-100))) - 100, (Math.random() * (100 - (-100))) - 100);
+//    Vector2d direction = new Vector2d((Math.random() * (100 - (-100))) - 100, (Math.random() * (100 - (-100))) - 100); XD
+    Vector2d direction = new Vector2d(Math.random(), Math.random()).normalized();
     boolean isIdle = true;
     AnimalMovementController movementController = new AnimalMovementController();
     VisionController visionController = new VisionController();
@@ -27,7 +28,10 @@ public abstract class Animal extends AnimationAgent {
     boolean isFertile = true;
     private static double fertilenessFrequency = 20.0;
     private static double tryBreedFrequency = 3.0;
-    private double age = 160.0;
+    protected double age = 160.0;
+
+    protected int babyRadius = 2;
+    protected int adultRadius = 5;
 
     private final static Object setupLock = new Object();
 
@@ -156,6 +160,12 @@ public abstract class Animal extends AnimationAgent {
         double x = new Random().nextDouble() * (mapSize.x * mapScale) + mapSize.x * (1 - mapScale) / 2;
         double y = new Random().nextDouble() * (mapSize.y * mapScale) + mapSize.y * (1 - mapScale) / 2;
         return new Vector2d(x, y);
+    }
+
+    protected int getCurrentRadius() {
+        double rad = age / SimulationManager.yearDuration * getMinBreedAge() * (double) (adultRadius - babyRadius) + babyRadius;
+        int result = rad > 5.0 ? 5 : (int) rad;
+        return result;
     }
 
     public void paintComponent(Graphics g) {
