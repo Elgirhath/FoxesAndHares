@@ -18,17 +18,20 @@ public abstract class Animal extends AnimationAgent {
     VisionController visionController = new VisionController();
     Gender gender = null;
 
+    protected final static Object birthLock = new Object();
+
     public enum Gender {
         MALE, FEMALE;
     }
 
     boolean isFertile = true;
     private static double fertilenessFrequency = 20.0;
+    private static double tryBreedFrequency = 3.0;
     private double age = 160.0;
 
     public static class Stats {
-        public static int count;
-        public static int maleCount;
+        public int count;
+        public int maleCount;
     }
 
     private static Stats stats = new Stats();
@@ -93,10 +96,7 @@ public abstract class Animal extends AnimationAgent {
                 continue;
             if (!canBreed() || !animal.canBreed())
                 continue;
-            double rand = Math.random();
-            System.out.println(rand);
-            if (rand <= getBirthRate()) {
-                System.out.println(getBirthRate());
+            if (Math.random() <= getBirthRate()) {
                 Animal mother = gender == Gender.FEMALE ? this : animal;
                 isFertile = false;
                 animal.isFertile = false;
@@ -104,10 +104,25 @@ public abstract class Animal extends AnimationAgent {
                     isFertile = true;
                     animal.isFertile = true;
                 });
-                System.out.println(isFertile);
-                SimulationManager.getInstance().createAnimal(this.getClass() + "_" + getCount(), this.getClass().getName(), mother.position);
+                giveBirth(mother.position);
                 return;
             }
+            else {
+                isFertile = false;
+                animal.isFertile = false;
+                new Timer(tryBreedFrequency, () -> {
+                    isFertile = true;
+                    animal.isFertile = true;
+                });
+                return;
+            }
+        }
+    }
+
+    protected void giveBirth(Vector2d position) {
+        synchronized (birthLock) {
+            int count = getCount();
+            SimulationManager.getInstance().createAnimal(getClass() + "_" + count, getClass().getName(), position);
         }
     }
 
@@ -137,7 +152,7 @@ public abstract class Animal extends AnimationAgent {
         return Gender.values()[isMale ? 0 : 1];
     }
 
-    protected void setGender(Gender gender) { //TODO: zmienić z powrotem na manualne liczenie osobników, bo tu wątki się jebią
+    protected void setGender(Gender gender) {
         this.gender = gender;
         if (gender == Gender.MALE)
             ++getStats().maleCount;
