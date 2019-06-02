@@ -27,6 +27,8 @@ public class SimulationManager extends Agent {
 
     static int maxSimSpeed = 100;
     static int minSimSpeed = 1;
+    static int maxBirthRate = 100;
+    static int minBirthRate = 1;
     static int initialSimSpeed = 10;
     public static double genderMaxPercentage = 0.65;
     public static double yearDuration = 60.0;

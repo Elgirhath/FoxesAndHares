@@ -2,6 +2,8 @@ package engine;
 
 import javax.swing.*;
 import java.awt.*;
+import main.Hare;
+import main.Fox;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,10 +16,13 @@ public class ControlPanel extends JPanel {
         return instance;
     }
 
+    //Buttons and sliders
     private JButton startButton = new JButton(new ImageIcon("assets/icons/play.png"));
     private JButton pauseButton = new JButton(new ImageIcon("assets/icons/pause.png"));
     private JButton stopButton = new JButton(new ImageIcon("assets/icons/stop.png"));
     private JSlider simulationSpeedSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minSimSpeed, SimulationManager.maxSimSpeed, SimulationManager.initialSimSpeed);
+    public JSlider foxBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minBirthRate, SimulationManager.maxBirthRate, (int)(Fox.birthRate*100));
+    public JSlider hareBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minBirthRate, SimulationManager.maxBirthRate, (int)(Hare.birthRate*100));
 
     private ControlPanel() {
         SimulationManager simMng = SimulationManager.getInstance();
@@ -47,12 +52,33 @@ public class ControlPanel extends JPanel {
                 Time.timeScale = getTimeScaleFromSlider();
         });
 
-        add(startButton);
-        add(pauseButton);
-        add(stopButton);
-        add(Box.createRigidArea(new Dimension(60,1)));
-        add(new JLabel("Simulation Speed"));
-        add(simulationSpeedSlider);
+        setLayout(new GridLayout(0, 1));
+        JLabel title = new JLabel("Foxes and Hares", SwingConstants.CENTER);
+        title.setFont(new Font("Serif", Font.BOLD, 18));
+        add(title);
+
+        JPanel generalRow = new JPanel();
+        generalRow.add(startButton);
+        generalRow.add(pauseButton);
+        generalRow.add(stopButton);
+        generalRow.add(Box.createRigidArea(new Dimension(60,1)));
+        generalRow.add(getComponentWithVerticalTitle(simulationSpeedSlider, "Simulation Speed"));
+
+        JPanel birthRow = new JPanel();
+
+        birthRow.add(getComponentWithVerticalTitle(hareBirthRateSlider,"Hare Birth Rate"));
+        birthRow.add(getComponentWithVerticalTitle(foxBirthRateSlider,"Fox Birth Rate"));
+
+        add(generalRow);
+        add(birthRow);
+    }
+
+    private JPanel getComponentWithVerticalTitle (JComponent comp, String label) {
+        JPanel resultPanel = new JPanel();
+        resultPanel.setLayout(new GridLayout(0, 1));
+        resultPanel.add(new JLabel(label, SwingConstants.CENTER));
+        resultPanel.add(comp);
+        return resultPanel;
     }
 
     private void resume() {
@@ -69,5 +95,10 @@ public class ControlPanel extends JPanel {
         int val = simulationSpeedSlider.getValue();
         double ts = val / (double) SimulationManager.initialSimSpeed;
         return ts;
+    }
+
+    public void updateBirthRates() {
+        Hare.birthRate = (double)(ControlPanel.getInstance().hareBirthRateSlider.getValue())/100;
+        Fox.birthRate = (double)(ControlPanel.getInstance().foxBirthRateSlider.getValue())/100;
     }
 }

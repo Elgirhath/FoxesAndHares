@@ -1,5 +1,6 @@
 package main;
 
+import engine.ControlPanel;
 import engine.Time;
 import engine.Timer;
 import engine.Viewport;
@@ -13,7 +14,8 @@ import java.lang.Math;
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
 
-    private final static double birthRate = 0.4;
+    public static double birthRate = 0.4; // Potrzebuje statycznie wziac te zmienna do ControlPanel wiec daje tu public, moze wymyslisz jakis inny sposob na to
+                                          // ktory zachowa uklad tego ze getBirthrate jest abstrakcyjne itd. ale tymczasowo zmienie to tak
     private final static double lifespan = 13.0; //years
     private final static double minBreedAge = 2.0; //years
 
@@ -37,7 +39,6 @@ public class Hare extends Animal {
         Dimension screenPos = Viewport.worldToScreenPoint(position).toDimension();
         g.fillOval(screenPos.width - radius, screenPos.height - radius, 2*radius, 2*radius);
     }
-
 
     @Override
     protected double getBirthRate() {
