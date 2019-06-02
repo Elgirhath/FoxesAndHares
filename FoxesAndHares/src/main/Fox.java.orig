@@ -12,7 +12,13 @@ public class Fox extends Animal{
     private Hare prey;
     AnimalMovementController movementController = new AnimalMovementController();
 
+<<<<<<< HEAD
+    private final static double breedRate = 0.5;
+=======
+    private static int maleFoxes = 0;
+
     public static double birthRate = 0.5;
+>>>>>>> b9d20b2464b63330e0c59723ac2fd42524e04e09
     private final static int lifespan = 14;
     private final static int minBreedAge = 2;
 

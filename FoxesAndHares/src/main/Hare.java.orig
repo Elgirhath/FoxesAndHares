@@ -14,8 +14,14 @@ import java.lang.Math;
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
 
+<<<<<<< HEAD
+    private final static double birthRate = 0.4;
+=======
+    public static int maleHares = 0;
+
     public static double birthRate = 0.4; // Potrzebuje statycznie wziac te zmienna do ControlPanel wiec daje tu public, moze wymyslisz jakis inny sposob na to
                                           // ktory zachowa uklad tego ze getBirthrate jest abstrakcyjne itd. ale tymczasowo zmienie to tak
+>>>>>>> b9d20b2464b63330e0c59723ac2fd42524e04e09
     private final static double lifespan = 13.0; //years
     private final static double minBreedAge = 2.0; //years
 
