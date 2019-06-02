@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
-    public static <T extends AnimationAgent> List<T> findAgentsOfType(Class<T> type, boolean includeDerived) {
+    public static synchronized <T extends AnimationAgent> List<T> findAgentsOfType(Class<T> type, boolean includeDerived) {
         List<T> list = new ArrayList<>();
 
         for (AnimationAgent agent : AnimationAgent.getAgents()) {
@@ -22,7 +22,7 @@ public class Utils {
         return list;
     }
 
-    public static <T extends AnimationAgent> List<T> findAgentsOfType(Class<T> type) {
+    public static synchronized <T extends AnimationAgent> List<T> findAgentsOfType(Class<T> type) {
         return findAgentsOfType(type, true);
     }
 }

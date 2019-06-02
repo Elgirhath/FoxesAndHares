@@ -1,5 +1,6 @@
 package engine;
 
+import main.Animal;
 import main.Fox;
 import main.Hare;
 
@@ -57,6 +58,8 @@ public class AnimationThread extends Thread {
                 mb.action();
             }
         }
+
+        System.out.println("Hares: " + Hare.getStats().count + "   Foxes: " + Fox.getStats().count + "   Animals: " + Animal.getStats().count);
 
         AnimationAgent[] allAgents = AnimationAgent.getAgents();
         for (AnimationAgent agent : allAgents) {

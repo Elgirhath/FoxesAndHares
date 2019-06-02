@@ -3,6 +3,8 @@ package main;
 import engine.*;
 
 import extensions.Vector2d;
+import jade.wrapper.AgentController;
+import jade.wrapper.ContainerController;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public abstract class Animal extends AnimationAgent {
     public static class Stats {
         public int count;
         public int maleCount;
+        public int initializedCount;
     }
 
     private static Stats stats = new Stats();
@@ -54,6 +57,8 @@ public abstract class Animal extends AnimationAgent {
             generatePosition();
         }
         addBehaviour(visionController);
+
+        ++getStats().count;
     }
 
 
@@ -81,10 +86,6 @@ public abstract class Animal extends AnimationAgent {
         return true;
     }
 
-    protected int getCount() {
-        return Utils.findAgentsOfType(getClass()).size();
-    }
-
     protected double getAgeInYears() {
         return age / SimulationManager.yearDuration;
     }
@@ -104,7 +105,7 @@ public abstract class Animal extends AnimationAgent {
                     isFertile = true;
                     animal.isFertile = true;
                 });
-                giveBirth(mother.position);
+                mother.giveBirth();
                 return;
             }
             else {
@@ -119,12 +120,9 @@ public abstract class Animal extends AnimationAgent {
         }
     }
 
-    protected void giveBirth(Vector2d position) {
+    protected void giveBirth() {
         synchronized (birthLock) {
-            System.out.println("A");
-            int count = getCount();
-            SimulationManager.createAnimal(getClass() + "_" + count, getClass().getName(), position);
-            System.out.println("B");
+            SimulationManager.createAnimal(getClass() + "_" + getStats().initializedCount++, getClass(), position);
         }
     }
 
@@ -158,8 +156,6 @@ public abstract class Animal extends AnimationAgent {
         this.gender = gender;
         if (gender == Gender.MALE)
             ++getStats().maleCount;
-
-        ++getStats().count;
     }
 
     private void generatePosition() {

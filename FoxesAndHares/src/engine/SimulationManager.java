@@ -6,6 +6,7 @@ import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+import main.Animal;
 import main.Fox;
 import main.Hare;
 
@@ -33,6 +34,10 @@ public class SimulationManager extends Agent {
     public static double genderMaxPercentage = 0.65;
     public static double yearDuration = 60.0;
 
+    public static ContainerController getAnimalContainer() {
+        return animalContainer;
+    }
+
     @Override
     protected void setup() { //core setup
         if (animalContainer == null)
@@ -48,10 +53,10 @@ public class SimulationManager extends Agent {
         int hareNumber = 10;
 
         for (int i = 0; i < foxNumber; i++) {
-            createAnimal("Fox_" + i, Fox.class.getName());
+            createAnimal("Fox_" + i, Fox.class);
         }
         for (int i = 0; i < hareNumber; i++) {
-            createAnimal("Hare_" + i, Hare.class.getName());
+            createAnimal("Hare_" + i, Hare.class);
         }
         Debug.drawLine(new Vector2d(10, 10), new Vector2d(10, 10), Color.black, 1.3);
         Debug.drawGrid(5.0, new Color(0,0,0,30));
@@ -62,21 +67,23 @@ public class SimulationManager extends Agent {
         thread.start(); //start an animation after animals were created
     }
 
-    public static synchronized void createAnimal(String name, String className) {
+    public static synchronized <T extends Animal> void createAnimal(String name, Class cls) {
         try {
             ContainerController container = animalContainer;
-            AgentController ac = container.createNewAgent(name, className, null);
+            AgentController ac = container.createNewAgent(name, cls.getName(), null);
             ac.start();
+            ++T.getStats().initializedCount;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public static synchronized void createAnimal(String name, String className, Vector2d position) {
+    public static synchronized <T extends Animal> void createAnimal(String name, Class cls, Vector2d position) {
         try {
             ContainerController container = animalContainer;
-            AgentController ac = container.createNewAgent(name, className, new Vector2d[]{position});
+            AgentController ac = container.createNewAgent(name, cls.getName(), new Vector2d[]{position});
             ac.start();
+            ++T.getStats().initializedCount;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
