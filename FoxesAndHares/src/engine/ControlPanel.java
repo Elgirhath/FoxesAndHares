@@ -2,6 +2,8 @@ package engine;
 
 import javax.swing.*;
 import java.awt.*;
+
+import main.DataBase;
 import main.Hare;
 import main.Fox;
 import java.awt.event.ActionEvent;
@@ -20,9 +22,9 @@ public class ControlPanel extends JPanel {
     private JButton startButton = new JButton(new ImageIcon("assets/icons/play.png"));
     private JButton pauseButton = new JButton(new ImageIcon("assets/icons/pause.png"));
     private JButton stopButton = new JButton(new ImageIcon("assets/icons/stop.png"));
-    private JSlider simulationSpeedSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minSimSpeed, SimulationManager.maxSimSpeed, SimulationManager.initialSimSpeed);
-    private JSlider foxBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minBirthRate, SimulationManager.maxBirthRate, (int)(Fox.birthRate*100));
-    private JSlider hareBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, SimulationManager.minBirthRate, SimulationManager.maxBirthRate, (int)(Hare.birthRate*100));
+    private JSlider simulationSpeedSlider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minSimSpeed, DataBase.GlobalConfig.maxSimSpeed, DataBase.GlobalConfig.initialSimSpeed);
+    private JSlider foxBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Fox.config.breedRate*100));
+    private JSlider hareBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Hare.config.breedRate*100));
 
     private ControlPanel() {
         SimulationManager simMng = SimulationManager.getInstance();
@@ -53,11 +55,11 @@ public class ControlPanel extends JPanel {
         });
 
         foxBirthRateSlider.addChangeListener(e -> {
-            Fox.birthRate = (double)(foxBirthRateSlider.getValue())/100;
+            DataBase.getConfig(Fox.class).breedRate = (double)(foxBirthRateSlider.getValue())/100;
         });
 
         hareBirthRateSlider.addChangeListener(e -> {
-            Hare.birthRate = (double)(hareBirthRateSlider.getValue())/100;
+            DataBase.getConfig(Hare.class).breedRate = (double)(hareBirthRateSlider.getValue())/100;
         });
 
         setLayout(new GridLayout(0, 1));
@@ -101,7 +103,7 @@ public class ControlPanel extends JPanel {
 
     private double getTimeScaleFromSlider() {
         int val = simulationSpeedSlider.getValue();
-        double ts = val / (double) SimulationManager.initialSimSpeed;
+        double ts = val / (double) DataBase.GlobalConfig.initialSimSpeed;
         return ts;
     }
 }

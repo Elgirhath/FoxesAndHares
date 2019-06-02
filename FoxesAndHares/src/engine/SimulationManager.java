@@ -27,14 +27,6 @@ public class SimulationManager extends Agent {
     boolean running = false;
     boolean paused = false;
 
-    static int maxSimSpeed = 100;
-    static int minSimSpeed = 1;
-    static int maxBirthRate = 100;
-    static int minBirthRate = 1;
-    static int initialSimSpeed = 10;
-    public static double genderMaxPercentage = 0.65;
-    public static double yearDuration = 60.0;
-
     @Override
     protected void setup() { //core setup
         if (animalContainer == null)
@@ -46,8 +38,8 @@ public class SimulationManager extends Agent {
     }
 
     void start() { //user setup
-        int foxNumber = 2;
-        int hareNumber = 10;
+        int foxNumber = 7;
+        int hareNumber = 20;
 
         for (int i = 0; i < foxNumber; i++) {
             createAnimal("Fox_" + i, Fox.class);

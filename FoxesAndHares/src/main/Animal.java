@@ -16,17 +16,18 @@ public abstract class Animal extends AnimationAgent {
     boolean isIdle = true;
     AnimalMovementController movementController = new AnimalMovementController();
     VisionController visionController = new VisionController();
-    Gender gender = null;
+
+    DataBase.GlobalConfig globalConfig = DataBase.getGlobalConfig();
+    DataBase.Config config = DataBase.getConfig(getClass());
 
     protected final static Object birthLock = new Object();
 
+    Gender gender = null;
     public enum Gender {
         MALE, FEMALE;
     }
 
     boolean isFertile = true;
-    private static double fertilenessFrequency = 20.0;
-    private static double tryBreedFrequency = 3.0;
     protected double age = 160.0;
 
     protected int babyRadius = 3;
@@ -54,20 +55,15 @@ public abstract class Animal extends AnimationAgent {
         }
     }
 
-
-    protected abstract double getBirthRate();
-    protected abstract double getLifeSpan();
-    protected abstract double getMinBreedAge();
-
     protected void getOlder() {
         age += Time.getDeltaTime();
         graphic.radius = getCurrentRadius();
-        if (getAgeInYears() >= getLifeSpan())
+        if (getAgeInYears() >= config.lifespan)
             die();
     }
 
     protected boolean isAdult() {
-        return getAgeInYears() >= getMinBreedAge();
+        return getAgeInYears() >= config.minBreedAge;
     }
 
     protected boolean canBreed() {
@@ -81,7 +77,7 @@ public abstract class Animal extends AnimationAgent {
     }
 
     protected double getAgeInYears() {
-        return age / SimulationManager.yearDuration;
+        return age / DataBase.GlobalConfig.yearDuration;
     }
 
     protected void breed() {
@@ -91,11 +87,11 @@ public abstract class Animal extends AnimationAgent {
                 continue;
             if (!canBreed() || !animal.canBreed())
                 continue;
-            if (Math.random() <= getBirthRate()) {
+            if (Math.random() <= config.breedRate) {
                 Animal mother = gender == Gender.FEMALE ? this : animal;
                 isFertile = false;
                 animal.isFertile = false;
-                new Timer(fertilenessFrequency, () -> {
+                new Timer(DataBase.GlobalConfig.fertilenessFrequency, () -> {
                     isFertile = true;
                     animal.isFertile = true;
                 });
@@ -105,7 +101,7 @@ public abstract class Animal extends AnimationAgent {
             else {
                 isFertile = false;
                 animal.isFertile = false;
-                new Timer(tryBreedFrequency, () -> {
+                new Timer(DataBase.GlobalConfig.tryBreedFrequency, () -> {
                     isFertile = true;
                     animal.isFertile = true;
                 });
@@ -136,7 +132,7 @@ public abstract class Animal extends AnimationAgent {
                 tmp = data.count - males;
 
             double newRatio = (double) (tmp + 1) / (double) (data.count + 1);
-            if (newRatio > SimulationManager.genderMaxPercentage)
+            if (newRatio > globalConfig.genderMaxPercentage)
                 isMale = !isMale;
 
             return Gender.values()[isMale ? 0 : 1];
@@ -163,7 +159,7 @@ public abstract class Animal extends AnimationAgent {
     }
 
     protected int getCurrentRadius() {
-        double rad = age / SimulationManager.yearDuration * getMinBreedAge() * (double) (adultRadius - babyRadius) + babyRadius;
+        double rad = age / DataBase.GlobalConfig.yearDuration * config.minBreedAge * (double) (adultRadius - babyRadius) + babyRadius;
         int result = rad > 5.0 ? 5 : (int) rad;
         return result;
     }
@@ -173,22 +169,6 @@ public abstract class Animal extends AnimationAgent {
         System.out.println(this + " died.");
         SimulationPanel.getInstance().removeComponent(this);
         SimulationPanel.getInstance().removeComponent(visionController.visionCone);
-    }
-
-    protected List<Animal> getVisibleHares() {
-        List<Animal> animals = visionController.getVisible();
-        List<Animal> hares = animals.stream()
-                .filter(s -> s instanceof Hare)
-                .collect(Collectors.toList());
-        return hares;
-    }
-
-    protected List<Animal> getVisibleFoxes() {
-        List<Animal> animals = visionController.getVisible();
-        List<Animal> foxes = animals.stream()
-                .filter(s -> s instanceof Fox)
-                .collect(Collectors.toList());
-        return foxes;
     }
 
     protected List<Animal> getVisibleOfType(Class type) {

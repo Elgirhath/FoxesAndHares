@@ -14,33 +14,14 @@ import java.lang.Math;
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
 
-    public static double birthRate = 0.4; // Potrzebuje statycznie wziac te zmienna do ControlPanel wiec daje tu public, moze wymyslisz jakis inny sposob na to
-                                          // ktory zachowa uklad tego ze getBirthrate jest abstrakcyjne itd. ale tymczasowo zmienie to tak
-    private final static double lifespan = 13.0; //years
-    private final static double minBreedAge = 2.0; //years
-
     public static DataBase.Data data = DataBase.createData(Hare.class);
+    public static DataBase.Config config = DataBase.createConfig(Hare.class);
 
     @Override
     protected void setup() {
         super.setup();
         addBehaviour(movementController);
         graphic.color = Color.green;
-    }
-
-    @Override
-    protected double getBirthRate() {
-        return birthRate;
-    }
-
-    @Override
-    protected double getLifeSpan() {
-        return lifespan;
-    }
-
-    @Override
-    protected double getMinBreedAge() {
-        return minBreedAge;
     }
 
 
@@ -64,7 +45,7 @@ public class Hare extends Animal {
         @Override
         public void action() {
             getOlder();
-            visibleFoxes = getVisibleFoxes();
+            visibleFoxes = getVisibleOfType(Fox.class);
             setDirection();
             move();
 
@@ -123,7 +104,7 @@ public class Hare extends Animal {
                 }
             }
 
-            return bestDir;
+            return bestDir == null ? Vector2d.up() : bestDir;
         }
 
         private double getDistanceNorm(Vector2d pos) {
