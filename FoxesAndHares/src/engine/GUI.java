@@ -1,11 +1,11 @@
 package engine;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class GUI extends JFrame {
     private JPanel mainPanel = SimulationPanel.getInstance();
+    private JPanel settingsPanel = SettingsPanel.getInstance();
     private JPanel controlPanel = ControlPanel.getInstance();
     private JPanel plotPanel = PlotPanel.getInstance();
 
@@ -31,6 +31,7 @@ public class GUI extends JFrame {
     private void buildGUI() {
         add(mainPanel, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.PAGE_START);
-        add(plotPanel, BorderLayout.EAST);
+        add(plotPanel, BorderLayout.PAGE_END);
+        add(settingsPanel, BorderLayout.EAST);
     }
 }
