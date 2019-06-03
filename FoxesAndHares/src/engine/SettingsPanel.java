@@ -16,23 +16,40 @@ public class SettingsPanel extends UIPanel {
         return instance;
     }
 
-    //Sliders
-    private JSlider foxBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Fox.config.breedRate*100));
-    private JSlider hareBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Hare.config.breedRate*100));
+    class Slider {
+        JSlider slider;
+        JTextField textField;
+
+        Slider(int direction, int minValue, int maxValue, int initValue) {
+            slider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Fox.config.breedRate*100));
+            textField = new JTextField(Integer.toString(initValue));
+        }
+
+        JPanel getPanel() {
+            JPanel resultPanel = new JPanel();
+            resultPanel.add(slider);
+            resultPanel.add(textField);
+            return resultPanel;
+        }
+    }
+
+
+    private Slider foxBirthRateSlider = new Slider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Fox.config.breedRate*100));
+    private Slider hareBirthRateSlider = new Slider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Hare.config.breedRate*100));
 
     private SettingsPanel() {
         SimulationManager simMng = SimulationManager.getInstance();
 
-        foxBirthRateSlider.addChangeListener(e -> {
-            DataBase.getConfig(Fox.class).breedRate = (double)(foxBirthRateSlider.getValue())/100;
+        foxBirthRateSlider.slider.addChangeListener(e -> {
+            DataBase.getConfig(Fox.class).breedRate = (double)(foxBirthRateSlider.slider.getValue())/100;
         });
 
-        hareBirthRateSlider.addChangeListener(e -> {
-            DataBase.getConfig(Hare.class).breedRate = (double)(hareBirthRateSlider.getValue())/100;
+        hareBirthRateSlider.slider.addChangeListener(e -> {
+            DataBase.getConfig(Hare.class).breedRate = (double)(hareBirthRateSlider.slider.getValue())/100;
         });
 
         setLayout(new GridLayout(0, 1));
-        add(getComponentWithVerticalTitle(hareBirthRateSlider,"Hare Birth Rate"));
-        add(getComponentWithVerticalTitle(foxBirthRateSlider,"Fox Birth Rate"));
+        add(getComponentWithVerticalTitle(hareBirthRateSlider.getPanel(),"Hare Birth Rate"));
+        add(getComponentWithVerticalTitle(foxBirthRateSlider.getPanel(),"Fox Birth Rate"));
     }
 }
