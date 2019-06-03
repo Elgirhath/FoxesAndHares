@@ -13,4 +13,11 @@ class UIPanel extends JPanel {
         return resultPanel;
     }
 
+    JPanel getComponentWithHorizontalTitle(JComponent comp, String label) {
+        JPanel resultPanel = new JPanel();
+        resultPanel.add(new JLabel(label));
+        resultPanel.add(comp);
+        return resultPanel;
+    }
+
 }

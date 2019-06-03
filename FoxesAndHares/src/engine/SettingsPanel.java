@@ -34,7 +34,7 @@ public class SettingsPanel extends UIPanel {
             textField = new JTextField(Integer.toString(initValue), 3);
             textField.setHorizontalAlignment(JTextField.RIGHT);
 
-            addLabels(slider, minValue, maxValue);
+            //addLabels(slider, minValue, maxValue);
         }
 
         private void addLabels(JSlider slider, int minValue, int maxValue) {
@@ -69,8 +69,8 @@ public class SettingsPanel extends UIPanel {
         setSliderListener(hareBirthRateSlider, Hare.class);
 
         setLayout(new GridLayout(0, 1));
-        add(getComponentWithVerticalTitle(hareBirthRateSlider.getPanel(),"Hare Birth Rate"));
-        add(getComponentWithVerticalTitle(foxBirthRateSlider.getPanel(),"Fox Birth Rate"));
+        add(getComponentWithHorizontalTitle(hareBirthRateSlider.getPanel(),"Hare Birth Rate"));
+        add(getComponentWithHorizontalTitle(foxBirthRateSlider.getPanel(),"Fox Birth Rate"));
     }
 
     private void setSliderListener(Slider slider, Class cls) {
