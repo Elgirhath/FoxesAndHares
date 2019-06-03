@@ -2,6 +2,8 @@ package engine;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import main.DataBase;
 import main.Hare;
@@ -50,6 +52,23 @@ public class SettingsPanel extends UIPanel {
             DataBase.getConfig(Hare.class).breedRate = (double)(sliderValue)/100;
             hareBirthRateSlider.textField.setText(Integer.toString(sliderValue));
         });
+
+        foxBirthRateSlider.textField.addActionListener(
+                e -> {
+                    int value = Integer.valueOf(foxBirthRateSlider.textField.getText());
+                    DataBase.getConfig(Fox.class).breedRate = (double)(value)/100;
+                    foxBirthRateSlider.slider.setValue(value);
+                }
+        );
+
+        hareBirthRateSlider.textField.addActionListener(
+                e -> {
+                    int value = Integer.valueOf(hareBirthRateSlider.textField.getText());
+                    DataBase.getConfig(Hare.class).breedRate = (double)(value)/100;
+                    hareBirthRateSlider.slider.setValue(value);
+                }
+        );
+
 
         setLayout(new GridLayout(0, 1));
         add(getComponentWithVerticalTitle(hareBirthRateSlider.getPanel(),"Hare Birth Rate"));
