@@ -38,7 +38,7 @@ public class DataBase {
     }
 
     public static class Config {
-        public double breedRate = 0.3;
+        public double breedRate = 0.4;
         public double lifespan = 13.0;
         public double minBreedAge = 2.0;
     }
@@ -46,7 +46,7 @@ public class DataBase {
     public static class GlobalConfig {
         public double maxHunger = 30.0;
         public double hungerPerMeal = 23.0;
-        public double hungerLossPerSec = 0.45;
+        public double hungerLossPerSec = 0.4;
 
         public static int maxSimSpeed = 100;
         public static int minSimSpeed = 1;
@@ -55,7 +55,7 @@ public class DataBase {
         public static int initialSimSpeed = 10;
 
         public static double genderMaxPercentage = 0.65;
-        public static double yearDuration = 80.0;
+        public static double yearDuration = 60.0;
 
         public static double fertilenessFrequency = 20.0;
         public static double tryBreedFrequency = 3.0;

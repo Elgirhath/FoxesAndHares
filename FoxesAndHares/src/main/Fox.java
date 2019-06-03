@@ -44,7 +44,7 @@ public class Fox extends Animal{
 
         private double moveSpeed = 2.0;
         private double runSpeed = 4.4;
-        double turnRadius = 3.0;
+        double turnRadius = 2.0;
 
         @Override
         public double getTurnRadius() {
