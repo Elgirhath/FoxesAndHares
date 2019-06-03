@@ -11,22 +11,19 @@ import java.util.stream.Collectors;
 import java.util.Random;
 
 public abstract class Animal extends AnimationAgent {
-//    Vector2d direction = new Vector2d((Math.random() * (100 - (-100))) - 100, (Math.random() * (100 - (-100))) - 100); XD
     Vector2d direction = new Vector2d(Math.random(), Math.random()).normalized();
-    boolean isIdle = true;
     AnimalMovementController movementController = new AnimalMovementController();
     VisionController visionController = new VisionController();
 
     DataBase.GlobalConfig globalConfig = DataBase.getGlobalConfig();
     DataBase.Config config = DataBase.getConfig(getClass());
 
-    protected final static Object birthLock = new Object();
-
     Gender gender = null;
     public enum Gender {
         MALE, FEMALE;
     }
 
+    boolean isIdle = true;
     boolean isFertile = true;
     protected double age = 160.0;
 
@@ -115,11 +112,9 @@ public abstract class Animal extends AnimationAgent {
         }
     }
 
-    protected void giveBirth() {
-        synchronized (birthLock) {
-            int number = DataBase.getData(getClass()).initializedCount++;
-            SimulationManager.createAnimal(getClass() + "_" + number, getClass(), position);
-        }
+    protected synchronized void giveBirth() {
+        int number = DataBase.getData(getClass()).initializedCount++;
+        SimulationManager.createAnimal(getClass() + "_" + number, getClass(), position);
     }
 
 
