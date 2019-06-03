@@ -14,8 +14,8 @@ public class Fox extends Animal{
     AnimalMovementController movementController = new AnimalMovementController();
     HungerController hungerController = new HungerController();
 
-    public static DataBase.Data data = DataBase.createData(Fox.class);
-    public static DataBase.Config config = DataBase.createConfig(Fox.class);
+    public static DataBase.Data data = DataBase.getData(Fox.class);
+    public static DataBase.Config config = DataBase.getConfig(Fox.class);
     public static DataBase.GlobalConfig globalConfig = DataBase.getGlobalConfig();
 
     @Override

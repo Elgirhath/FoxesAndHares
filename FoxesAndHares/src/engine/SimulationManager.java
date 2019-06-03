@@ -24,8 +24,8 @@ public class SimulationManager extends Agent {
 
     private static ContainerController animalContainer = null;
 
-    public final static int foxNumber = 23;
-    public final static int hareNumber = 46;
+    public final static int foxNumber = 5;
+    public final static int hareNumber = 13;
 
     boolean running = false;
     boolean paused = false;
