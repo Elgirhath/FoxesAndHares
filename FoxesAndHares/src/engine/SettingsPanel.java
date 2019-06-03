@@ -22,7 +22,8 @@ public class SettingsPanel extends UIPanel {
 
         Slider(int direction, int minValue, int maxValue, int initValue) {
             slider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Fox.config.breedRate*100));
-            textField = new JTextField(Integer.toString(initValue));
+            textField = new JTextField(Integer.toString(initValue), 3);
+            textField.setHorizontalAlignment(JTextField.RIGHT);
         }
 
         JPanel getPanel() {
@@ -38,14 +39,16 @@ public class SettingsPanel extends UIPanel {
     private Slider hareBirthRateSlider = new Slider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Hare.config.breedRate*100));
 
     private SettingsPanel() {
-        SimulationManager simMng = SimulationManager.getInstance();
-
         foxBirthRateSlider.slider.addChangeListener(e -> {
-            DataBase.getConfig(Fox.class).breedRate = (double)(foxBirthRateSlider.slider.getValue())/100;
+            int sliderValue = foxBirthRateSlider.slider.getValue();
+            DataBase.getConfig(Fox.class).breedRate = (double)(sliderValue)/100;
+            foxBirthRateSlider.textField.setText(Integer.toString(sliderValue));
         });
 
         hareBirthRateSlider.slider.addChangeListener(e -> {
-            DataBase.getConfig(Hare.class).breedRate = (double)(hareBirthRateSlider.slider.getValue())/100;
+            int sliderValue = hareBirthRateSlider.slider.getValue();
+            DataBase.getConfig(Hare.class).breedRate = (double)(sliderValue)/100;
+            hareBirthRateSlider.textField.setText(Integer.toString(sliderValue));
         });
 
         setLayout(new GridLayout(0, 1));
