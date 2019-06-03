@@ -26,7 +26,7 @@ public class PlotPanel extends JPanel {
     Plot plot;
 
     private final int xLength = 300;
-    private final int yLength = 90;
+    private int yLength = 90;
     private final int width = 400;
     private final int height = 200;
 
@@ -35,6 +35,10 @@ public class PlotPanel extends JPanel {
     private double xAxis;
     private double yAxis;
     private PlotPanel() {
+        if(SimulationManager.foxNumber > SimulationManager.hareNumber)
+            yLength = (int)(SimulationManager.foxNumber * 1.5);
+        else
+            yLength = (int)(SimulationManager.hareNumber * 1.5);
         setLayout(new GridLayout(0, 1));
         JLabel title = new JLabel("Wykres populacji zwierzat od czasu", SwingConstants.CENTER);
         xPadding = title.getPreferredSize().width/4;

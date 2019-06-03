@@ -24,6 +24,9 @@ public class SimulationManager extends Agent {
 
     private static ContainerController animalContainer = null;
 
+    public final static int foxNumber = 23;
+    public final static int hareNumber = 46;
+
     boolean running = false;
     boolean paused = false;
 
@@ -37,10 +40,7 @@ public class SimulationManager extends Agent {
         SimulationPanel.getInstance().prepare();
     }
 
-    void start() { //user setup
-        int foxNumber = 23;
-        int hareNumber = 46;
-
+    void start() {
         for (int i = 0; i < foxNumber; i++) {
             createAnimal("Fox_" + i, Fox.class);
         }
