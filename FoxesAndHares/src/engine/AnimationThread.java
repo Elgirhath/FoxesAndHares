@@ -59,9 +59,6 @@ public class AnimationThread extends Thread {
             }
         }
 
-//        System.out.println("Hares: " + Hare.data.count + "   Foxes: " + Fox.data.count);
-//        System.out.println("Male: " + Hare.data.maleCount + "   Total: " + Hare.data.count);
-
         AnimationAgent[] allAgents = AnimationAgent.getAgents();
         for (AnimationAgent agent : allAgents) {
             agent.runMonoBehaviours();

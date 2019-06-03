@@ -1,6 +1,5 @@
 package main;
 
-import engine.ControlPanel;
 import engine.Time;
 import engine.Timer;
 import engine.Viewport;

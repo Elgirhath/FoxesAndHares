@@ -1,16 +1,13 @@
 package engine;
 
+import main.DataBase;
+
 import javax.swing.*;
 import java.awt.*;
 
-import main.DataBase;
-import main.Hare;
-import main.Fox;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class ControlPanel extends JPanel {
+public class ControlPanel extends UIPanel {
     private static ControlPanel instance = null;
+
     public static ControlPanel getInstance() {
         if (instance == null)
             instance = new ControlPanel();
@@ -23,8 +20,6 @@ public class ControlPanel extends JPanel {
     private JButton pauseButton = new JButton(new ImageIcon("assets/icons/pause.png"));
     private JButton stopButton = new JButton(new ImageIcon("assets/icons/stop.png"));
     private JSlider simulationSpeedSlider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minSimSpeed, DataBase.GlobalConfig.maxSimSpeed, DataBase.GlobalConfig.initialSimSpeed);
-    private JSlider foxBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Fox.config.breedRate*100));
-    private JSlider hareBirthRateSlider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Hare.config.breedRate*100));
 
     private ControlPanel() {
         SimulationManager simMng = SimulationManager.getInstance();
@@ -54,41 +49,18 @@ public class ControlPanel extends JPanel {
                 Time.timeScale = getTimeScaleFromSlider();
         });
 
-        foxBirthRateSlider.addChangeListener(e -> {
-            DataBase.getConfig(Fox.class).breedRate = (double)(foxBirthRateSlider.getValue())/100;
-        });
-
-        hareBirthRateSlider.addChangeListener(e -> {
-            DataBase.getConfig(Hare.class).breedRate = (double)(hareBirthRateSlider.getValue())/100;
-        });
-
         setLayout(new GridLayout(0, 1));
-        JLabel title = new JLabel("Foxes and Hares", SwingConstants.CENTER);
-        title.setFont(new Font("Serif", Font.BOLD, 18));
-        add(title);
 
-        JPanel generalRow = new JPanel();
-        generalRow.add(startButton);
-        generalRow.add(pauseButton);
-        generalRow.add(stopButton);
-        generalRow.add(Box.createRigidArea(new Dimension(60,1)));
-        generalRow.add(getComponentWithVerticalTitle(simulationSpeedSlider, "Simulation Speed"));
+        addTitle("Foxes and Hares");
 
-        JPanel birthRow = new JPanel();
+        JPanel buttonRow = new JPanel();
+        buttonRow.add(startButton);
+        buttonRow.add(pauseButton);
+        buttonRow.add(stopButton);
+        buttonRow.add(Box.createRigidArea(new Dimension(60,1)));
+        buttonRow.add(getComponentWithVerticalTitle(simulationSpeedSlider, "Simulation Speed"));
 
-        birthRow.add(getComponentWithVerticalTitle(hareBirthRateSlider,"Hare Birth Rate"));
-        birthRow.add(getComponentWithVerticalTitle(foxBirthRateSlider,"Fox Birth Rate"));
-
-        add(generalRow);
-        add(birthRow);
-    }
-
-    private JPanel getComponentWithVerticalTitle (JComponent comp, String label) {
-        JPanel resultPanel = new JPanel();
-        resultPanel.setLayout(new GridLayout(0, 1));
-        resultPanel.add(new JLabel(label, SwingConstants.CENTER));
-        resultPanel.add(comp);
-        return resultPanel;
+        add(buttonRow);
     }
 
     private void resume() {
@@ -99,6 +71,12 @@ public class ControlPanel extends JPanel {
     private void pause() {
         SimulationManager.getInstance().paused = true;
         Time.timeScale = 0.0;
+    }
+
+    private void addTitle(final String text) {
+        JLabel title = new JLabel(text, SwingConstants.CENTER);
+        title.setFont(new Font("Serif", Font.BOLD, 18));
+        add(title);
     }
 
     private double getTimeScaleFromSlider() {
