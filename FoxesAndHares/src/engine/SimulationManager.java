@@ -24,9 +24,6 @@ public class SimulationManager extends Agent {
 
     private static ContainerController animalContainer = null;
 
-    public final static int foxNumber = 5;
-    public final static int hareNumber = 13;
-
     boolean running = false;
     boolean paused = false;
 
@@ -36,19 +33,17 @@ public class SimulationManager extends Agent {
             animalContainer = Runtime.instance().createAgentContainer(new ProfileImpl());
         GUI.getInstance();
         System.out.println("Simulation Manager has been created!\n");
-        start();
-        SimulationPanel.getInstance().prepare();
+        Debug.drawLine(new Vector2d(10, 10), new Vector2d(10, 10), Color.black, 1.3);
+        Debug.drawGrid(5.0, new Color(0,0,0,30));
     }
 
     void start() {
-        for (int i = 0; i < foxNumber; i++) {
+        for (int i = 0; i < DataBase.getConfig(Fox.class).initPopulation; i++) {
             createAnimal("Fox_" + i, Fox.class);
         }
-        for (int i = 0; i < hareNumber; i++) {
+        for (int i = 0; i < DataBase.getConfig(Hare.class).initPopulation; i++) {
             createAnimal("Hare_" + i, Hare.class);
         }
-        Debug.drawLine(new Vector2d(10, 10), new Vector2d(10, 10), Color.black, 1.3);
-        Debug.drawGrid(5.0, new Color(0,0,0,30));
     }
 
     protected void animate() {

@@ -55,6 +55,7 @@ public class DataBase {
         public double breedRate = 0.4;
         public double lifespan = 13.0;
         public double minBreedAge = 2.0;
+        public int initPopulation = 20;
     }
 
     public static class GlobalConfig {

@@ -23,12 +23,18 @@ public class ControlPanel extends UIPanel {
 
     private ControlPanel() {
         SimulationManager simMng = SimulationManager.getInstance();
+        SettingsPanel setPnl = SettingsPanel.getInstance();
 
         startButton.addActionListener(e -> {
             if(!simMng.running) {
+                simMng.start();
+                SimulationPanel.getInstance().prepare();
                 simMng.animate();
                 simMng.running = true;
                 Time.timeScale = getTimeScaleFromSlider();
+
+                setPnl.foxInit.setEnabled(false);
+                setPnl.hareInit.setEnabled(false);
             }
             else if(simMng.paused) {
                 resume();
