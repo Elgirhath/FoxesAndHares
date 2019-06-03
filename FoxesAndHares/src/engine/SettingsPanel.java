@@ -4,10 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 import main.DataBase;
 import main.Hare;
 import main.Fox;
+
+import static java.lang.Double.NaN;
 
 public class SettingsPanel extends UIPanel {
     private static SettingsPanel instance = null;
@@ -21,11 +24,32 @@ public class SettingsPanel extends UIPanel {
     class Slider {
         JSlider slider;
         JTextField textField;
+        int minValue;
+        int maxValue;
 
-        Slider(int direction, int minValue, int maxValue, int initValue) {
+        Slider(int direction, int min, int max, int initValue) {
+            minValue = min;
+            maxValue = max;
             slider = new JSlider(direction, minValue, maxValue, initValue);
             textField = new JTextField(Integer.toString(initValue), 3);
             textField.setHorizontalAlignment(JTextField.RIGHT);
+
+            addLabels(slider, minValue, maxValue);
+        }
+
+        private void addLabels(JSlider slider, int minValue, int maxValue) {
+
+            Hashtable labels = new Hashtable();
+            labels.put(minValue, new JLabel(Integer.toString(minValue)));
+            if(maxValue % 2 == 0) {
+                labels.put(maxValue/2, new JLabel(Integer.toString(maxValue/2)));
+            }
+            labels.put(maxValue, new JLabel(Integer.toString(maxValue)));
+
+            slider.setLabelTable(labels);
+            slider.setPaintLabels(true);
+            slider.setMajorTickSpacing(maxValue/2-1);
+            slider.setPaintTicks(true);
         }
 
         JPanel getPanel() {
@@ -58,9 +82,16 @@ public class SettingsPanel extends UIPanel {
 
         slider.textField.addActionListener(
                 e -> {
-                    int value = Integer.valueOf(slider.textField.getText());
-                    DataBase.getConfig(cls).breedRate = (double)(value)/100;
-                    slider.slider.setValue(value);
+                    if(Integer.parseInt(slider.textField.getText()) != NaN){
+                        int value = Integer.parseInt(slider.textField.getText());
+                        if(value > slider.maxValue)
+                            value = slider.maxValue;
+                        if(value < slider.minValue)
+                            value = slider.minValue;
+                        System.out.println(value);
+                        DataBase.getConfig(cls).breedRate = (double)(value)/100;
+                        slider.slider.setValue(value);
+                    }
                 }
         );
 
