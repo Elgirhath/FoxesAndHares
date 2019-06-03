@@ -16,7 +16,7 @@ public class Fox extends Animal{
 
     public static DataBase.Data data = DataBase.getData(Fox.class);
     public static DataBase.Config config = DataBase.getConfig(Fox.class);
-    public static DataBase.GlobalConfig globalConfig = DataBase.getGlobalConfig();
+    private static DataBase.GlobalConfig globalConfig = DataBase.getGlobalConfig();
 
     @Override
     protected void setup() {

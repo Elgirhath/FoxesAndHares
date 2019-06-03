@@ -23,7 +23,7 @@ public class SettingsPanel extends UIPanel {
         JTextField textField;
 
         Slider(int direction, int minValue, int maxValue, int initValue) {
-            slider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minBirthRate, DataBase.GlobalConfig.maxBirthRate, (int)(Fox.config.breedRate*100));
+            slider = new JSlider(direction, minValue, maxValue, initValue);
             textField = new JTextField(Integer.toString(initValue), 3);
             textField.setHorizontalAlignment(JTextField.RIGHT);
         }
