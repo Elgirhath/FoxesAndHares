@@ -14,8 +14,8 @@ import java.lang.Math;
 public class Hare extends Animal {
     HareMovement movementController = new HareMovement();
 
-    public static DataBase.Data data = DataBase.createData(Hare.class);
-    public static DataBase.Config config = DataBase.createConfig(Hare.class);
+    public static DataBase.Data data = DataBase.getData(Hare.class);
+    public static DataBase.Config config = DataBase.getConfig(Hare.class);
 
     @Override
     protected void setup() {

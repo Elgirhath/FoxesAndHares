@@ -8,23 +8,37 @@ public class DataBase {
     private static Map<Class, Config> configMap = new HashMap<>();
     private static GlobalConfig globalConfig = new GlobalConfig();
 
-    public static Data createData(Class cls) {
+    static {
+        Config foxInitConfig = getConfig(Fox.class);
+        foxInitConfig.breedRate = 0.2;
+
+        Config hareInitConfig = getConfig(Hare.class);
+        hareInitConfig.breedRate = 0.8;
+    }
+
+    private static Data createData(Class cls) {
         Data data = new Data();
         dataMap.put(cls, data);
         return data;
     }
 
-    public static Config createConfig(Class cls) {
+    public static Data getData(Class cls) {
+        if (dataMap.containsKey(cls))
+            return dataMap.get(cls);
+        else
+            return createData(cls);
+    }
+
+    private static Config createConfig(Class cls) {
         Config config = new Config();
         configMap.put(cls, config);
         return config;
     }
     public static Config getConfig(Class cls) {
-        return configMap.get(cls);
-    }
-
-    public static Data getData(Class cls) {
-        return dataMap.get(cls);
+        if (configMap.containsKey(cls))
+            return configMap.get(cls);
+        else
+            return createConfig(cls);
     }
 
     public static GlobalConfig getGlobalConfig() {
@@ -44,9 +58,10 @@ public class DataBase {
     }
 
     public static class GlobalConfig {
-        public double maxHunger = 30.0;
-        public double hungerPerMeal = 23.0;
-        public double hungerLossPerSec = 0.4;
+        public static double maxHunger = 30.0;
+        public static double hungerPerMeal = 23.0;
+        public static double hungerLossPerSec = 0.4;
+        public static double minBreedHungerPct = 0.5;
 
         public static int maxSimSpeed = 100;
         public static int minSimSpeed = 1;

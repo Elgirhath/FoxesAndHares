@@ -73,6 +73,11 @@ public abstract class Animal extends AnimationAgent {
             return false;
         if (!isFertile)
             return false;
+        if (this instanceof Fox) {
+            Fox foxThis = (Fox) this;
+            if (foxThis.hungerController.getRatio() < DataBase.GlobalConfig.minBreedHungerPct)
+                return false;
+        }
         return true;
     }
 
