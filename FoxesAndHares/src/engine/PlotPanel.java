@@ -23,8 +23,8 @@ public class PlotPanel extends JPanel {
 
     Plot plot;
 
-    private final int xLength = 100;
-    private final int yLength = 100;
+    private final int xLength = 300;
+    private final int yLength = 90;
     private final int width = 400;
     private final int height = 200;
 
@@ -76,7 +76,7 @@ public class PlotPanel extends JPanel {
         private void updatePlot() {
             foxPlot.add(DataBase.getData(Fox.class).count);
             harePlot.add(DataBase.getData(Hare.class).count);
-            if(foxPlot.size() >= yLength){
+            if(foxPlot.size() >= xLength){
                 foxPlot.remove(0);
                 harePlot.remove(0);
             }

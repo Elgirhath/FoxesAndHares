@@ -24,6 +24,14 @@ public class Hare extends Animal {
         graphic.color = Color.green;
     }
 
+    @Override
+    protected void die() {
+        super.die();
+        if(gender == Gender.MALE)
+            --data.maleCount;
+        --data.count;
+    }
+
 
     public class HareMovement extends Animal.AnimalMovementController {
         private double pathFindThreshold = 4.0;

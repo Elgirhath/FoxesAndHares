@@ -40,6 +40,14 @@ public class Fox extends Animal{
         isIdle = prey == null;
     }
 
+    @Override
+    protected void die() {
+        super.die();
+        if(gender == Gender.MALE)
+            --data.maleCount;
+        --data.count;
+    }
+
     class AnimalMovementController extends Animal.AnimalMovementController {
 
         private double moveSpeed = 2.0;
