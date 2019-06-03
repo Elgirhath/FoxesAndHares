@@ -26,7 +26,7 @@ public class PlotPanel extends JPanel {
     Plot plot;
 
     private final int xLength = 300;
-    private int yLength = 90;
+    int yLength = 90;
     private final int width = 1000;
     private final int height = 200;
 

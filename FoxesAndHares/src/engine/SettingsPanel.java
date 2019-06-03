@@ -156,7 +156,8 @@ public class SettingsPanel extends UIPanel {
                     if(Integer.parseInt(tf.getText()) != NaN){
                         int value = Integer.parseInt(tf.getText());
                         DataBase.getConfig(cls).initPopulation = value;
-                        PlotPanel.getInstance().changeYAxis(value);
+                        if(value * 1.5 > PlotPanel.getInstance().yLength)
+                            PlotPanel.getInstance().changeYAxis((int)(value*1.5));
                     }
                 }
         );

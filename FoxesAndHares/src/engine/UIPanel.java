@@ -22,5 +22,4 @@ class UIPanel extends JPanel {
         resultPanel.add(comp);
         return resultPanel;
     }
-
 }
