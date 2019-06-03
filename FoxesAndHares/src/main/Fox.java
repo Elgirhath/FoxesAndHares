@@ -97,7 +97,7 @@ public class Fox extends Animal{
         private void findPrey() {
             List<Animal> hares = getVisibleOfType(Hare.class);
 
-            if (hungerController.getRatio() > 0.9) {
+            if (hungerController.getRatio() > DataBase.GlobalConfig.maxHuntHungerPct) {
                 setPrey(null);
                 return;
             }

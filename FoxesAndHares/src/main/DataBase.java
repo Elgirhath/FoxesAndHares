@@ -13,7 +13,7 @@ public class DataBase {
         foxInitConfig.breedRate = 0.2;
 
         Config hareInitConfig = getConfig(Hare.class);
-        hareInitConfig.breedRate = 0.8;
+        hareInitConfig.breedRate = 0.85;
     }
 
     private static Data createData(Class cls) {
@@ -62,6 +62,7 @@ public class DataBase {
         public static double hungerPerMeal = 23.0;
         public static double hungerLossPerSec = 0.4;
         public static double minBreedHungerPct = 0.5;
+        public static double maxHuntHungerPct = 0.9;
 
         public static int maxSimSpeed = 100;
         public static int minSimSpeed = 1;
