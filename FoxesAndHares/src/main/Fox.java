@@ -1,6 +1,7 @@
 package main;
 
 import engine.MonoBehaviour;
+import engine.SimulationManager;
 import engine.Time;
 import engine.Utils;
 import extensions.Vector2d;
@@ -65,6 +66,7 @@ public class Fox extends Animal{
             findPrey();
             setDirection();
             move();
+
 
             if (prey != null && Vector2d.distance(prey.position, position) < maxEatDistance) {
                 eatPrey();

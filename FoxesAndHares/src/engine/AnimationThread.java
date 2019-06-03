@@ -52,6 +52,11 @@ public class AnimationThread extends Thread {
         }
     }
     void update() {
+        Time.update();
+
+        if (SimulationManager.getInstance().paused)
+            return;
+
         allMonoBehaviours = MonoBehaviour.getAll();
         synchronized (allMonoBehaviours) {
             for (MonoBehaviour mb : allMonoBehaviours) {
@@ -63,6 +68,5 @@ public class AnimationThread extends Thread {
         for (AnimationAgent agent : allAgents) {
             agent.runMonoBehaviours();
         }
-        Time.update();
     }
 }

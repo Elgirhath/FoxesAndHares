@@ -256,7 +256,7 @@ public abstract class Animal extends AnimationAgent {
                 if (!isVisible(animal) || animal == Animal.this)
                     continue;
 
-                Debug.drawLine(position, animal.position, Color.red, Time.getDeltaTime()); //An animal is seen
+//                Debug.drawLine(position, animal.position, Color.red, Time.getDeltaTime()); //An animal is seen
 
                 animalsVisible.add(animal);
             }
