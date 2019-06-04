@@ -27,7 +27,7 @@ public class PlotPanel extends JPanel {
 
     private final int xLength = 300;
     int yLength = 90;
-    private final int width = 1000;
+    private final int width = 400;
     private final int height = 200;
 
     private int xPadding;
@@ -35,17 +35,18 @@ public class PlotPanel extends JPanel {
     private double xAxis;
     private double yAxis;
     private PlotPanel() {
-        setPreferredSize(new Dimension(width, (int)(height*2.0)));
+        setPreferredSize(new Dimension(width, (int)(height*3.0)));
         int initFox = DataBase.getConfig(Fox.class).initPopulation;
         int initHare = DataBase.getConfig(Hare.class).initPopulation;
         if(initFox > initHare)
             yLength = (int)(initFox * 1.5);
         else
             yLength = (int)(initHare * 1.5);
-        setLayout(new GridLayout(0, 1));
+        //setLayout(new GridLayout(0, 1));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel title = new JLabel("Population/time plot", SwingConstants.CENTER);
         xPadding = title.getPreferredSize().width/4;
-        int titlePadding = (width - xPadding)/2;
+        int titlePadding = (width - xPadding)/3;
         title.setBorder(new EmptyBorder(0,titlePadding,0,titlePadding));
         plot = new Plot();
         add(title);
@@ -70,8 +71,8 @@ public class PlotPanel extends JPanel {
             Graphics2D g2 = (Graphics2D)g;
             g2.drawLine(xPadding, yPadding, xPadding, height- yPadding);
             g2.drawLine(xPadding, height - yPadding, width- xPadding, height- yPadding);
-
-            updatePlot();
+            if(!SimulationManager.getInstance().paused)
+                updatePlot();
 
             int foxes;
             int hares;

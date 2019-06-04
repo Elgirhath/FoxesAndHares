@@ -96,35 +96,35 @@ public class SettingsPanel extends UIPanel {
         foxInit.setHorizontalAlignment(JTextField.RIGHT);
         hareInit.setHorizontalAlignment(JTextField.RIGHT);
 
-        JPanel initPanel = new JPanel();
+        //JPanel initPanel = new JPanel();
 
-        JPanel initHarePanel = new JPanel();
-        initHarePanel.setLayout(new GridLayout(0, 1));
-        initHarePanel.add(getComponentWithHorizontalTitle(hareInit, "Hare Initial Population"));
-        initHarePanel.add(getComponentWithHorizontalTitle(hareBirthRateSlider.getPanel(),"Hare Birth Rate"));
+        //JPanel initHarePanel = new JPanel();
+       //initHarePanel.setLayout(new GridLayout(0, 1));
+        add(getComponentWithHorizontalTitle(hareInit, "Hare Initial Population"));
+        add(getComponentWithHorizontalTitle(foxInit, "Fox Initial Population"));
+        add(getComponentWithHorizontalTitle(hareBirthRateSlider.getPanel(),"Hare Birth Rate"));
 
-        JPanel initFoxPanel = new JPanel();
-        initFoxPanel.setLayout(new GridLayout(0, 1));
-        initFoxPanel.add(getComponentWithHorizontalTitle(foxInit, "Fox Initial Population"));
-        initFoxPanel.add(getComponentWithHorizontalTitle(foxBirthRateSlider.getPanel(),"Fox Birth Rate"));
+        //JPanel initFoxPanel = new JPanel();
+        //initFoxPanel.setLayout(new GridLayout(0, 1));
+        add(getComponentWithHorizontalTitle(foxBirthRateSlider.getPanel(),"Fox Birth Rate"));
 
-        initPanel.add(initHarePanel);
-        initPanel.add(initFoxPanel);
+        //initPanel.add(initHarePanel);
+        //initPanel.add(initFoxPanel);
 
-        JPanel slidersPanel = new JPanel();
-        slidersPanel.setLayout(new BoxLayout(slidersPanel, BoxLayout.Y_AXIS));
-        slidersPanel.add(getComponentWithHorizontalTitle(maxHungerSlider.getPanel(),"Maximum Hunger"));
-        slidersPanel.add(getComponentWithHorizontalTitle(hungerPerMealSlider.getPanel(),"Hunger Per Meal"));
-        slidersPanel.add(getComponentWithHorizontalTitle(hungerLossPerSecSlider.getPanel(),"Hunger Loss (per sec)"));
-        slidersPanel.add(getComponentWithHorizontalTitle(minBreedHungerPctSlider.getPanel(),"Min BreedHunger Percentage"));
-        slidersPanel.add(getComponentWithHorizontalTitle(maxHuntHungerPctSlider.getPanel(),"Max HuntHunger Percentage"));
-        slidersPanel.add(getComponentWithHorizontalTitle(genderMaxPercentageSlider.getPanel(),"Gender Max Percentage"));
-        slidersPanel.add(getComponentWithHorizontalTitle(yearDurationSlider.getPanel(),"Year Duration"));
-        slidersPanel.add(getComponentWithHorizontalTitle(fertilenessFrequencySlider.getPanel(),"Fertileness Frequency (in seconds)"));
-        slidersPanel.add(getComponentWithHorizontalTitle(tryBreedFrequencySlider.getPanel(),"Breeding Attempts Frequency"));
+        //JPanel slidersPanel = new JPanel();
+        //slidersPanel.setLayout(new BoxLayout(slidersPanel, BoxLayout.Y_AXIS));
+        add(getComponentWithHorizontalTitle(maxHungerSlider.getPanel(),"Maximum Hunger"));
+        add(getComponentWithHorizontalTitle(hungerPerMealSlider.getPanel(),"Hunger Per Meal"));
+        add(getComponentWithHorizontalTitle(hungerLossPerSecSlider.getPanel(),"Hunger Loss (per sec)"));
+        add(getComponentWithHorizontalTitle(minBreedHungerPctSlider.getPanel(),"Min BreedHunger Percentage"));
+        add(getComponentWithHorizontalTitle(maxHuntHungerPctSlider.getPanel(),"Max HuntHunger Percentage"));
+        add(getComponentWithHorizontalTitle(genderMaxPercentageSlider.getPanel(),"Gender Max Percentage"));
+        add(getComponentWithHorizontalTitle(yearDurationSlider.getPanel(),"Year Duration"));
+        add(getComponentWithHorizontalTitle(fertilenessFrequencySlider.getPanel(),"Fertileness Frequency (in seconds)"));
+        add(getComponentWithHorizontalTitle(tryBreedFrequencySlider.getPanel(),"Breeding Attempts Frequency"));
 
-        add(initPanel);
-        add(slidersPanel);
+        //add(initPanel);
+        //add(slidersPanel);
     }
 
     private void setBreedRateSliderListener(Slider slider, Class cls) {
