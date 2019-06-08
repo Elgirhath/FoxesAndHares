@@ -25,32 +25,36 @@ public class PlotPanel extends JPanel {
 
     Plot plot;
 
-    private final int xLength = 300;
+    private int xLength = 300;
     int yLength = 90;
-    private final int width = 400;
-    private final int height = 200;
+    private int width;
+    private int height;
 
-    private int xPadding;
+    private int xPadding = 20;
     private int yPadding = 10;
     private double xAxis;
     private double yAxis;
     private PlotPanel() {
-        setPreferredSize(new Dimension(width, (int)(height*3.0)));
+        width = DataBase.GlobalConfig.simWidth/2;
+        height = DataBase.GlobalConfig.simHeight/3;
+        setPreferredSize(new Dimension(width, height));
         int initFox = DataBase.getConfig(Fox.class).initPopulation;
         int initHare = DataBase.getConfig(Hare.class).initPopulation;
         if(initFox > initHare)
             yLength = (int)(initFox * 1.5);
         else
             yLength = (int)(initHare * 1.5);
-        //setLayout(new GridLayout(0, 1));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        JLabel title = new JLabel("Population/time plot", SwingConstants.CENTER);
-        xPadding = title.getPreferredSize().width/4;
-        int titlePadding = (width - xPadding)/3;
-        title.setBorder(new EmptyBorder(0,titlePadding,0,titlePadding));
+        JLabel title = new JLabel("Population/time plot");
+        //xPadding = title.getPreferredSize().width/4;
+        //int titlePadding = (width - xPadding)/3;
+        //title.setBorder(new EmptyBorder(0,titlePadding,0,titlePadding));
         plot = new Plot();
+        plot.setAlignmentY(SwingConstants.BOTTOM);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(title);
         add(plot);
+        xLength = width - 2*xPadding;
         xAxis = (width - 2* xPadding)/xLength;
         yAxis = (height - 2* yPadding)/yLength;
     }
@@ -71,6 +75,8 @@ public class PlotPanel extends JPanel {
             Graphics2D g2 = (Graphics2D)g;
             g2.drawLine(xPadding, yPadding, xPadding, height- yPadding);
             g2.drawLine(xPadding, height - yPadding, width- xPadding, height- yPadding);
+            if(!SimulationManager.getInstance().running)
+                return;
             if(!SimulationManager.getInstance().paused)
                 updatePlot();
 

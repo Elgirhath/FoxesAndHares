@@ -85,13 +85,14 @@ public class SettingsPanel extends UIPanel {
     private Slider tryBreedFrequencySlider = new Slider(SwingConstants.HORIZONTAL, 1, 8, (int)DataBase.GlobalConfig.tryBreedFrequency, Double.toString(DataBase.GlobalConfig.tryBreedFrequency));
 
     private SettingsPanel() {
+
+        setLayout(new GridLayout(0,1));
+        setPreferredSize(new Dimension(DataBase.GlobalConfig.simWidth/2, DataBase.GlobalConfig.simHeight/2-50));
         setBreedRateSliderListener(foxBirthRateSlider, Fox.class);
         setBreedRateSliderListener(hareBirthRateSlider, Hare.class);
         setInitValueListener(hareInit, Hare.class);
         setInitValueListener(foxInit, Fox.class);
         setGlobalConfigListeners();
-
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         foxInit.setHorizontalAlignment(JTextField.RIGHT);
         hareInit.setHorizontalAlignment(JTextField.RIGHT);

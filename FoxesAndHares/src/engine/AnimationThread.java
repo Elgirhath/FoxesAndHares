@@ -1,5 +1,7 @@
 package engine;
 
+import main.DataBase;
+
 public class AnimationThread extends Thread {
     private static AnimationThread instance = new AnimationThread();
 

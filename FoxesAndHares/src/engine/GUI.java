@@ -1,5 +1,7 @@
 package engine;
 
+import main.DataBase;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -15,7 +17,7 @@ public class GUI extends JFrame {
         buildGUI();
         //setContentPane(mainPanel);
         Dimension camRes = SimulationPanel.getInstance().getSize();
-        setSize(1200, 950);
+        setSize(DataBase.GlobalConfig.simWidth, DataBase.GlobalConfig.simHeight);
 
         setVisible(true);
     }
@@ -35,12 +37,15 @@ public class GUI extends JFrame {
         JPanel east = new JPanel();
         east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
         east.add(settingsPanel);
-        JPanel space = new JPanel();
-        space.setPreferredSize(new Dimension(70, 70));
-        east.add(space);
+        //JPanel space = new JPanel();
+        //space.setPreferredSize(new Dimension(70, 70));
+        //east.add(space);
         east.add(plotPanel);
 
         plotPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(east, BorderLayout.EAST);
+
+
+
     }
 }

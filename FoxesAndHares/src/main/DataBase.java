@@ -76,5 +76,8 @@ public class DataBase {
 
         public static double fertilenessFrequency = 20.0;
         public static double tryBreedFrequency = 3.0;
+
+        public static int simWidth = 1000;
+        public static int simHeight = 750;
     }
 }
