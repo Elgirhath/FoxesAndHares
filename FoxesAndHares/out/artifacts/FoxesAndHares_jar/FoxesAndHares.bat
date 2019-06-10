@@ -1,1 +1,1 @@
-java -jar fah.jar -gui SimulationManager:engine.SimulationManager
+java -jar FoxesAndHares.jar -gui SimulationManager:engine.SimulationManager

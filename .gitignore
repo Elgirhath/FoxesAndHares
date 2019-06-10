@@ -12,6 +12,7 @@
 
 # Package Files #
 *.jar
+!FoxesAndHares.jar
 *.war
 *.nar
 *.ear
