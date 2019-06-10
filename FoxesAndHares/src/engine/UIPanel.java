@@ -16,9 +16,10 @@ class UIPanel extends JPanel {
     JPanel getComponentWithHorizontalTitle(JComponent comp, String label) {
         JPanel resultPanel = new JPanel();
         JLabel jlabel = new JLabel(label);
-        jlabel.setAlignmentX(SwingConstants.LEFT);
+        resultPanel.setLayout(new GridLayout(0,2));
+        //jlabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         resultPanel.add(jlabel);
-        comp.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        //comp.setAlignmentX(Component.RIGHT_ALIGNMENT);
         resultPanel.add(comp);
         return resultPanel;
     }
