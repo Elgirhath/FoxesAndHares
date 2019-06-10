@@ -1,0 +1,1 @@
+java -jar fah.jar -gui SimulationManager:engine.SimulationManager
