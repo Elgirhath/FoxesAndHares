@@ -19,7 +19,7 @@ public class SettingsPanel extends UIPanel {
         return instance;
     }
 
-    class Slider {
+    class Slider extends JComponent {
         JSlider slider;
         JTextField textField;
         int minValue;
@@ -103,26 +103,46 @@ public class SettingsPanel extends UIPanel {
        //initHarePanel.setLayout(new GridLayout(0, 1));
         add(getComponentWithHorizontalTitle(hareInit, "Hare Initial Population"));
         add(getComponentWithHorizontalTitle(foxInit, "Fox Initial Population"));
-        add(getComponentWithHorizontalTitle(hareBirthRateSlider.getPanel(),"Hare Birth Rate"));
+        add(getComponentWithHorizontalTitle(hareBirthRateSlider.getPanel(),"Hare Birth Rate",
+                "Determines the possibility of reproducing when two hares meet"));
 
         //JPanel initFoxPanel = new JPanel();
         //initFoxPanel.setLayout(new GridLayout(0, 1));
-        add(getComponentWithHorizontalTitle(foxBirthRateSlider.getPanel(),"Fox Birth Rate"));
+        add(getComponentWithHorizontalTitle(foxBirthRateSlider.getPanel(),"Fox Birth Rate",
+                "Determines the possibility of reproducing when two hares meet"));
 
         //initPanel.add(initHarePanel);
         //initPanel.add(initFoxPanel);
 
         //JPanel slidersPanel = new JPanel();
         //slidersPanel.setLayout(new BoxLayout(slidersPanel, BoxLayout.Y_AXIS));
-        add(getComponentWithHorizontalTitle(maxHungerSlider.getPanel(),"Maximum Hunger"));
-        add(getComponentWithHorizontalTitle(hungerPerMealSlider.getPanel(),"Hunger Per Meal"));
-        add(getComponentWithHorizontalTitle(hungerLossPerSecSlider.getPanel(),"Hunger Loss (per sec)"));
-        add(getComponentWithHorizontalTitle(minBreedHungerPctSlider.getPanel(),"Min BreedHunger Percentage"));
-        add(getComponentWithHorizontalTitle(maxHuntHungerPctSlider.getPanel(),"Max HuntHunger Percentage"));
-        add(getComponentWithHorizontalTitle(genderMaxPercentageSlider.getPanel(),"Gender Max Percentage"));
-        add(getComponentWithHorizontalTitle(yearDurationSlider.getPanel(),"Year Duration"));
-        add(getComponentWithHorizontalTitle(fertilenessFrequencySlider.getPanel(),"Fertileness Frequency (in seconds)"));
-        add(getComponentWithHorizontalTitle(tryBreedFrequencySlider.getPanel(),"Breeding Attempts Frequency"));
+        add(getComponentWithHorizontalTitle(maxHungerSlider.getPanel(),"Max hunger",
+                "Sets the total amount of hunger points"));
+
+        add(getComponentWithHorizontalTitle(hungerPerMealSlider.getPanel(),"Hun/meal",
+                "Determines how many hunger points are restored when the hare is eaten"));
+
+        add(getComponentWithHorizontalTitle(hungerLossPerSecSlider.getPanel(),"Hun loss",
+                "How many hunger points drop every second"));
+
+        add(getComponentWithHorizontalTitle(minBreedHungerPctSlider.getPanel(),"Min BreedHunger Percentage",
+                "Determines at what level of fullness foxes don't reproduce and focus on hunting"));
+
+        add(getComponentWithHorizontalTitle(maxHuntHungerPctSlider.getPanel(),"Max HuntHunger Percentage",
+                "Sets the level of hunger, at which foxes don't hunt."));
+
+        add(getComponentWithHorizontalTitle(genderMaxPercentageSlider.getPanel(),"Gender Max Percentage",
+                "Sets how many animals can be of the same gender at initialization"));
+
+        add(getComponentWithHorizontalTitle(yearDurationSlider.getPanel(),"Year Duration",
+                "Defines year duration in seconds (on default time scale). It influences the speed of aging of animals," +
+                        " which then influences the time at which animals became mature and die"));
+
+        add(getComponentWithHorizontalTitle(fertilenessFrequencySlider.getPanel(),"Fertileness frequence",
+                "Determines how much time animals wait after reproducing (in seconds, in default time scale)"));
+
+        add(getComponentWithHorizontalTitle(tryBreedFrequencySlider.getPanel(),"Breeding Attempts Frequency",
+                "How many seconds animals wait every time they try to reproduce"));
 
         //add(initPanel);
         //add(slidersPanel);
