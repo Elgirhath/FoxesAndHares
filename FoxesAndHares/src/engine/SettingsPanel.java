@@ -112,7 +112,7 @@ public class SettingsPanel extends UIPanel {
         //JPanel initFoxPanel = new JPanel();
         //initFoxPanel.setLayout(new GridLayout(0, 1));
         add(getComponentWithHorizontalTitle(foxBirthRateSlider.getPanel(),"Fox Birth Rate",
-                "Determines the possibility of reproducing when two hares meet"));
+                "Determines the possibility of reproducing when two foxes meet"));
 
         //initPanel.add(initHarePanel);
         //initPanel.add(initFoxPanel);
@@ -123,10 +123,10 @@ public class SettingsPanel extends UIPanel {
                 "Sets the total amount of hunger points"));
 
         add(getComponentWithHorizontalTitle(hungerPerMealSlider.getPanel(),"Hun/meal",
-                "Determines how many hunger points are restored when the hare is eaten"));
+                "Determines how many hunger points are restored when a hare is eaten"));
 
-        add(getComponentWithHorizontalTitle(hungerLossPerSecSlider.getPanel(),"Hun loss",
-                "How many hunger points drop every second"));
+        add(getComponentWithHorizontalTitle(hungerLossPerSecSlider.getPanel(),"Hunger loss",
+                "Determines how many hunger points drop every second"));
 
         add(getComponentWithHorizontalTitle(minBreedHungerPctSlider.getPanel(),"Min BreedHunger Percentage",
                 "Determines at what level of fullness foxes don't reproduce and focus on hunting"));
@@ -139,13 +139,13 @@ public class SettingsPanel extends UIPanel {
 
         add(getComponentWithHorizontalTitle(yearDurationSlider.getPanel(),"Year Duration",
                 "Defines year duration in seconds (on default time scale). It influences the speed of aging of animals," +
-                        " which then influences the time at which animals became mature and die"));
+                        "\n which then influences the time at which animals became mature and die"));
 
-        add(getComponentWithHorizontalTitle(fertilenessFrequencySlider.getPanel(),"Fertileness frequence",
+        add(getComponentWithHorizontalTitle(fertilenessFrequencySlider.getPanel(),"Fertileness frequency",
                 "Determines how much time animals wait after reproducing (in seconds, in default time scale)"));
 
         add(getComponentWithHorizontalTitle(tryBreedFrequencySlider.getPanel(),"Breeding Attempts Frequency",
-                "How many seconds animals wait every time they try to reproduce"));
+                "Determines how many seconds animals wait every time they try to reproduce"));
 
         //add(initPanel);
         //add(slidersPanel);
