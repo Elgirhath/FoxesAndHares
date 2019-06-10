@@ -35,8 +35,8 @@ public class PlotPanel extends JPanel {
     private double xAxis;
     private double yAxis;
     private PlotPanel() {
-        width = DataBase.GlobalConfig.simWidth/2;
-        height = DataBase.GlobalConfig.simHeight/3;
+        width = DataBase.GlobalConfig.simWidth/3;
+        height = DataBase.GlobalConfig.simHeight*2/9;
         setPreferredSize(new Dimension(width, height));
         int initFox = DataBase.getConfig(Fox.class).initPopulation;
         int initHare = DataBase.getConfig(Hare.class).initPopulation;

@@ -87,7 +87,7 @@ public class SettingsPanel extends UIPanel {
     private SettingsPanel() {
 
         setLayout(new GridLayout(0,1));
-        setPreferredSize(new Dimension(DataBase.GlobalConfig.simWidth/2, DataBase.GlobalConfig.simHeight/2-50));
+        setPreferredSize(new Dimension(DataBase.GlobalConfig.simWidth/3, DataBase.GlobalConfig.simHeight/3-50));
         setBreedRateSliderListener(foxBirthRateSlider, Fox.class);
         setBreedRateSliderListener(hareBirthRateSlider, Hare.class);
         setInitValueListener(hareInit, Hare.class);
