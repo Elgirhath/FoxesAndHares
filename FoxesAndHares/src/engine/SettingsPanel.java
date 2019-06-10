@@ -100,7 +100,10 @@ public class SettingsPanel extends UIPanel {
         //JPanel initPanel = new JPanel();
 
         //JPanel initHarePanel = new JPanel();
-       //initHarePanel.setLayout(new GridLayout(0, 1));
+        //initHarePanel.setLayout(new BoxLayout(initHarePanel, BoxLayout.Y_AXIS));
+        //initHarePanel.setLayout(new GridLayout(0, 1));
+        //initHarePanel.add(hareInit);
+        //hareInit.setAlignmentX(Component.RIGHT_ALIGNMENT);
         add(getComponentWithHorizontalTitle(hareInit, "Hare Initial Population"));
         add(getComponentWithHorizontalTitle(foxInit, "Fox Initial Population"));
         add(getComponentWithHorizontalTitle(hareBirthRateSlider.getPanel(),"Hare Birth Rate",

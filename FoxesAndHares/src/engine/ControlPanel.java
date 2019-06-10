@@ -18,7 +18,7 @@ public class ControlPanel extends UIPanel {
     //Buttons and sliders
     private JButton startButton = new JButton(new ImageIcon("assets/icons/play.png"));
     private JButton pauseButton = new JButton(new ImageIcon("assets/icons/pause.png"));
-    private JButton stopButton = new JButton(new ImageIcon("assets/icons/stop.png"));
+    //private JButton stopButton = new JButton(new ImageIcon("assets/icons/stop.png"));
     private JSlider simulationSpeedSlider = new JSlider(SwingConstants.HORIZONTAL, DataBase.GlobalConfig.minSimSpeed, DataBase.GlobalConfig.maxSimSpeed, DataBase.GlobalConfig.initialSimSpeed);
 
     private ControlPanel() {
@@ -62,7 +62,7 @@ public class ControlPanel extends UIPanel {
         JPanel buttonRow = new JPanel();
         buttonRow.add(startButton);
         buttonRow.add(pauseButton);
-        buttonRow.add(stopButton);
+        //buttonRow.add(stopButton);
         buttonRow.add(Box.createRigidArea(new Dimension(60,1)));
         buttonRow.add(getComponentWithVerticalTitle(simulationSpeedSlider, "Simulation Speed"));
 
