@@ -50,6 +50,10 @@ public class ControlPanel extends UIPanel {
                 pause();
         });
 
+        //stopButton.addActionListener(e -> {
+          //  System.exit(0);
+        //});
+
         simulationSpeedSlider.addChangeListener(e -> {
             if (!simMng.paused)
                 Time.timeScale = getTimeScaleFromSlider();

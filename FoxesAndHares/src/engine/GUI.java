@@ -45,7 +45,7 @@ public class GUI extends JFrame {
         plotPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(east, BorderLayout.EAST);
 
-
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     }
 }
